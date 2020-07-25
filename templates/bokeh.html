@@ -1,0 +1,262 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+
+       <!-- Bootstrap includes
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"> -->
+       <!-- Bokeh includes-->
+
+    <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-1.3.4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-widgets-1.3.4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-tables-1.3.4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-gl-1.3.4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-api-1.3.4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-api-1.3.4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-1.3.4.min.js"></script>
+    
+    <script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-1.3.4.min.js"></script>
+    <link href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-1.3.4.min.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-1.3.4.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-1.3.4.min.js" type="text/css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/article.css') }}"  type="text/css" >
+    <link href="/static/styles1.css" rel="stylesheet">
+
+
+    
+    {{ script|safe }}
+    {{ script1|safe }}
+    {{ script2|safe }}
+    {{ script3|safe }}
+    {{ script4|safe }}
+    {{ script5|safe }}
+    {{ script6|safe }}
+    {{ script7|safe }}
+    {{ script8|safe }}
+    {{ script9|safe }}
+    {{ script10|safe }}
+    {{ script11|safe }}
+ 
+<body>
+ 
+<h2 style='margin-left: 10px; margin-right:10px; text-align: center; font-style: italic; font-weight: bold'>
+Analyses and visualisation of the Irish Housing Market</h2>
+<div style='margin-left: 10px; margin-right:280px; text-align: right; font-weight: bold; font-size: 12px; font-style: italic;' >Author: Raphael Nogueira</div><br>
+<p class='text-muted', style='font-size:17px; text-align: justify; margin-left: 10px; margin-right:10px;'>
+<span style='color: #555555'><strong>Abstract:</strong></span> This article is an exploration of several datasets from the Central Statistical Office(CSO)
+amongst other bodies. The aim is to understand the reasons for the housing crisis and the implications
+of the housing crisis in Ireland. The projects aim is to find a possible solution from the insights gathered.
+</p>
+
+
+ <table width=100% height=95%>
+ <tr><td width=45%>
+ <h5 style='margin: 7px; font-size: 20px; font-weight: bold; color: #365f91; font-style: italic;'> Introduction </h5>
+ <p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px;'>
+    The housing market in Ireland has been facing very distinct curves in the past two decades along with a big recession that reached its peak in 2008 to a descending curve since, by 2013 the housing market started to reverse to a positive growth,
+    although this positive variance has not been strong enough to solve the crisis as the analyses has shown, yet this is not a real portrait of the issue, as a majority of the tenants are not officially registered in The Private Tenancies Board(PRTB). From the analyses of the Census of 2016 the CSO has concluded that there are 2.48 people per private property in Dublin City,
+    although news as “Fifteen people sharing one room in house with 70 tenants” in Dublin City from the Independent.ie in 2017 are actually not as alarming.
+    As it is a market the analyses and visualization will be divided between supply and demand using Python 3 with Jupyter Notebook, pandas, numpy, Bokeh, Matplotlib, Seaborm, Flask among others to find insights to support a solution to the issue
+</p>
+
+<h5 style='margin: 10px; font-size: 20px; font-weight: bold; color: #365f91; font-style: italic;'> Analyses </h5>
+<h5 style='margin: 8px; margin-top: 12; font-size: 20px; font-weight: bold; color: #C0504D; font-style: italic;'>Supply </h5>
+<h5 style='margin-top: 15x; margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'> House Stock </h5>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-bottom: 1px;'>
+The CSO has been providing an extensive amount of data of the house stock in Ireland from the insights taken of Census in over two decades.
+The house stock in Ireland had a consistent growth until 2011 when it shifts to a very passive period; in contrast Dublin had a low growth throughout the years.
+</p>
+<center>
+<div class='bokeh'>
+    {{ div|safe }}
+</div>
+</center> <br>
+
+<h5 style='margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'>Vacant Properties </h5>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-bottom: -1px;'>
+The number of vacant properties in Ireland grew 85.7% from 2002 to 2006 to a negative growth of 15.2% from 2011 to 2016.</p>
+
+<center>
+<div class='bokeh'>
+    {{ div1|safe}}
+</div>
+</center>
+
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px;'>
+In 2016 12.25% of the house stock was vacant, from those vacant properties 47.85% were rural, the long term properties and the deceased properties reached over 5,000 vacant properties each, 
+and from an urban perspective it shifts to a majority of properties for sale or rent, 22.84%. Proportionally Dublin had a considerable amount of vacant properties for rental compared to the rest of the country, 
+when you consider that Dublin had 26.5% of the properties in Ireland in 2016, despite of this amount Dublin had nearly half of the properties for sale in market in 2016. These numbers shift to a negative growth 
+as the housing market had significant growth of existing properties registered in the new transactions.</p>
+<h5 style='margin: 8px; margin-top: 12; font-size: 20px; font-weight: bold; color: #C0504D; font-style: italic;'>Properties Transactions </h5>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-bottom:0px'>
+The overall number of transactions of properties in Ireland had a variance of 190% from 2010 to 2018.</p>
+<center>
+<div class='bokeh'>
+    {{ div2|safe}}
+</div>
+</center>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px;'>
+The existing house transactions had a variance of 216.9%, as there were still a considerable number of vacant properties available in the market, while the transactions 
+of new properties variance was not as prominent with 54.6%. Dublin did follow a different path with a variance of 284.7% for new properties transactions and 162.9% for
+ existing properties, mostly reflexes of a saturated housing market.</p>
+
+<br><br><br>
+
+<td width=45%; valign='top';>
+
+
+<h5 style='margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'>New properties registered</h5>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px;'>
+The Irish housing market has been troubling since the recession to reach a sustainable growth, as the chart below verifies.</p>
+
+<center>
+<div class='bokeh'>
+    {{ div3|safe}}
+</div>
+</center>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: 9px;'>
+In 2011 Dublin had only 140 new properties registered reaching its lowest point since from the data available, while Ireland reached its lowest point in 2012 with only 
+627 new properties registered. There was no significant variance until 2016 when the government along with other bodies launched numerous projects with possible “solutions”.</p>
+
+<h5 style='margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'>New non-occupier buyers</h5>
+<center>
+    <div style='margin: 0px; font-size: 12px; font-weight: bold; color: black; font-style: italic;'>
+        <div class='bokeh'>
+            {{ div4|safe }}
+        </div>
+    </div>
+</center>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: 1px; margin-bottom: 0px;'>
+Another relevant insight this dataset provides is the high correlation between new and existing properties transactions.
+There are various articles published that stressed the growth of cash-only sales in Ireland, although there is not enough data available to verify this tendency, 
+despite that the CSO also provided data on the number of buyers that are non-occupier, non-householder or former owner occupier(2nd mortgage) throughout the years,
+ i.e., those are utilizing the housing market as an investment and influencing the rental and sales prices to increase. Unite Nations has sent a letter to the Irish government describing the situation as <spam style='font-style: italic'>“moderately unaffordable”</spam>.<br>
+The number of non-occupier buyers in fact propelled the Irish Housing Market, with a high deviation from 2013 with 8478 transactions to 12799 in 2014(50.7%).
+</p>
+<center>
+<div class='bokeh'>
+    {{ div5|safe }}
+</div>
+</center>
+<center><p><img style='width: 30%; height: 30%; float: left; align-content: bottom; margin-top: 7px;' src={{url_for('static', filename='images/CorrelationTotals1.png')}}></center>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: 1px;'>
+In the chart above it is noticeable how the total of non-occupiers has been a considerable share in the overall transactions, with emphasis between 2010 to 2013 where 
+those buyers would take advantage of a fragile market; from 2014 onwards a strong consistency. These buyers are more focused in the existing properties, which will mostly 
+be redesigned to accommodate more people, allowing these investments to be capitalized in a shorter time. The total of transactions registered and the total of non-occupier 
+transactions registered had a strong correlation between them, as the correlation chart on the left verifies, which supports the fact that those investments are inflating the housing market.
+</p>
+
+</td>
+
+
+<table width=100%; height=95%;>
+<div style='text-align: center; color: black; width: 100%'>______________________________________________________________</div>
+ <tr><td width=45%; valign='top';>
+
+<h5 style='margin: 8px; margin-top: 12; font-size: 20px; font-weight: bold; color: #C0504D; font-style: italic;'>Demand</h5>
+<h5 style='margin-top: 15x; margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'> Population </h5>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: 1px;'>
+The CSO using data from Census 2016 produced a dataset of the Irish population by counties. In 2016 Ireland had a population of 4,761,865 people.
+With panda's groupby, Bokeh and GeoJson(GIS), it is possible to visualize how the Irish population is divided, and the most density populated areas. 
+Dublin had 1,461 people per km2, and consisted 28.3% of the Irish population in 2106, while comprising only 1.09% of the country's territory, 
+followed by Cork with 11.4% of the country's population although with a demographic density of 72.4 people per km2.
+</p>
+
+<center>
+    <div style='margin: 0px; font-size: 12px; font-weight: bold; color: black; font-style: italic; height: 90%;'>
+        <div class='bokeh'>
+            {{ div6|safe }}
+        </div>
+    </div>
+    </center>
+</center>
+
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: -4px;'>The proportions between genders in Ireland were very balanced in 2016 with 2,354,428(49.44%) 
+    males and 2,407,437(50.56%) females. From the age groups perspective people from 30 years old to 44 years old comprised 23.3% of the Irish population; this group was also the majority of the householders (31.68%) in Ireland in 2016.
+    Working age population are those from 15 years old to 64 years old, Ireland had 3,104.300(65.5%) of its population in this age range, thus 2,008,482(64.7%) were employed in 2016, according to the CSO.
+</p>
+<center>
+    <h5 style='font-size:13px; text-align: center; font-weight: bold; color: black; margin-right: 200px;'>Irish Population Breakdown by Age Group and Gender</h5>
+    <div style='margin: 0px; font-size: 12px; font-weight: bold; color: black; width: 70%; font-style: italic;'>      
+            <div class='bokeh'>
+                {{ div7|safe }}
+            </div>
+        <h5 style='font-size:10px; text-align: center; font-weight: bold; color: black; margin-right: 10px; margin-top: -1px;'>Age Group<br><em>Population(thousands)</em></h5>
+
+    </div>
+</center>
+<h5 style='margin-top: 15x; margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'>Population Growth</h5>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: -4px;'>The CSO provided a dataset with the migration net, along with few other relevant data related to the population growth, which allowed a relatively accurate prediction for the population growth in Ireland. In 2009 the population in Ireland was 4,533,400,
+    numbers that had a consistent growth curve to reach 4,857,000 in 2018, a deviation growth of 7.14%. If the demand is growing in a consistent ascending curve, the ideal would be that the house stock and the social housing would follow the same correlation, from a statistical point of view.
+</p>
+<center>
+    <div class='bokeh'>
+        {{ div8|safe }} 
+    </div>
+</center>
+
+<td width=45%; valign='top';>
+<br>
+<h5 style='margin-top: 15x; margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'>Natural Increase</h5>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: -4px; margin-bottom: -7px;'>It is the offset between live births and deaths during the year. From 2010 the number of live births decreased in a consistent curve as crisis's side effect, which seems coherent considering that one of the prerequisites to start or extend a family is financial stability. Note that the natural increase line in the graphic has a descending curve since 2010, despite the population
+    growth in Ireland has an ascending curve, the fact that the number of deaths increased from 2011 and that from 2008 to 2018 the number of live births decreased in 16.2%, made the range gets narrow as the two variables get closer and the outcome is usually smaller, a negative correlation.</p>   
+<center>
+    <div class='bokeh'>
+        {{ div9|safe }} 
+    </div>
+</center>
+<br>
+<h5 style='margin-top: 15x; margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'>Net Migration</h5>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: -4px; margin-bottom: -5px;'>Since the peak of the recession the number of immigrants coming to Ireland suffered a big decline that reached its lowest in 2010 to then follow a consistent growth, which has been in an ascending curve since, even with the housing crisis. From the emigrants perspective the recession brought an opposite impact as the number of emigrants increased reaching its peak in 2012 to then start to follow a descending curve since. An interesting insight from this dataset is the fact that between the
+years of 2014 and 2015 there was a shifty between the two variables where people would rather to settle in Ireland and more people were coming to Ireland, despite the housing crisis.</p>
+
+<center>
+    <div class='bokeh'>
+        {{ div10|safe }} 
+    </div>
+</center>
+<br>
+<h5 style='margin-top: 15x; margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'>Counties Population Growth Deviation</h5>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: -4px; margin-bottom: -6px;'>
+In a timeframe of 14 years the population growth deviation were more accentuated in Meath and Laois with both over 40% growth deviation, followed by Kildare, Cavan and Longford all with over 30% growth deviation. Looking from a geographic point of view it is identifiable how those counties are surrounding the Dublin area with the exception of Longford, those counties comprehends a 100km square ratio approximately from Dublin, therefore they became satellites towns, as still feasible adding the commuting costs on top of the rent costs, due the high rental costs in the Dublin area.
+</p>
+
+<center>
+    <div class='bokeh'>
+        {{ div11|safe }} 
+    </div>
+</center>
+</tb>
+</table>
+
+
+<table width=100%; height=95%;>
+<div style='text-align: center; color: black; width: 100%'>______________________________________________________________</div>
+<tr><td width=45%; valign='top';>
+    
+<h5 style='margin: 8px; margin-top: 12; font-size: 20px; font-weight: bold; color: #C0504D; font-style: italic;'>Impacts</h5>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: -4px; margin-bottom: 10px;'>To understand the impacts this housing crisis has caused in the socio economic scenario in Ireland, it is necessary to find the correlation between the demand and supply and the social economic implications it has brought upon society thus far.</p>
+<h5 style='margin-top: 15x; margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'>Rent Prices</h5>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: -4px; margin-bottom: -6px;'>
+The excessive increase in the rental prices in Ireland drove the government to create “The Planning and Development (Housing) and Residential Tenancies Act in 2016”, which was a measure to cap the increases at 4% per year in Rent Pressure Zones (RPZs), which was enforced from December of 2016, and applied to the highest rent zones and the highest growths zones national wide. Nevertheless the private sector commenced to create short term renting instead to avoid the cap. The high costs of the housing market generate concerns and also expectations from the authorities, to create measures at minimum as rent freezes, despite that the Taoiseach Leo Varadkar has quoted: “Rent freezes are not the answer to the massive costs of renting properties in Ireland”, yet the government have not suggested any measure to solve the issue, other than palliative measures thus far the statistics has demonstrated.
+</p>
+<td width=45%; valign='top';>       
+<br>
+
+
+
+</td>
+
+
+</body>
+
+
+  
+
+{% endblock %}
