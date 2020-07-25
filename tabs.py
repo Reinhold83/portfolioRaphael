@@ -3,7 +3,7 @@
 import pandas as pd
 from bokeh.resources import INLINE
 from bokeh.plotting import figure, show, curdoc
-from bokeh.util.string import encode_utf8
+#from bokeh.util.string import encode_utf8
 from bokeh.transform import dodge
 from math import pi
 from bokeh.transform import cumsum
