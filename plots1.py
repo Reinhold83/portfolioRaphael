@@ -33,9 +33,9 @@ def vacantPlot():
     hover.tooltips=[('Vacant properties', 'Dublin @y / Others @y1 / Rural @y2')]
     p.add_tools(hover)
     
-    p.vbar(x=dodge('x', -0.25, range=p.x_range), top='y', width=0.2, source=source, color='#FDE724', legend=value('Dublin&Suburbs'))
-    p.vbar(x=dodge('x', 0.0, range=p.x_range), top='y1', width=0.2, source=source, color='#208F8C', legend=value('Other cities'))
-    p.vbar(x=dodge('x', 0.25, range=p.x_range), top='y2', width=0.2, source=source, color='#440154', legend=value('Rural'))
+    p.vbar(x=dodge('x', -0.25, range=p.x_range), top='y', width=0.2, source=source, color='#FDE724', legend_label=value('Dublin&Suburbs'))
+    p.vbar(x=dodge('x', 0.0, range=p.x_range), top='y1', width=0.2, source=source, color='#208F8C', legend_label=value('Other cities'))
+    p.vbar(x=dodge('x', 0.25, range=p.x_range), top='y2', width=0.2, source=source, color='#440154', legend_label=value('Rural'))
     tick_labels = {'1000':'1K','2000':'2K','3000':'3K','4000':'4K','5000':'5K'}
     p.yaxis.major_label_overrides = tick_labels
     p.legend.location= 'top_right'#(370,180)
@@ -69,7 +69,7 @@ def houseStockPlot():
     a2.add_tools(hover)
     
     colors = viridis(4)
-    a2.varea_stack(['y3','y2','y1','y'], x='x', source=source, color=colors[::-1], legend=ll, muted_alpha=0.2)
+    a2.varea_stack(['y3','y2','y1','y'], x='x', source=source, color=colors[::-1], legend_label=ll, muted_alpha=0.2)
     a2.legend.location='top_left'
     a2.legend.click_policy="mute"
     a2.yaxis[0].formatter = NumeralTickFormatter(format="0 M")
@@ -97,10 +97,10 @@ def Transactions():
     xrange = df.values.max()*1.01
     sourcepti = ColumnDataSource(data=dict(x=yearspti, y=df['Dublin New'], y1=df['Ireland New'],y2=df['Dublin Existing'], y3=df['Ireland Existing']))
     pti = figure(y_range=yearspti, x_range=(0, xrange), plot_height=350, plot_width=550, title='Properties Transactions in Ireland', tools='pan, wheel_zoom, box_zoom, reset')
-    pti.hbar(y=dodge('x', -0.2, range=pti.y_range), right='y', height=0.15, source=sourcepti, color='#440154', legend=value('Dublin New'))
-    pti.hbar(y=dodge('x', 0, range=pti.y_range), right='y1', height=0.15, source=sourcepti, color='#30678D', legend=value('Ireland New'))
-    pti.hbar(y=dodge('x', 0.2, range=pti.y_range), right='y2', height=0.15, source=sourcepti, color='#35B778', legend=value('Dublin Exsiting')) 
-    pti.hbar(y=dodge('x', 0.4, range=pti.y_range), right='y3', height=0.15, source=sourcepti, color='#FDE724', legend=value('Ireland Exsiting')) 
+    pti.hbar(y=dodge('x', -0.2, range=pti.y_range), right='y', height=0.15, source=sourcepti, color='#440154', legend_label=value('Dublin New'))
+    pti.hbar(y=dodge('x', 0, range=pti.y_range), right='y1', height=0.15, source=sourcepti, color='#30678D', legend_label=value('Ireland New'))
+    pti.hbar(y=dodge('x', 0.2, range=pti.y_range), right='y2', height=0.15, source=sourcepti, color='#35B778', legend_label=value('Dublin Exsiting')) 
+    pti.hbar(y=dodge('x', 0.4, range=pti.y_range), right='y3', height=0.15, source=sourcepti, color='#FDE724', legend_label=value('Ireland Exsiting')) 
     
     hoverpti = HoverTool()
     hoverpti.tooltips=[('Dubin New', '@y'), ('Ireland New', '@y1'), ('Dublin Existing', '@y2'), ('Ireland Existing', '@y3')]
@@ -131,10 +131,10 @@ def NewRegistered():
     xnr = '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018'
     pnr = figure(x_range=xnr, plot_height=350, plot_width=550, title='Number of new properties registered', tools='pan, wheel_zoom, box_zoom, reset')
     sourcenr = ColumnDataSource(data= dict(x=xnr, y=dfnr['Ireland'], y1=dfnr['Dublin']))
-    pnr.line(x='x', y='y', line_width=2.5, line_color='#440154', source=sourcenr, legend=value('Ireland'))
-    pnr.line(x='x', y='y1', line_width=2.5, line_color='#FDE724', source=sourcenr, legend=value('Dublin'))
-    pnr.circle(x='x', y='y', size=5, color='#B2DD2C', source=sourcenr, legend=value('Ireland'))
-    pnr.circle(x='x', y='y1', size=5, color='#35B778', source=sourcenr, legend=value('Dublin'))
+    pnr.line(x='x', y='y', line_width=2.5, line_color='#440154', source=sourcenr, legend_label=value('Ireland'))
+    pnr.line(x='x', y='y1', line_width=2.5, line_color='#FDE724', source=sourcenr, legend_label=value('Dublin'))
+    pnr.circle(x='x', y='y', size=5, color='#B2DD2C', source=sourcenr, legend_label=value('Ireland'))
+    pnr.circle(x='x', y='y1', size=5, color='#35B778', source=sourcenr, legend_label=value('Dublin'))
 
     hoverpnr = HoverTool()
     hoverpnr.tooltips=[('Ireland', '@y'), ('Dublin', '@y1')]
@@ -168,8 +168,8 @@ def nonOccupiers():
     rowX = '2010', '2011','2012','2013','2014','2015','2016', '2017', '2018'
     sourcent = ColumnDataSource(data=dict( x = rowX, y=dfnt['Total Transactions'], y1=dfnt['Total Non-Occupiers']))
     pn = figure(x_range=rowX, plot_height=350, plot_width=550, title='Properties Transactions in Ireland', y_axis_label=None, x_axis_label=None, tools = 'pan, wheel_zoom, box_zoom, reset')
-    pn.vbar(x=dodge('x', 0.0, range=pn.x_range), top='y', width=0.3, source=sourcent, color='#440154', legend=value('Total Transactions'))
-    pn.vbar(x=dodge('x', -0.35, range=pn.x_range), top='y1', width=0.3, source=sourcent, color='#FDE724', legend=value('Total Non-Occupiers'))
+    pn.vbar(x=dodge('x', 0.0, range=pn.x_range), top='y', width=0.3, source=sourcent, color='#440154', legend_label=value('Total Transactions'))
+    pn.vbar(x=dodge('x', -0.35, range=pn.x_range), top='y1', width=0.3, source=sourcent, color='#FDE724', legend_label=value('Total Non-Occupiers'))
     
     pn.x_range.range_padding = 0.05
     pn.legend.location = 'top_left'
@@ -199,15 +199,15 @@ def nonOccupiers():
                                     y2=dfn3['Non-Household Buyer']))
     pn3 = figure(x_range=rX, plot_height=350, plot_width=550, title='Properties Transactions in Ireland', y_axis_label=None, x_axis_label=None, tools = 'pan, wheel_zoom, box_zoom, reset')
 
-    pn3.line(x='x', y='y', line_width=2.5, line_color='#440154', source=srcn3, legend=value('Former Owner-Occupier'))
-    pn3.line(x='x', y='y1', line_width=2.5, line_color='#FDE724', source=srcn3, legend=value('Non-Occupier'))
-    pn3.circle(x='x', y='y', size=5, color='#B2DD2C', source=srcn3, legend=value('Former Owner-Occupier'))
-    pn3.circle(x='x', y='y1', size=5, color='#440154', source=srcn3, legend=value('Non-Occupier'))
-    pn3.line(x='x', y='y2', line_width=2.5, line_color='#9DD93A', source=srcn3, legend=value('Non-Household Buyer'))
-    pn3.circle(x='x', y='y2', size=5, color='#365A8C', source=srcn3, legend=value('Non-Household Buyer'))
+    pn3.line(x='x', y='y', line_width=2.5, line_color='#440154', source=srcn3, legend_label=value('Former Owner-Occupier'))
+    pn3.line(x='x', y='y1', line_width=2.5, line_color='#FDE724', source=srcn3, legend_label=value('Non-Occupier'))
+    pn3.circle(x='x', y='y', size=5, color='#B2DD2C', source=srcn3, legend_label=value('Former Owner-Occupier'))
+    pn3.circle(x='x', y='y1', size=5, color='#440154', source=srcn3, legend_label=value('Non-Occupier'))
+    pn3.line(x='x', y='y2', line_width=2.5, line_color='#9DD93A', source=srcn3, legend_label=value('Non-Household Buyer'))
+    pn3.circle(x='x', y='y2', size=5, color='#365A8C', source=srcn3, legend_label=value('Non-Household Buyer'))
 
-            #pne.vbar(x='x', top='y', width=0.4, source=srcne, color='#440154', legend=value('Existing'))
-            #pne.vbar(x='x', top='y1', width=0.4, source=srcne, color='#FDE724', legend=value('New'))
+            #pne.vbar(x='x', top='y', width=0.4, source=srcne, color='#440154', legend_label=value('Existing'))
+            #pne.vbar(x='x', top='y1', width=0.4, source=srcne, color='#FDE724', legend_label=value('New'))
 
     pn3.legend.location = 'top_left'
     hoverpn3 = HoverTool()
@@ -244,13 +244,13 @@ def nonOccupiers():
                                     y1=dfne['New']))
     pne = figure(x_range=rX, plot_height=350, plot_width=550, title='Properties Transactions in Ireland', y_axis_label=None, x_axis_label=None, tools = 'pan, wheel_zoom, box_zoom, reset')
 
-    pne.line(x='x', y='y', line_width=2.5, line_color='#440154', source=srcne, legend=value('Existing'))
-    pne.line(x='x', y='y1', line_width=2.5, line_color='#FDE724', source=srcne, legend=value('New'))
-    pne.circle(x='x', y='y', size=5, color='#B2DD2C', source=srcne, legend=value('Existing'))
-    pne.circle(x='x', y='y1', size=5, color='#35B778', source=srcne, legend=value('New'))
+    pne.line(x='x', y='y', line_width=2.5, line_color='#440154', source=srcne, legend_label=value('Existing'))
+    pne.line(x='x', y='y1', line_width=2.5, line_color='#FDE724', source=srcne, legend_label=value('New'))
+    pne.circle(x='x', y='y', size=5, color='#B2DD2C', source=srcne, legend_label=value('Existing'))
+    pne.circle(x='x', y='y1', size=5, color='#35B778', source=srcne, legend_label=value('New'))
 
-            #pne.vbar(x='x', top='y', width=0.4, source=srcne, color='#440154', legend=value('Existing'))
-            #pne.vbar(x='x', top='y1', width=0.4, source=srcne, color='#FDE724', legend=value('New'))
+            #pne.vbar(x='x', top='y', width=0.4, source=srcne, color='#440154', legend_label=value('Existing'))
+            #pne.vbar(x='x', top='y1', width=0.4, source=srcne, color='#FDE724', legend_label=value('New'))
 
     pne.legend.location = 'top_left'
     hoverpne = HoverTool()
@@ -286,8 +286,8 @@ def nonOccupiers():
                                         y1=dfnt['Total Non-Occupiers']))
     pn = figure(x_range=rowX, plot_height=350, plot_width=550, title='Properties Transactions in Ireland', y_axis_label=None, x_axis_label=None, tools = 'pan, wheel_zoom, box_zoom, reset')
         #pn.x_range=rowX
-    pn.vbar(x=dodge('x', 0.0, range=pn.x_range), top='y', width=0.3, source=sourcent, color='#440154', legend=value('Total Transactions'))
-    pn.vbar(x=dodge('x', -0.35, range=pn.x_range), top='y1', width=0.3, source=sourcent, color='#FDE724', legend=value('Total Non-Occupiers'))
+    pn.vbar(x=dodge('x', 0.0, range=pn.x_range), top='y', width=0.3, source=sourcent, color='#440154', legend_label=value('Total Transactions'))
+    pn.vbar(x=dodge('x', -0.35, range=pn.x_range), top='y1', width=0.3, source=sourcent, color='#FDE724', legend_label=value('Total Non-Occupiers'))
 
         #pn.x_range.factors = xstr
         #x_range = FactorRange(factors=['2010', '2011', '2012','2013','2014','2015','2016','2017','2018'])
@@ -344,7 +344,7 @@ def pie_chart():
     pie = figure(plot_height=350, plot_width=550, title='Total of Non-Occupiers buyers by year in %',
                tools = 'pan, wheel_zoom, box_zoom, reset',  x_range=(-0.5, 0.9))
     pie.wedge(x=0, y=1, radius=0.4, start_angle=cumsum('a', include_zero=True), end_angle=cumsum('a'),
-             line_color='white', fill_color='c', legend='x', source=srcpie) #inner_radius=0.5
+             line_color='white', fill_color='c', legend_label='x', source=srcpie) #inner_radius=0.5
 
 
     #pie.annular_wedge(x=0, y=0, inner_radius=0.2, outer_radius=0.4, start_angle=cumsum('a', include_zero=True), end_angle=cumsum('a'),
