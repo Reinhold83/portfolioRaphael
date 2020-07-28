@@ -206,8 +206,8 @@ def nonOccupiers():
     pn3.line(x='x', y='y2', line_width=2.5, line_color='#9DD93A', source=srcn3, legend_label='Non-Household Buyer')
     pn3.circle(x='x', y='y2', size=5, color='#365A8C', source=srcn3, legend_label='Non-Household Buyer')
 
-            #pne.vbar(x='x', top='y', width=0.4, source=srcne, color='#440154', legend=value('Existing'))
-            #pne.vbar(x='x', top='y1', width=0.4, source=srcne, color='#FDE724', legend=value('New'))
+            #pne.vbar(x='x', top='y', width=0.4, source=srcne, color='#440154', legend_label=value('Existing'))
+            #pne.vbar(x='x', top='y1', width=0.4, source=srcne, color='#FDE724', legend_label=value('New'))
 
     pn3.legend.location = 'top_left'
     hoverpn3 = HoverTool()
@@ -249,8 +249,8 @@ def nonOccupiers():
     pne.circle(x='x', y='y', size=5, color='#B2DD2C', source=srcne, legend_label='Existing')
     pne.circle(x='x', y='y1', size=5, color='#35B778', source=srcne, legend_label='New')
 
-            #pne.vbar(x='x', top='y', width=0.4, source=srcne, color='#440154', legend=value('Existing'))
-            #pne.vbar(x='x', top='y1', width=0.4, source=srcne, color='#FDE724', legend=value('New'))
+            #pne.vbar(x='x', top='y', width=0.4, source=srcne, color='#440154', legend_label=value('Existing'))
+            #pne.vbar(x='x', top='y1', width=0.4, source=srcne, color='#FDE724', legend_label=value('New'))
 
     pne.legend.location = 'top_left'
     hoverpne = HoverTool()
