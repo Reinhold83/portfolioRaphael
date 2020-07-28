@@ -8,8 +8,8 @@ from bokeh.transform import dodge
 from math import pi
 from bokeh.transform import cumsum
 from bokeh.layouts import column, row, gridplot
-from bokeh.core.properties import value
-from bokeh.models import ColumnDataSource, PrintfTickFormatter, NumeralTickFormatter, FactorRange, LinearColorMapper, Tabs, Panel, HoverTool, Div, Select, CustomJS, Range1d
+#from bokeh.core.properties import value
+from bokeh.models import ColumnDataSource, PrintfTickFormatter, NumeralTickFormatter, FactorRange, LinearColorMapper, Tabs, Panel, HoverTool, Div, Select, CustomJS, Range1d, ColorBar, BasicTicker
 from bokeh.transform import factor_cmap
 from bokeh.models.widgets import Panel, Tabs
 from bokeh.palettes import viridis
@@ -76,7 +76,7 @@ def ageGroup():
     
     #plot fig right
     p2m = figure(y_axis_location = None, plot_height=300, plot_width=250, y_range=ys)
-    p2m.hbar(y="y", height=1, right='x02m', legend=value('male'), source=source, line_color="white", fill_color='#FDE724')
+    p2m.hbar(y="y", height=1, right='x02m', legend_label='male', source=source, line_color="white", fill_color='#FDE724')
 
     #plot style
     hoverp2m = HoverTool()
@@ -96,7 +96,7 @@ def ageGroup():
 
     #plot fig left
     p2f = figure(plot_height=300, plot_width=270, y_range=ys)
-    p2f.hbar(y="y", height=1, right='x02f', legend=value('female'), source=source, line_color="white", fill_color='#440154')
+    p2f.hbar(y="y", height=1, right='x02f', legend_label='female', source=source, line_color="white", fill_color='#440154')
 
     hoverp2f = HoverTool()
     hoverp2f.tooltips=[('Population', '@x02f')]
@@ -121,7 +121,7 @@ def ageGroup():
 
     #plot fig right
     p6m = figure(y_axis_location = None, plot_height=300, plot_width=250, y_range=ys)
-    p6m.hbar(y="y", height=1, right='x06m', legend=value('male'), source=source, line_color="white", fill_color='#FDE724')
+    p6m.hbar(y="y", height=1, right='x06m', legend_label='male', source=source, line_color="white", fill_color='#FDE724')
 
     #plot style
     hoverp6m = HoverTool()
@@ -141,7 +141,7 @@ def ageGroup():
 
     #plot fig left
     p6f = figure(plot_height=300, plot_width=270, y_range=ys)
-    p6f.hbar(y="y", height=1, right='x06f', legend=value('female'), source=source, line_color="white", fill_color='#440154')
+    p6f.hbar(y="y", height=1, right='x06f', legend_label='female', source=source, line_color="white", fill_color='#440154')
 
     hoverp6f = HoverTool()
     hoverp6f.tooltips=[('Population', '@x06f')]
@@ -165,7 +165,7 @@ def ageGroup():
 
     #plot fig right
     p11m = figure(y_axis_location = None, plot_height=300, plot_width=250, y_range=ys)
-    p11m.hbar(y="y", height=1, right='x11m', legend=value('male'), source=source, line_color="white", fill_color='#FDE724')
+    p11m.hbar(y="y", height=1, right='x11m', legend_label='male', source=source, line_color="white", fill_color='#FDE724')
     hoverp11m = HoverTool()
     hoverp11m.tooltips=[('Population', '@x11m')]
     p11m.add_tools(hoverp11m)
@@ -185,7 +185,7 @@ def ageGroup():
 
     #plot fig left
     p11f = figure(plot_height=300, plot_width=270, y_range=ys)
-    p11f.hbar(y="y", height=1, right='x11f', legend=value('female'), source=source, line_color="white", fill_color='#440154')
+    p11f.hbar(y="y", height=1, right='x11f', legend_label='female', source=source, line_color="white", fill_color='#440154')
 
     hoverp11f = HoverTool()
     hoverp11f.tooltips=[('Population', '@x11f')]
@@ -210,7 +210,7 @@ def ageGroup():
 
     #plot fig right
     p16m = figure(y_axis_location = None, plot_height=300, plot_width=250, y_range=ys)
-    p16m.hbar(y="y", height=1, right='x16m', legend=value('male'), source=source, line_color="white", fill_color='#FDE724')
+    p16m.hbar(y="y", height=1, right='x16m', legend_label='male', source=source, line_color="white", fill_color='#FDE724')
     hoverp16m = HoverTool()
     hoverp16m.tooltips=[('Population', '@x16m')]
     p16m.add_tools(hoverp16m)
@@ -233,7 +233,7 @@ def ageGroup():
 
     #plot fig left
     p16f = figure(plot_height=300, plot_width=270, y_range=ys)
-    p16f.hbar(y="y", height=1, right='x16f', legend=value('female'), source=source, line_color="white", fill_color='#440154')
+    p16f.hbar(y="y", height=1, right='x16f', legend_label='female', source=source, line_color="white", fill_color='#440154')
 
     hoverp16f = HoverTool()
     hoverp16f.tooltips=[('Population', '@x16f')]
@@ -426,7 +426,7 @@ def popOverall():
             // register the change 
             source.change.emit()""")
 
-    select.callback = callback
+    select.js_on_change('value', callback)
 
 
     layout = row(p,select, p1, margin=5) 
@@ -440,12 +440,12 @@ def naturalincrease():
     xp = '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018'
 
     p = figure(x_range=xp, title='Natural Increase', plot_width=550, plot_height=350, tools='pan, wheel_zoom, box_zoom, reset')
-    p.line(x='x', y='y', line_width=2.5, line_color='#440154', source=source, legend=value('Annual births'))
-    p.line(x='x', y='y2', line_width=2.5, line_color='#FDE724', source=source, legend=value('Annual deaths'))
-    p.line(x='x', y='y3', line_width=2.5, line_color='#208F8C', source=source, legend=value('Natural increase'))
-    p.circle(x='x', y='y', size=5, color='#B2DD2C', source=source, legend=value('Annual births'))
-    p.circle(x='x', y='y2', size=5, color='#365A8C', source=source, legend=value('Annual deaths'))#365A8C
-    p.circle(x='x', y='y3', size=5, color='#3E4989', source=source, legend=value('Natural increase'))
+    p.line(x='x', y='y', line_width=2.5, line_color='#440154', source=source, legend_label='Annual births')
+    p.line(x='x', y='y2', line_width=2.5, line_color='#FDE724', source=source, legend_label='Annual deaths')
+    p.line(x='x', y='y3', line_width=2.5, line_color='#208F8C', source=source, legend_label='Natural increase')
+    p.circle(x='x', y='y', size=5, color='#B2DD2C', source=source, legend_label='Annual births')
+    p.circle(x='x', y='y2', size=5, color='#365A8C', source=source, legend_label='Annual deaths')#365A8C
+    p.circle(x='x', y='y3', size=5, color='#3E4989', source=source, legend_label='Natural increase')
 
     tick_labels_p = {'30':'30K','40':'40K','50':'50K','60':'60K','70':'70K'}
     p.yaxis.major_label_overrides = tick_labels_p
@@ -484,11 +484,11 @@ def netMigration():
     xp1 = '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018'
 
     p1 = figure(x_range=xp1, title='Net Migration', plot_width=550, plot_height=350, tools='pan, wheel_zoom, box_zoom, reset')
-    p1.line(x='x', y='y', line_width=2.5, line_color='#440154', source=source1, legend=value('Immigrants'))
-    p1.line(x='x', y='y2', line_width=2.5, line_color='#FDE724', source=source1, legend=value('Emigrants'))
+    p1.line(x='x', y='y', line_width=2.5, line_color='#440154', source=source1, legend_label='Immigrants')
+    p1.line(x='x', y='y2', line_width=2.5, line_color='#FDE724', source=source1, legend_label='Emigrants')
 
-    p1.circle(x='x', y='y', size=5, color='#B2DD2C', source=source1, legend=value('Immigrants'))
-    p1.circle(x='x', y='y2', size=5, color='#365A8C', source=source1, legend=value('Emigrants'))
+    p1.circle(x='x', y='y', size=5, color='#B2DD2C', source=source1, legend_label='Immigrants')
+    p1.circle(x='x', y='y2', size=5, color='#365A8C', source=source1, legend_label='Emigrants')
 
     tick_labels_p1 = {'40':'40K','50':'50K','60':'60K','70':'70K','80':'80K','90':'90K','100':'100K','110':'110K'}
     p1.yaxis.major_label_overrides = tick_labels_p1
@@ -530,3 +530,153 @@ def mapDev():
     p.title.text_font_style = "bold"
 
     return p
+
+def heatmap():
+    dfl = pd.read_csv('BokehApp/Data/rentAvgByBeds.csv', delimiter=',', index_col=0)
+    dfl1 = pd.DataFrame(dfl.stack(), columns=['rent(avg)']).reset_index()
+    dfl1.columns =['Bed','Year', 'Rent']
+
+    x = list(dfl.columns)
+    y = list(reversed(dfl.index.values))
+    #v = dfb.values
+    colors1 = viridis(9)[::-1]
+    mapper = LinearColorMapper(palette=colors1, low=400, high=1800)
+
+    hm1 = figure(title="Heatmap average rent by bedroom", x_range=x, y_range=y, x_axis_location="above", plot_width=900, plot_height=500,
+               tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='below', y_axis_label='Number of bedrooms')
+
+
+    hm1.title.text_font_size = '20px'
+    hm1.rect(x='Year', y='Bed', width=1, height=1, source=dfl1,
+           fill_color={'field': 'Rent', 'transform': mapper}, line_color='white', line_width=0.05)
+    
+    color_bar = ColorBar(color_mapper=mapper, major_label_text_font_size="10px", major_label_text_font_style='bold',
+                         ticker=BasicTicker(desired_num_ticks=len(colors1)),
+                         label_standoff=6, border_line_color=None, location=(0, 0))
+
+    hoverhm1 = HoverTool()
+    hoverhm1.tooltips=[('Year', '@Year'), ('Beds', '@Bed'), ('€', '@Rent{int}')]
+    hm1.add_tools(hoverhm1)
+    hm1.grid.grid_line_color = None
+    hm1.axis.axis_line_color = None
+    hm1.axis.major_tick_line_color = None
+    #hm1.axis.major_label_text_font_size = '10px'
+    hm1.xaxis.major_label_text_font_size = '12px'
+    hm1.axis.major_label_text_font_style = 'bold'
+    hm1.axis.major_label_standoff = 0
+    hm1.toolbar.autohide = True
+    hm1.yaxis.major_label_text_font_size = '10px'
+    hm1.yaxis.axis_label_text_font_style = 'italic'
+    hm1.add_layout(color_bar, 'right')
+    
+    dfc = pd.read_csv('BokehApp/Data/Counties_rentAvg.csv', delimiter=',', index_col=0)
+    dfc1 = pd.DataFrame(dfc.stack(), columns=['Rent']).reset_index()
+    dfc1.columns =['Counties','Year', 'Rent']
+
+    xc = list(dfc.columns)
+    yc = list(reversed(dfc.index.values))
+   
+    colors1c = viridis(10)[::-1]
+    mapperc = LinearColorMapper(palette=colors1c, low=400, high=1650)
+
+    hmc = figure(title="Heatmap average rent by county", x_range=xc, y_range=yc, x_axis_location="above", plot_width=900, plot_height=650,
+               tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='below')
+
+    hmc.title.text_font_size = '20px'
+    hmc.rect(x='Year', y='Counties', width=1, height=1, source=dfc1,
+           fill_color={'field': 'Rent', 'transform': mapperc}, line_color='white', line_width=0.05)
+    
+    color_barc = ColorBar(color_mapper=mapperc, major_label_text_font_size="10px", major_label_text_font_style='bold',
+                         ticker=BasicTicker(desired_num_ticks=len(colors1c)),
+                         label_standoff=6, border_line_color=None, location=(0, 0))
+
+    hoverhmc = HoverTool()
+    hoverhmc.tooltips=[('Year', '@Year'),('County', '@Counties'), ('€', '@Rent{int}')]
+    hmc.add_tools(hoverhmc)
+    hmc.grid.grid_line_color = None
+    hmc.axis.axis_line_color = None
+    hmc.axis.major_tick_line_color = None
+    hmc.axis.major_label_text_font_size = '10px'
+    hmc.xaxis.major_label_text_font_size = '12px'
+    hmc.axis.major_label_text_font_style = 'bold'
+    hmc.axis.major_label_standoff = 0
+    hmc.toolbar.autohide = True
+    #hmc.yaxis.axis_label_text_font_size = '15px'
+    hmc.yaxis.axis_label_text_font_style = 'bold'
+    hmc.add_layout(color_barc, 'right')
+    
+    dfd = pd.read_csv('BokehApp/Data/avgRentDublinArea.csv', delimiter=',', index_col=0)
+    dfd1 = pd.DataFrame(dfd.stack(), columns=['Rent']).reset_index()
+    dfd1.columns =['District','Year', 'Rent']
+
+    xd = list(dfd.columns)
+    yd = list(reversed(dfd.index.values))
+
+    colors1d = viridis(11)[::-1]
+    mapperd = LinearColorMapper(palette=colors1d, low=800, high=2150)
+
+    hmd = figure(title="Heatmap average rent in Dublin", x_range=xd, y_range=yd, x_axis_location="above", plot_width=900, plot_height=650,
+               tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='below')
+
+    hmd.title.text_font_size = '20px'
+    hmd.rect(x='Year', y='District', width=1, height=1, source=dfd1,
+           fill_color={'field': 'Rent', 'transform': mapperd}, line_color='white', line_width=0.05)
+
+    color_bard = ColorBar(color_mapper=mapperc, major_label_text_font_size="10px", major_label_text_font_style='bold',
+                         ticker=BasicTicker(desired_num_ticks=len(colors1d)),
+                         label_standoff=6, border_line_color=None, location=(0, 0))
+
+    hoverhmd = HoverTool()
+    hoverhmd.tooltips=[('Year', '@Year'),('District', '@District'), ('€', '@Rent{int}')]
+    hmd.add_tools(hoverhmd)
+    hmd.grid.grid_line_color = None
+    hmd.axis.axis_line_color = None
+    hmd.axis.major_tick_line_color = None
+    hmd.axis.major_label_text_font_size = '10px'
+    hmd.xaxis.major_label_text_font_size = '12px'
+    hmd.axis.major_label_text_font_style = 'bold'
+    hmd.axis.major_label_standoff = 0
+    hmd.toolbar.autohide = True
+    hmd.yaxis.axis_label_text_font_style = 'bold'
+    hmd.add_layout(color_barc, 'right')
+    
+    dfct = pd.read_csv('BokehApp/Data/rentAvgCities.csv', delimiter=',', index_col=0)
+    dfct1 = pd.DataFrame(dfct.stack(), columns=['Rent']).reset_index()
+    dfct1.columns =['City_Town','Year', 'Rent']
+
+    xt = list(dfct.columns)
+    yt = list(reversed(dfct.index.values))
+    colors1t = viridis(11)[::-1]
+    mappert = LinearColorMapper(palette=colors1t, low=400, high=1600)
+
+    hmt = figure(title="Heatmap average rent by city/town", x_range=xt, y_range=yt, x_axis_location="above", plot_width=1000, plot_height=650,
+               tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='below')
+
+    hmt.title.text_font_size = '20px'
+    hmt.rect(x='Year', y='City_Town', width=1, height=1, source=dfct1,
+           fill_color={'field': 'Rent', 'transform': mappert}, line_color='white', line_width=0.05)
+
+    color_bart = ColorBar(color_mapper=mappert, major_label_text_font_size="10px", major_label_text_font_style='bold',
+                         ticker=BasicTicker(desired_num_ticks=len(colors1t)),
+                         label_standoff=6, border_line_color=None, location=(0, 0))
+
+    hoverhmt = HoverTool()
+    hoverhmt.tooltips=[('Year', '@Year'),('City/Town', '@City_Town'), ('€', '@Rent{int}')]
+    hmt.add_tools(hoverhmt)
+    hmt.grid.grid_line_color = None
+    hmt.axis.axis_line_color = None
+    hmt.axis.major_tick_line_color = None
+    hmt.xaxis.major_label_text_font_size = '12px'
+    hmt.axis.major_label_text_font_style = 'bold'
+    hmt.axis.major_label_standoff = 0
+    hmt.toolbar.autohide = True
+    hmt.yaxis.major_label_text_font_size = '9px'
+    hmt.yaxis.axis_label_text_font_style = 'bold'
+    hmt.add_layout(color_bart, 'right')
+    
+    tc = Panel(child=hmc, title='County')
+    tt = Panel(child=hmt, title='City/Town')
+    td = Panel(child=hmd, title='Dublin')
+    tb = Panel(child=hm1, title='Bedroom')
+    tabs = Tabs(tabs=[tc,tt,td,tb])
+    return tabs

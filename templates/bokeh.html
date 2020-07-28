@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"> -->
        <!-- Bokeh includes-->
 
+    
+
     <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-2.1.1.min.js"></script>
     <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-widgets-2.1.1.min.js"></script>
     <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-tables-2.1.1.min.js"></script>
@@ -21,14 +23,14 @@
     <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-api-2.1.1.min.js"></script>
     <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-2.1.1.min.js"></script>
     
-    <script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-2.1.1.min.js"></script>
     <link href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-2.1.1.min.css" rel="stylesheet" type="text/css">
-    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.1.1.min.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-2.1.1.min.js" type="text/css" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/article.css') }}"  type="text/css" >
     <link href="/static/styles1.css" rel="stylesheet">
 
-
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-2.1.1.min.js"></script>
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.1.1.min.js"></script>
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.1.1.min.js"></script>
     
     {{ script|safe }}
     {{ script1|safe }}
@@ -42,6 +44,7 @@
     {{ script9|safe }}
     {{ script10|safe }}
     {{ script11|safe }}
+    {{ script12|safe}}
  
 <body>
  
@@ -88,7 +91,7 @@ The number of vacant properties in Ireland grew 85.7% from 2002 to 2006 to a neg
 </div>
 </center>
 
-<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px;'>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: 7px;'>
 In 2016 12.25% of the house stock was vacant, from those vacant properties 47.85% were rural, the long term properties and the deceased properties reached over 5,000 vacant properties each, 
 and from an urban perspective it shifts to a majority of properties for sale or rent, 22.84%. Proportionally Dublin had a considerable amount of vacant properties for rental compared to the rest of the country, 
 when you consider that Dublin had 26.5% of the properties in Ireland in 2016, despite of this amount Dublin had nearly half of the properties for sale in market in 2016. These numbers shift to a negative growth 
@@ -145,6 +148,7 @@ The number of non-occupier buyers in fact propelled the Irish Housing Market, wi
 </div>
 </center>
 <center><p><img style='width: 30%; height: 30%; float: left; align-content: bottom; margin-top: 7px;' src={{url_for('static', filename='images/CorrelationTotals1.png')}}></center>
+<br><br>
 <p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: 1px;'>
 In the chart above it is noticeable how the total of non-occupiers has been a considerable share in the overall transactions, with emphasis between 2010 to 2013 where 
 those buyers would take advantage of a fragile market; from 2014 onwards a strong consistency. These buyers are more focused in the existing properties, which will mostly 
@@ -196,7 +200,7 @@ followed by Cork with 11.4% of the country's population although with a demograp
     numbers that had a consistent growth curve to reach 4,857,000 in 2018, a deviation growth of 7.14%. If the demand is growing in a consistent ascending curve, the ideal would be that the house stock and the social housing would follow the same correlation, from a statistical point of view.
 </p>
 <center>
-    <div class='bokeh'>
+    <div class='bokehwidgets'>
         {{ div8|safe }} 
     </div>
 </center>
@@ -243,9 +247,22 @@ In a timeframe of 14 years the population growth deviation were more accentuated
 <h5 style='margin: 8px; margin-top: 12; font-size: 20px; font-weight: bold; color: #C0504D; font-style: italic;'>Impacts</h5>
 <p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: -4px; margin-bottom: 10px;'>To understand the impacts this housing crisis has caused in the socio economic scenario in Ireland, it is necessary to find the correlation between the demand and supply and the social economic implications it has brought upon society thus far.</p>
 <h5 style='margin-top: 15x; margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'>Rent Prices</h5>
-<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: -4px; margin-bottom: -6px;'>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: -4px; margin-bottom: -18px;'>
 The excessive increase in the rental prices in Ireland drove the government to create “The Planning and Development (Housing) and Residential Tenancies Act in 2016”, which was a measure to cap the increases at 4% per year in Rent Pressure Zones (RPZs), which was enforced from December of 2016, and applied to the highest rent zones and the highest growths zones national wide. Nevertheless the private sector commenced to create short term renting instead to avoid the cap. The high costs of the housing market generate concerns and also expectations from the authorities, to create measures at minimum as rent freezes, despite that the Taoiseach Leo Varadkar has quoted: “Rent freezes are not the answer to the massive costs of renting properties in Ireland”, yet the government have not suggested any measure to solve the issue, other than palliative measures thus far the statistics has demonstrated.
-</p>
+</p><br><br>
+<p style='font-size:10px; text-align:right; margin-right: 30px; margin-bottom: -30px; font-weight: bold;'>*excluing Dublin</p>
+
+<center>
+    <div class='bokeh'>
+        {{ div12|safe }}
+    </div>
+</center>
+
+
+
+
+
+
 <td width=45%; valign='top';>       
 <br>
 

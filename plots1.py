@@ -6,7 +6,7 @@ from bokeh.plotting import figure, show, curdoc
 from bokeh.transform import dodge
 from math import pi
 from bokeh.transform import cumsum
-from bokeh.core.properties import value
+#from bokeh.core.properties import value
 from bokeh.models import ColumnDataSource, HoverTool, PrintfTickFormatter, NumeralTickFormatter, FactorRange, LabelSet
 from bokeh.transform import factor_cmap
 from bokeh.models.widgets import Panel, Tabs
@@ -30,7 +30,7 @@ def vacantPlot():
 
     p = figure(x_range=FactorRange(*lDict), plot_height=350, plot_width=550, title='Vacant properties in Ireland 2016', x_axis_label=None, y_axis_label=None, tools = 'pan, wheel_zoom, box_zoom, reset')
     hover = HoverTool()
-    hover.tooltips=[('Vacant properties', 'Dublin @y / Others @y1 / Rural @y2')]
+    hover.tooltips=[('Vacant ', ' Dublin @y / Others @y1 / Rural @y2')]
     p.add_tools(hover)
     
     p.vbar(x=dodge('x', -0.25, range=p.x_range), top='y', width=0.2, source=source, color='#FDE724', legend_label='Dublin&Suburbs')
@@ -69,7 +69,7 @@ def houseStockPlot():
     a2.add_tools(hover)
     
     colors = viridis(4)
-    a2.varea_stack(['y3','y2','y1','y'], x='x', source=source, color=colors[::-1], legend_label=ll, muted_alpha=0.2)
+    a2.varea_stack(['y3','y2','y1','y'], x='x', source=source, color=colors[::-1], legend_label=('Dublin vacant','Ireland vacant', 'Dublin','Ireland' ), muted_alpha=0.2)
     a2.legend.location='top_left'
     a2.legend.click_policy="mute"
     a2.yaxis[0].formatter = NumeralTickFormatter(format="0 M")
@@ -344,7 +344,7 @@ def pie_chart():
     pie = figure(plot_height=350, plot_width=550, title='Total of Non-Occupiers buyers by year in %',
                tools = 'pan, wheel_zoom, box_zoom, reset',  x_range=(-0.5, 0.9))
     pie.wedge(x=0, y=1, radius=0.4, start_angle=cumsum('a', include_zero=True), end_angle=cumsum('a'),
-             line_color='white', fill_color='c', legend='x', source=srcpie) #inner_radius=0.5
+             line_color='white', fill_color='c', legend_field='x', source=srcpie) #inner_radius=0.5
 
 
     #pie.annular_wedge(x=0, y=0, inner_radius=0.2, outer_radius=0.4, start_angle=cumsum('a', include_zero=True), end_angle=cumsum('a'),
