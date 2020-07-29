@@ -44,7 +44,9 @@
     {{ script9|safe }}
     {{ script10|safe }}
     {{ script11|safe }}
-    {{ script12|safe}}
+    {{ script12|safe }}
+    {{ script13|safe }}
+    {{ script14|safe }}
  
 <body>
  
@@ -109,7 +111,6 @@ The existing house transactions had a variance of 216.9%, as there were still a 
 of new properties variance was not as prominent with 54.6%. Dublin did follow a different path with a variance of 284.7% for new properties transactions and 162.9% for
  existing properties, mostly reflexes of a saturated housing market.</p>
 
-<br><br><br>
 
 <td width=45%; valign='top';>
 
@@ -155,9 +156,7 @@ those buyers would take advantage of a fragile market; from 2014 onwards a stron
 be redesigned to accommodate more people, allowing these investments to be capitalized in a shorter time. The total of transactions registered and the total of non-occupier 
 transactions registered had a strong correlation between them, as the correlation chart on the left verifies, which supports the fact that those investments are inflating the housing market.
 </p>
-
 </td>
-
 
 <table width=100%; height=95%;>
 <div style='text-align: center; color: black; width: 100%'>______________________________________________________________</div>
@@ -206,7 +205,7 @@ followed by Cork with 11.4% of the country's population although with a demograp
 </center>
 
 <td width=45%; valign='top';>
-<br>
+
 <h5 style='margin-top: 15x; margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'>Natural Increase</h5>
 <p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: -4px; margin-bottom: -7px;'>It is the offset between live births and deaths during the year. From 2010 the number of live births decreased in a consistent curve as crisis's side effect, which seems coherent considering that one of the prerequisites to start or extend a family is financial stability. Note that the natural increase line in the graphic has a descending curve since 2010, despite the population
     growth in Ireland has an ascending curve, the fact that the number of deaths increased from 2011 and that from 2008 to 2018 the number of live births decreased in 16.2%, made the range gets narrow as the two variables get closer and the outcome is usually smaller, a negative correlation.</p>   
@@ -232,7 +231,7 @@ In a timeframe of 14 years the population growth deviation were more accentuated
 </p>
 
 <center>
-    <div class='bokeh'>
+    <div class='bokeh' style='margin-bottom: -30px; margin-top: -3px;'>
         {{ div11|safe }} 
     </div>
 </center>
@@ -242,14 +241,13 @@ In a timeframe of 14 years the population growth deviation were more accentuated
 
 <table width=100%; height=95%;>
 <div style='text-align: center; color: black; width: 100%'>______________________________________________________________</div>
+<br>
 <tr><td width=45%; valign='top';>
     
 <h5 style='margin: 8px; margin-top: 12; font-size: 20px; font-weight: bold; color: #C0504D; font-style: italic;'>Impacts</h5>
 <p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: -4px; margin-bottom: 10px;'>To understand the impacts this housing crisis has caused in the socio economic scenario in Ireland, it is necessary to find the correlation between the demand and supply and the social economic implications it has brought upon society thus far.</p>
 <h5 style='margin-top: 15x; margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'>Rent Prices</h5>
-<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: -4px; margin-bottom: -18px;'>
-The excessive increase in the rental prices in Ireland drove the government to create “The Planning and Development (Housing) and Residential Tenancies Act in 2016”, which was a measure to cap the increases at 4% per year in Rent Pressure Zones (RPZs), which was enforced from December of 2016, and applied to the highest rent zones and the highest growths zones national wide. Nevertheless the private sector commenced to create short term renting instead to avoid the cap. The high costs of the housing market generate concerns and also expectations from the authorities, to create measures at minimum as rent freezes, despite that the Taoiseach Leo Varadkar has quoted: “Rent freezes are not the answer to the massive costs of renting properties in Ireland”, yet the government have not suggested any measure to solve the issue, other than palliative measures thus far the statistics has demonstrated.
-</p><br><br>
+<br>
 <p style='font-size:10px; text-align:right; margin-right: 30px; margin-bottom: -30px; font-weight: bold;'>*excluing Dublin</p>
 
 <center>
@@ -257,19 +255,42 @@ The excessive increase in the rental prices in Ireland drove the government to c
         {{ div12|safe }}
     </div>
 </center>
-
-
-
-
-
-
-<td width=45%; valign='top';>       
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: -4px; margin-bottom: -18px;'>
+The excessive increase in the rental prices in Ireland drove the government to create “The Planning and Development (Housing) and Residential Tenancies Act in 2016”, which was a measure to cap the increases at 4% per year in Rent Pressure Zones (RPZs), which was enforced from December of 2016, and applied to the highest rent zones and the highest growths zones national wide. Nevertheless the private sector commenced to create short term renting instead to avoid the cap. The high costs of the housing market generate concerns and also expectations from the authorities, to create measures at minimum as rent freezes, despite that the Taoiseach Leo Varadkar has quoted: “Rent freezes are not the answer to the massive costs of renting properties in Ireland”, yet the government have not suggested any measure to solve the issue, other than palliative measures thus far the statistics has demonstrated.
+</p>  
 <br>
+<center>
+    <div class='bokeh'>
+        {{ div13|safe }}
+    </div>
+</center>
 
+
+
+<td width=45%; valign='top';>
+    
+<h5 style='margin-top: 15x; margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'>Private House Market</h5>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: -4px; margin-bottom: 8px;'>
+This dataset from CSO had been explored before in this article, although the focus was in the volume of new transactions registered, in this section the focus is analysing the prices and its variances. Following the end of the recession the prices for new and existing properties would reach their lowest peaks in 2012 and in 2013 subsequently to shift to an increase since. The average prices in Dublin for new properties and existing properties from 2014 onwards increased similarly, which demonstrate how the housing market in Dublin had been saturate, to an extent that existing properties are as valuable as new properties, i.e., low supply. Phenomena that went opposite from a national perspective, as the prices for new properties and existing properties in Ireland increased distinctly since 2014.
+</p>
+<center>
+    <div class='bokeh'>
+        {{ div14|safe }}
+    </div>
+</center> 
+<br>
+<h5 style='margin-top: 15x; margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'>Mortgages</h5>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: -4px; margin-bottom: 8px;'>
+    The Banking & Payments Federation Ireland (BPFI) represents over 70 domestic and international institutions, which provides datasets on volume of mortgages approvals, among other datasets. Typically the volume of mortgages can exhibit how healthy is the economy, analogically acting as a thermometer. A higher volume of mortgages approvals would verify that people have more income available. The volume of mortgage approvals in Ireland though had a sharp decline between 2006 and 2011, a negative deviation of 88.80%, which was a reflex of the previous housing crisis.
+    From 2011 onward the number of new properties build had a slow growth, hence the low volume of mortgage approvals for new properties since, from the existing properties perspective the number of mortgage approvals have a more substantial growth from 2011 onwards, reflex of the low supply of new properties.
+    A dataset comprising the overall number of mortgage approvals between 2008 and 2018 demonstrates how the housing market is gradually growing, yet a very low growth from 2014 onwards, with a deviation of 14.92% between 2014 and 2018, mostly driven by the number of mortgage approvals for existing properties.
+    The Irish government launched from January of 2016 the “Help to Buy Scheme (HTB) that enables eligible first-time buyers to get up to 5% of the purchase price of a new house or apartment back in the form of a tax rebate”. This does not reach a wide range of the first-time buyers though, considering that only 18.41% of the properties available in the market in 2016 were new properties. Demonstrating certain inefficiencies in the help provided. Another dataset provided by the BPFI is the average deposits for mortgages, which demonstrate how the average for deposits has raised since 2012, with a deviation of 99.11% for Dublin, a deviation of 70.90% for Dublin commuter area and a deviation of 68.75% for Nationwide. 
+    Numbers that verify how difficult has become to purchase properties in the past years in Ireland, considering that those trying to purchase a property need to deal with the exorbitant rental prices, while attempting to build a disposable income for mortgage deposits, a more difficult scenario for those in Dublin and surrounds mostly.
+</p>
 
 
 </td>
-
+</table>
 
 </body>
 

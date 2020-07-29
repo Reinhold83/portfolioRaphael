@@ -9,7 +9,7 @@ from math import pi
 from bokeh.transform import cumsum
 from bokeh.layouts import column, row, gridplot
 #from bokeh.core.properties import value
-from bokeh.models import ColumnDataSource, PrintfTickFormatter, NumeralTickFormatter, FactorRange, LinearColorMapper, Tabs, Panel, HoverTool, Div, Select, CustomJS, Range1d, ColorBar, BasicTicker
+from bokeh.models import ColumnDataSource, PrintfTickFormatter, NumeralTickFormatter, FactorRange, Paragraph, LinearColorMapper, Tabs, Panel, HoverTool, Div, Select, CustomJS, Range1d, ColorBar, BasicTicker
 from bokeh.transform import factor_cmap
 from bokeh.models.widgets import Panel, Tabs
 from bokeh.palettes import viridis
@@ -359,7 +359,7 @@ def popOverall():
     p1.grid.grid_line_width = 2
 
     hoverp1 = HoverTool()
-    hoverp1.tooltips=[('Group Population', '@2009')]
+    hoverp1.tooltips=[('Population', '@2009')]
     p1.add_tools(hoverp1)
 
 
@@ -542,7 +542,7 @@ def heatmap():
     colors1 = viridis(9)[::-1]
     mapper = LinearColorMapper(palette=colors1, low=400, high=1800)
 
-    hm1 = figure(title="Heatmap average rent by bedroom", x_range=x, y_range=y, x_axis_location="above", plot_width=900, plot_height=500,
+    hm1 = figure(title="Heatmap average rent by bedroom", x_range=x, y_range=y, x_axis_location="above", plot_width=800, plot_height=450,
                tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='below', y_axis_label='Number of bedrooms')
 
 
@@ -579,7 +579,7 @@ def heatmap():
     colors1c = viridis(10)[::-1]
     mapperc = LinearColorMapper(palette=colors1c, low=400, high=1650)
 
-    hmc = figure(title="Heatmap average rent by county", x_range=xc, y_range=yc, x_axis_location="above", plot_width=900, plot_height=650,
+    hmc = figure(title="Heatmap average rent by county", x_range=xc, y_range=yc, x_axis_location="above", plot_width=800, plot_height=550,
                tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='below')
 
     hmc.title.text_font_size = '20px'
@@ -615,7 +615,7 @@ def heatmap():
     colors1d = viridis(11)[::-1]
     mapperd = LinearColorMapper(palette=colors1d, low=800, high=2150)
 
-    hmd = figure(title="Heatmap average rent in Dublin", x_range=xd, y_range=yd, x_axis_location="above", plot_width=900, plot_height=650,
+    hmd = figure(title="Heatmap average rent in Dublin", x_range=xd, y_range=yd, x_axis_location="above", plot_width=800, plot_height=550,
                tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='below')
 
     hmd.title.text_font_size = '20px'
@@ -649,7 +649,7 @@ def heatmap():
     colors1t = viridis(11)[::-1]
     mappert = LinearColorMapper(palette=colors1t, low=400, high=1600)
 
-    hmt = figure(title="Heatmap average rent by city/town", x_range=xt, y_range=yt, x_axis_location="above", plot_width=1000, plot_height=650,
+    hmt = figure(title="Heatmap average rent by city/town", x_range=xt, y_range=yt, x_axis_location="above", plot_width=800, plot_height=550,
                tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='below')
 
     hmt.title.text_font_size = '20px'
@@ -673,10 +673,101 @@ def heatmap():
     hmt.yaxis.major_label_text_font_size = '9px'
     hmt.yaxis.axis_label_text_font_style = 'bold'
     hmt.add_layout(color_bart, 'right')
-    
+
     tc = Panel(child=hmc, title='County')
     tt = Panel(child=hmt, title='City/Town')
     td = Panel(child=hmd, title='Dublin')
     tb = Panel(child=hm1, title='Bedroom')
-    tabs = Tabs(tabs=[tc,tt,td,tb])
+    tabs = Tabs(tabs=[tc, tt,td,tb])
     return tabs
+
+def dublinArea():
+    dft = pd.read_csv('BokehApp/Data/DublinDistrictsRentAvg_t1.csv', delimiter=',')
+    source = ColumnDataSource(dft)
+
+    xt = list(dft.columns[2:].values)
+    yt = '2008' ,'2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019'
+
+    p = figure(plot_height=350, plot_width=550, x_axis_label='rent in €', tools = 'pan, wheel_zoom, box_zoom, reset')
+    p.line(x='Dublin_1', y='Year', line_width=2.5, line_color='#FDE724', source=source)
+    p.circle(x='Dublin_1', y='Year', size=5, color='#365A8C', source=source)
+    #p.hbar(y='Year', right='Dublin1.', height=0.15, source=source, color='#440154')
+    hoverp = HoverTool()
+    hoverp.tooltips=[('Year','@Year'),('€', '@Dublin_1{int}') ]
+    p.add_tools(hoverp)
+
+
+    p.xaxis.major_label_text_font_style = 'bold'
+
+    p.outline_line_color=None
+    p.axis.major_label_text_font_style = 'bold'
+    p.grid.grid_line_dash = 'dotted'
+    p.grid.grid_line_dash_offset = 5
+    p.grid.grid_line_width = 2
+    p.grid.grid_line_alpha = 0.6
+    p.toolbar.autohide = True
+
+    select = Select(title="Dublin area/district:", align='start', value='Dublin1.', width=120, height=25, options=xt)
+    p.title.text = 'Rent average ' +  str(select.value)
+    p.title.text_font_size = '15px'
+
+    callback = CustomJS(args={'source':source, 'title':p.title},code="""
+                console.log(' changed selected option', cb_obj.value);
+
+                var data = source.data;
+                title.text = 'Rent average ' + cb_obj.value
+
+                // allocate column
+                data['Dublin_1'] = data[cb_obj.value];
+
+
+
+                // register the change 
+                source.change.emit()""")
+
+    select.js_on_change('value', callback)
+    layout = row(select, p, margin=10)
+    return layout
+
+
+def transactionstype():
+    dfh = pd.read_csv('BokehApp/Data/transac_avg.csv', delimiter='\t', index_col=0)
+
+    dfh.columns = ['Ireland new properties', 'Dublin new properties', 'Ireland existing properties', 'Dublin existing properties']
+    sourceh = ColumnDataSource(data=dict(x=dfh.index, y=dfh['Ireland new properties'], y1=dfh['Dublin new properties'],
+                                        y2=dfh['Ireland existing properties'], y3=dfh['Dublin existing properties']))
+
+    ph = figure(x_axis_type='log', plot_height=350, plot_width=600, title='Transaction average price in €', tools = 'pan, wheel_zoom, box_zoom, reset')
+    ph.line(x='x', y='y', line_width=2.5, line_color='#440154', source=sourceh, legend_label='Ireland new properties')
+    ph.circle(x='x', y='y', size=5, color='#70CE56', source=sourceh, legend_label='Ireland new properties')
+    ph.line(x='x', y='y1', line_width=2.5, line_color='#FDE724', source=sourceh, legend_label='Dublin new properties')
+    ph.circle(x='x', y='y1', size=5, color='#440154', source=sourceh, legend_label='Dublin new properties')
+    ph.line(x='x', y='y2', line_width=2.5, line_color='#9DD93A', source=sourceh, legend_label='Ireland existing properties')
+    ph.circle(x='x', y='y2', size=5, color='#365A8C', source=sourceh, legend_label='Ireland existing properties')
+    ph.line(x='x', y='y3', line_width=2.5, line_color='#482172', source=sourceh, legend_label='Dublin existing properties')
+    ph.circle(x='x', y='y3', size=5, color='#FDE724', source=sourceh, legend_label='Dublin existing properties')
+
+    tick_labels_ph = {'200000':'200K','250000':'250K','300000':'300K','350000':'350K','400000':'400K','450000':'450K'}
+    ph.yaxis.major_label_overrides = tick_labels_ph
+
+    hoverph = HoverTool()
+    hoverph.tooltips=[('Year', '@x'), ('Ireland new', '€ @y'), ('Dublin new','€ @y1'), ('Ireland existing','€ @y2'), ('Dublin existing','€ @y3')]
+    ph.add_tools(hoverph)
+
+    ph.title.text_font_size = '15px'
+    ph.legend.location = (0,190)
+    ph.legend.border_line_alpha=0
+    ph.legend.background_fill_alpha = None
+    ph.legend.label_text_font_size = "11px"
+    ph.legend.click_policy="hide"
+    ph.xaxis.major_label_text_font_style = 'bold'
+    ph.yaxis.formatter.use_scientific = False
+    ph.outline_line_color=None
+    ph.axis.major_label_text_font_style = 'bold'
+    ph.grid.grid_line_dash = 'dotted'
+    ph.grid.grid_line_dash_offset = 5
+    ph.grid.grid_line_width = 2
+    ph.grid.grid_line_alpha = 0.6
+    ph.toolbar.autohide = True
+
+    return ph
