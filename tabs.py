@@ -771,3 +771,140 @@ def transactionstype():
     ph.toolbar.autohide = True
 
     return ph
+
+def gridMortgage():
+    dfap = pd.read_csv('BokehApp/Data/Mortg_05_16.csv', delimiter='\t', index_col=0)
+    sourceap = ColumnDataSource(data=dict(x=dfap.index, y=dfap['New Properties'], y1=dfap['Existing Properties']))
+    #xap = '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016'
+
+    pap = figure(plot_height=300, plot_width=500, title='Mortgages approvals', tools = 'pan, wheel_zoom, box_zoom, reset')
+    pap.line(x='x', y='y', line_width=2.5, line_color='#440154', source=sourceap, legend_label='New Properties')
+    pap.circle(x='x', y='y', size=5, color='#CDE01D', source=sourceap, legend_label='New Properties')
+    pap.line(x='x', y='y1', line_width=2.5, line_color='#FDE724', source=sourceap, legend_label='Existing Properties')
+    pap.circle(x='x', y='y1', size=5, color='#440154', source=sourceap, legend_label='Existing Properties')
+
+
+    tick_labels_pap = {'10000':'10K','20000':'20K','30000':'30K','40000':'40K','50000':'50K','60000':'60K'}
+    pap.yaxis.major_label_overrides = tick_labels_pap
+
+
+    hoverpap = HoverTool()
+    hoverpap.tooltips=[('Year', '@x'), ('New Properties', '@y'), ('Existing Properties','@y1')]
+    pap.add_tools(hoverpap)
+
+    pap.title.text_font_size = '15px'
+    pap.legend.location = 'top_right'
+    pap.legend.border_line_alpha=0
+    pap.legend.background_fill_alpha = None
+    pap.legend.label_text_font_size = "11px"
+    pap.legend.click_policy="hide"
+    pap.xaxis.major_label_text_font_style = 'bold'
+    pap.yaxis.formatter.use_scientific = False
+    pap.outline_line_color=None
+    pap.axis.major_label_text_font_style = 'bold'
+    pap.grid.grid_line_dash = 'dotted'
+    pap.grid.grid_line_dash_offset = 5
+    pap.grid.grid_line_width = 2
+    pap.grid.grid_line_alpha = 0.6
+    pap.toolbar.autohide = True
+    
+    dfa = pd.read_csv('BokehApp/Data/MortgAll_Variables.csv', delimiter='\t', index_col=0)
+    dfa1 = pd.DataFrame(dfa['VolumeMortgage'])
+    dfa1['color'] = viridis(len(dfa.index))[::-1]
+    sourcepa = ColumnDataSource(data=dict(x=dfa1.index, y=dfa1['VolumeMortgage'], c=dfa1['color']))
+
+    pa = figure(plot_height=300, plot_width=500,  title='Mortgages approvals', tools = 'pan, wheel_zoom, box_zoom, reset')
+    pa.vbar(x='x', top='y', source=sourcepa, color='c', width=0.5)
+    pa.y_range.end = dfa1['VolumeMortgage'].max()*1.03
+
+    tick_labels_pa = {'10000':'10K','20000':'20K','30000':'30K','40000':'40K','50000':'50K'}
+    pa.yaxis.major_label_overrides = tick_labels_pa
+
+    hoverpa = HoverTool()
+    hoverpa.tooltips=[('Year', '@x'), ('Approvals', '@y')]
+    pa.add_tools(hoverpa)
+
+    pa.title.text_font_size = '15px'
+    pa.xaxis.major_label_text_font_style = 'bold'
+    pa.yaxis.formatter.use_scientific = False
+    pa.outline_line_color=None
+    pa.axis.major_label_text_font_style = 'bold'
+    pa.grid.grid_line_dash = 'dotted'
+    pa.grid.grid_line_dash_offset = 5
+    pa.grid.grid_line_width = 2
+    pa.grid.grid_line_alpha = 0.6
+    pa.toolbar.autohide = True
+    
+    dff = pd.read_csv('BokehApp/Data/Mortg_10_16.csv', delimiter=',', index_col=0)
+    dff = dff[['New Properties', 'FTB']]
+
+    sourcef = ColumnDataSource(data=dict(x=dff.index, y=dff['New Properties'], y1=dff['FTB']))
+
+    pf = figure(plot_height=300, plot_width=500,  title='First Time Buyers', tools = 'pan, wheel_zoom, box_zoom, reset')
+    pf.line(x='x', y='y', line_width=2.5, line_color='#440154', source=sourcef, legend_label='New Properties')
+    pf.circle(x='x', y='y', size=5, color='#CDE01D', source=sourcef, legend_label='New Properties')
+    pf.line(x='x', y='y1', line_width=2.5, line_color='#FDE724', source=sourcef, legend_label='First Time Buyers')
+    pf.circle(x='x', y='y1', size=5, color='#440154', source=sourcef, legend_label='First Time Buyers')
+
+    tick_labels_pf = {'1000':'1K','2000':'2K','3000':'3K','4000':'4K','5000':'5K','6000':'6K', '7000':'7K'}
+    pf.yaxis.major_label_overrides = tick_labels_pf
+
+
+    hoverpf = HoverTool()
+    hoverpf.tooltips=[('Year', '@x'), ('New Properties', '@y'), ('First Time Buyers','@y1')]
+    pf.add_tools(hoverpf)
+
+    pf.title.text_font_size = '15px'
+    pf.legend.location = 'top_center'
+    pf.legend.border_line_alpha=0
+    pf.legend.background_fill_alpha = None
+    pf.legend.label_text_font_size = "11px"
+    pf.legend.click_policy="hide"
+    pf.xaxis.major_label_text_font_style = 'bold'
+    pf.yaxis.formatter.use_scientific = False
+    pf.outline_line_color=None
+    pf.axis.major_label_text_font_style = 'bold'
+    pf.grid.grid_line_dash = 'dotted'
+    pf.grid.grid_line_dash_offset = 5
+    pf.grid.grid_line_width = 2
+    pf.grid.grid_line_alpha = 0.6
+    pf.toolbar.autohide = True
+    
+    dfd = pd.read_csv('MortgageDeposit.csv', delimiter=',', index_col=0)
+    sourced = ColumnDataSource(data=dict(x=dfd.index, y=dfd['Dublin'], y1=dfd['Dublin Commuter'], y2=dfd['National']))
+
+    pd1 = figure(x_axis_type='log', plot_height=300, plot_width=500, title='Average deposit in €', tools = 'pan, wheel_zoom, box_zoom, reset')
+    pd1.line(x='x', y='y', line_width=2.5, line_color='#9DD93A', source=sourced, legend_label='Dublin')
+    pd1.circle(x='x', y='y', size=5, color='#365A8C', source=sourced, legend_label='Dublin')
+    pd1.line(x='x', y='y1', line_width=2.5, line_color='#FDE724', source=sourced, legend_label='Dublin Commuter')
+    pd1.circle(x='x', y='y1', size=5, color='#440154', source=sourced, legend_label='Dublin Commuter')
+    pd1.line(x='x', y='y2', line_width=2.5, line_color='#440154', source=sourced, legend_label='National') #
+    pd1.circle(x='x', y='y2', size=5, color='#CDE01D', source=sourced, legend_label='National') #
+
+    tick_labels_pd = {'20000':'20K','25000':'24K','30000':'30K','35000':'35K','40000':'40K','45000':'45K','50000':'50K','55000':'55K'}
+    pd1.yaxis.major_label_overrides = tick_labels_pd
+
+
+    hoverpd1 = HoverTool()
+    hoverpd1.tooltips=[('Year', '@x'), ('Dublin', '@y'), ('Dublin Commuter','@y1'), ('National','@y2')]
+    pd1.add_tools(hoverpd1)
+
+    pd1.title.text_font_size = '15px'
+    pd1.legend.location = 'top_left'
+    pd1.legend.border_line_alpha=0
+    pd1.legend.background_fill_alpha = None
+    pd1.legend.label_text_font_size = "11px"
+    pd1.legend.click_policy="hide"
+    pd1.xaxis.major_label_text_font_style = 'bold'
+    pd1.yaxis.formatter.use_scientific = False
+    pd1.outline_line_color=None
+    pd1.axis.major_label_text_font_style = 'bold'
+    pd1.grid.grid_line_dash = 'dotted'
+    pd1.grid.grid_line_dash_offset = 5
+    pd1.grid.grid_line_width = 2
+    pd1.grid.grid_line_alpha = 0.6
+    pd1.toolbar.autohide = True
+    
+    grid = gridplot([[pap, pa], [pf, pd1]], merge_tools=True, plot_height=300, plot_width=500)#, sizing_mode='fixed')#scale_both
+    
+    return grid

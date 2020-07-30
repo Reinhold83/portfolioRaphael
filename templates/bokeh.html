@@ -47,6 +47,7 @@
     {{ script12|safe }}
     {{ script13|safe }}
     {{ script14|safe }}
+    {{ script15|safe }}
  
 <body>
  
@@ -161,7 +162,7 @@ transactions registered had a strong correlation between them, as the correlatio
 <table width=100%; height=95%;>
 <div style='text-align: center; color: black; width: 100%'>______________________________________________________________</div>
  <tr><td width=45%; valign='top';>
-
+<br>
 <h5 style='margin: 8px; margin-top: 12; font-size: 20px; font-weight: bold; color: #C0504D; font-style: italic;'>Demand</h5>
 <h5 style='margin-top: 15x; margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'> Population </h5>
 <p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: 1px;'>
@@ -205,7 +206,7 @@ followed by Cork with 11.4% of the country's population although with a demograp
 </center>
 
 <td width=45%; valign='top';>
-
+<br>
 <h5 style='margin-top: 15x; margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'>Natural Increase</h5>
 <p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: -4px; margin-bottom: -7px;'>It is the offset between live births and deaths during the year. From 2010 the number of live births decreased in a consistent curve as crisis's side effect, which seems coherent considering that one of the prerequisites to start or extend a family is financial stability. Note that the natural increase line in the graphic has a descending curve since 2010, despite the population
     growth in Ireland has an ascending curve, the fact that the number of deaths increased from 2011 and that from 2008 to 2018 the number of live births decreased in 16.2%, made the range gets narrow as the two variables get closer and the outcome is usually smaller, a negative correlation.</p>   
@@ -248,9 +249,10 @@ In a timeframe of 14 years the population growth deviation were more accentuated
 <p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: -4px; margin-bottom: 10px;'>To understand the impacts this housing crisis has caused in the socio economic scenario in Ireland, it is necessary to find the correlation between the demand and supply and the social economic implications it has brought upon society thus far.</p>
 <h5 style='margin-top: 15x; margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'>Rent Prices</h5>
 <br>
-<p style='font-size:10px; text-align:right; margin-right: 30px; margin-bottom: -30px; font-weight: bold;'>*excluing Dublin</p>
+
 
 <center>
+    <p style='font-size:10px; text-align:right; margin-right: 130px; margin-bottom: -30px; font-weight: bold;'>*excluing Dublin</p>
     <div class='bokeh'>
         {{ div12|safe }}
     </div>
@@ -288,7 +290,11 @@ This dataset from CSO had been explored before in this article, although the foc
     Numbers that verify how difficult has become to purchase properties in the past years in Ireland, considering that those trying to purchase a property need to deal with the exorbitant rental prices, while attempting to build a disposable income for mortgage deposits, a more difficult scenario for those in Dublin and surrounds mostly.
 </p>
 
-
+<center>
+    <div class='bokeh'>
+        {{ div15|safe }}
+    </div>
+</center> 
 </td>
 </table>
 
