@@ -342,7 +342,7 @@ def popOverall():
     source1 = ColumnDataSource(data=dict(df1))
 
 
-    p1 = figure(x_range=list(df1['Age Groups'].values), plot_height=300, plot_width=500,title='Irish Population Breakdown by Age Group',
+    p1 = figure(x_range=list(df1['Age Groups'].values), plot_height=250, plot_width=450,title='Irish Population Breakdown by Age Group',
                 tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right')
     p1.vbar(x='Age Groups', top='2009.', width=0.5, source=source1, color='color')
 
@@ -378,7 +378,7 @@ def popOverall():
     source = ColumnDataSource(df)
 
 
-    p = figure(plot_height=300, plot_width=400,title='Irish Population Growth by Year',
+    p = figure(plot_height=220, plot_width=370,title='Irish Population Growth by Year',
                y_range=Range1d(*yrange),tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='above')
 
     p.vbar(x='Year', top='Population', source=source, width=0.5, color='color')
@@ -429,7 +429,7 @@ def popOverall():
     select.js_on_change('value', callback)
 
 
-    layout = row(p,select, p1, margin=5) 
+    layout = row(p,select, p1, margin=2) 
     return layout
 
 def naturalincrease():
@@ -542,7 +542,7 @@ def heatmap():
     colors1 = viridis(9)[::-1]
     mapper = LinearColorMapper(palette=colors1, low=400, high=1800)
 
-    hm1 = figure(title="Heatmap average rent by bedroom", x_range=x, y_range=y, x_axis_location="above", plot_width=800, plot_height=450,
+    hm1 = figure(title="Heatmap average rent by bedroom", x_range=x, y_range=y, x_axis_location="above", plot_width=900, plot_height=500,
                tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='below', y_axis_label='Number of bedrooms')
 
 
@@ -579,7 +579,7 @@ def heatmap():
     colors1c = viridis(10)[::-1]
     mapperc = LinearColorMapper(palette=colors1c, low=400, high=1650)
 
-    hmc = figure(title="Heatmap average rent by county", x_range=xc, y_range=yc, x_axis_location="above", plot_width=800, plot_height=550,
+    hmc = figure(title="Heatmap average rent by county", x_range=xc, y_range=yc, x_axis_location="above", plot_width=900, plot_height=600,
                tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='below')
 
     hmc.title.text_font_size = '20px'
@@ -615,7 +615,7 @@ def heatmap():
     colors1d = viridis(11)[::-1]
     mapperd = LinearColorMapper(palette=colors1d, low=800, high=2150)
 
-    hmd = figure(title="Heatmap average rent in Dublin", x_range=xd, y_range=yd, x_axis_location="above", plot_width=800, plot_height=550,
+    hmd = figure(title="Heatmap average rent in Dublin", x_range=xd, y_range=yd, x_axis_location="above", plot_width=900, plot_height=600,
                tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='below')
 
     hmd.title.text_font_size = '20px'
@@ -649,7 +649,7 @@ def heatmap():
     colors1t = viridis(11)[::-1]
     mappert = LinearColorMapper(palette=colors1t, low=400, high=1600)
 
-    hmt = figure(title="Heatmap average rent by city/town", x_range=xt, y_range=yt, x_axis_location="above", plot_width=800, plot_height=550,
+    hmt = figure(title="Heatmap average rent by city/town", x_range=xt, y_range=yt, x_axis_location="above", plot_width=900, plot_height=600,
                tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='below')
 
     hmt.title.text_font_size = '20px'
@@ -777,7 +777,7 @@ def gridMortgage():
     sourceap = ColumnDataSource(data=dict(x=dfap.index, y=dfap['New Properties'], y1=dfap['Existing Properties']))
     #xap = '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016'
 
-    pap = figure(plot_height=300, plot_width=500, title='Mortgages approvals', tools = 'pan, wheel_zoom, box_zoom, reset')
+    pap = figure(plot_height=250, plot_width=400, title='Mortgages approvals', tools = 'pan, wheel_zoom, box_zoom, reset')
     pap.line(x='x', y='y', line_width=2.5, line_color='#440154', source=sourceap, legend_label='New Properties')
     pap.circle(x='x', y='y', size=5, color='#CDE01D', source=sourceap, legend_label='New Properties')
     pap.line(x='x', y='y1', line_width=2.5, line_color='#FDE724', source=sourceap, legend_label='Existing Properties')
@@ -813,7 +813,7 @@ def gridMortgage():
     dfa1['color'] = viridis(len(dfa.index))[::-1]
     sourcepa = ColumnDataSource(data=dict(x=dfa1.index, y=dfa1['VolumeMortgage'], c=dfa1['color']))
 
-    pa = figure(plot_height=300, plot_width=500,  title='Mortgages approvals', tools = 'pan, wheel_zoom, box_zoom, reset')
+    pa = figure(plot_height=250, plot_width=400,  title='Mortgages approvals overall', tools = 'pan, wheel_zoom, box_zoom, reset')
     pa.vbar(x='x', top='y', source=sourcepa, color='c', width=0.5)
     pa.y_range.end = dfa1['VolumeMortgage'].max()*1.03
 
@@ -840,7 +840,7 @@ def gridMortgage():
 
     sourcef = ColumnDataSource(data=dict(x=dff.index, y=dff['New Properties'], y1=dff['FTB']))
 
-    pf = figure(plot_height=300, plot_width=500,  title='First Time Buyers', tools = 'pan, wheel_zoom, box_zoom, reset')
+    pf = figure(plot_height=250, plot_width=400,  title='First Time Buyers', tools = 'pan, wheel_zoom, box_zoom, reset')
     pf.line(x='x', y='y', line_width=2.5, line_color='#440154', source=sourcef, legend_label='New Properties')
     pf.circle(x='x', y='y', size=5, color='#CDE01D', source=sourcef, legend_label='New Properties')
     pf.line(x='x', y='y1', line_width=2.5, line_color='#FDE724', source=sourcef, legend_label='First Time Buyers')
@@ -870,10 +870,10 @@ def gridMortgage():
     pf.grid.grid_line_alpha = 0.6
     pf.toolbar.autohide = True
     
-    dfd = pd.read_csv('MortgageDeposit.csv', delimiter=',', index_col=0)
+    dfd = pd.read_csv('BokehApp/Data/MortgageDeposit.csv', delimiter=',', index_col=0)
     sourced = ColumnDataSource(data=dict(x=dfd.index, y=dfd['Dublin'], y1=dfd['Dublin Commuter'], y2=dfd['National']))
 
-    pd1 = figure(x_axis_type='log', plot_height=300, plot_width=500, title='Average deposit in €', tools = 'pan, wheel_zoom, box_zoom, reset')
+    pd1 = figure(x_axis_type='log', plot_height=250, plot_width=400, title='Average deposit in €', tools = 'pan, wheel_zoom, box_zoom, reset')
     pd1.line(x='x', y='y', line_width=2.5, line_color='#9DD93A', source=sourced, legend_label='Dublin')
     pd1.circle(x='x', y='y', size=5, color='#365A8C', source=sourced, legend_label='Dublin')
     pd1.line(x='x', y='y1', line_width=2.5, line_color='#FDE724', source=sourced, legend_label='Dublin Commuter')
@@ -886,7 +886,7 @@ def gridMortgage():
 
 
     hoverpd1 = HoverTool()
-    hoverpd1.tooltips=[('Year', '@x'), ('Dublin', '@y'), ('Dublin Commuter','@y1'), ('National','@y2')]
+    hoverpd1.tooltips=[('Year', '@x'), ('Dublin', '€ @y'), ('Dublin Commuter','€ @y1'), ('National','€ @y2')]
     pd1.add_tools(hoverpd1)
 
     pd1.title.text_font_size = '15px'
@@ -905,6 +905,272 @@ def gridMortgage():
     pd1.grid.grid_line_alpha = 0.6
     pd1.toolbar.autohide = True
     
-    grid = gridplot([[pap, pa], [pf, pd1]], merge_tools=True, plot_height=300, plot_width=500)#, sizing_mode='fixed')#scale_both
+    grid = gridplot([[pap, pa], [pf, pd1]], merge_tools=True, toolbar_location='below')#scale_both sizing_mode='fixed', plot_height=300, plot_width=500,
     
     return grid
+
+def corrMatrix():
+    dfr = pd.read_csv('BokehApp/Data/RentMatrix.csv', delimiter=',', index_col=0)
+
+    dfr1 = pd.DataFrame(dfr.corr().stack(), columns=['corr']).reset_index()
+    dfr1.columns =['x', 'y', 'corr']
+    dfr1['corr'] = pd.to_numeric(dfr1["corr"], downcast="float")
+
+    xr = list(dfr1['x'].unique())
+    yr = xr[::-1]
+
+    colorsr = viridis(20)#[::-1]
+    mapper1 = LinearColorMapper(palette=colorsr, low=-1, high=1)#
+
+    cmr = figure(title="Correlation matrix", x_range=xr, y_range=yr, x_axis_location="below", plot_width=950, plot_height=600,
+                tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='above')
+
+    cmr.title.text_font_size = '20px'
+    cmr.rect(x='x', y='y', width=1, height=1, source=dfr1, dilate=True,
+            fill_color={'field': 'corr', 'transform': mapper1}, line_color='red',  line_dash='dotted', line_width=0.08)
+    #cmr.rect(x='x', y='y', width={'field': 'corr', 'transform': cmr.width}, height={'field': 'corr', 'transform': cmr.height}, source=dfr1, dilate=True,
+
+    hovercmr = HoverTool()
+    hovercmr.tooltips=[('var1', '@x'),('var2', '@y'), ('Correlation', '@corr')]
+    cmr.add_tools(hovercmr)
+
+    cmr.xaxis.major_label_orientation =45
+    color_bar1 = ColorBar(color_mapper=mapper1, major_label_text_font_size="10px", major_label_text_font_style='bold',
+                             ticker=BasicTicker(desired_num_ticks=len(colorsr)),
+                             label_standoff=6, border_line_color=None, location=(0, 0))
+
+    cmr.grid.grid_line_color = None
+    cmr.axis.axis_line_color = None
+    cmr.axis.major_tick_line_color = None
+    cmr.axis.major_label_text_font_size = '10px'
+    cmr.xaxis.major_label_text_font_size = '12px'
+    cmr.axis.major_label_text_font_style = 'bold'
+    cmr.axis.major_label_standoff = 0
+    cmr.toolbar.autohide = True
+    #hmc.yaxis.axis_label_text_font_size = '15px'
+    cmr.yaxis.axis_label_text_font_style = 'bold'
+
+    cmr.add_layout(color_bar1, 'right')
+    
+    return cmr
+
+def social():
+    dfs = pd.read_csv('BokehApp/Data/_SH_total.csv', delimiter=',', index_col=0)
+    dfs1 = dfs.iloc[::,:-1]
+
+    sources = ColumnDataSource(dfs1)
+
+    a = figure(plot_width=450, plot_height=280, title='Social Housing development', toolbar_location='above', tools = 'pan, wheel_zoom, box_zoom, reset')
+    colors = viridis(4)
+
+    a.varea_stack(['Build','Acquisition','Leasing','RAS/HAP'], x='Year', source=sources, color=colors[::-1], legend_label=('Build','Acquisition','Leasing','RAS/HAP'), muted_alpha=0.2)
+
+    a.legend.location='top_left'
+    a.legend.click_policy="mute"
+    #a.yaxis[0].formatter = NumeralTickFormatter(format="0 M")
+    tick_labels = {'5000':'5K','10000':'10K','15000':'15K','20000':'20K','25000':'25K'}
+    a.yaxis.major_label_overrides = tick_labels
+    a.xaxis.ticker = dfs.index.values
+    a.title.text_font_size = '15px'
+    a.legend.background_fill_alpha=None
+    a.legend.border_line_alpha=0
+    a.legend.label_text_font_size = "11px"
+    a.xaxis.major_label_text_font_size = '10px'
+    a.axis.major_label_text_font_style = 'bold'
+    #a.grid.grid_line_color=None
+    a.toolbar.autohide = True
+    a.outline_line_color=None
+
+    a.grid.grid_line_dash = 'dotted'
+    a.grid.grid_line_dash_offset = 5
+    a.grid.grid_line_width = 2
+    a.grid.grid_line_alpha = 0.6
+    a.toolbar.autohide = True
+
+
+    dfs2 = pd.DataFrame(dfs.iloc[::,-1])
+    dfs2['color'] = viridis(len(dfs2.index))
+
+    sources2 = ColumnDataSource(dfs2)
+    xs2 = '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018'
+
+
+    ps2 = figure(plot_height=280, plot_width=450, title='Total of families reached',
+                tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='above')
+    ps2.vbar(x='Year', top='TotalSupport', width=0.6, source=sources2, color='color')
+    ps2.y_range.start = 3000#dfs2['Total Support'].min()tick_labels = {'5000':'5K','10000':'10K','15000':'15K','20000':'20K','25000':'25K'}
+    #ps2.line(x='Year', y='TotalSupport', source=sources2, line_width=2.5)
+
+    tick_labels2 = {'5000':'5K','10000':'10K','15000':'15K','20000':'20K','25000':'25K'}
+    ps2.yaxis.major_label_overrides = tick_labels2
+    ps2.xaxis.ticker = dfs2.index.values
+    ps2.title.text_font_size = '15px'
+
+    hoverp2 = HoverTool()
+    hoverp2.tooltips=[('Year', '@Year'),('Total support','@TotalSupport')]
+    ps2.add_tools(hoverp2)
+
+    ps2.axis.major_label_text_font_style = 'bold'
+    ps2.xaxis.major_label_text_font_size = '10px'
+    #ps2.xaxis.major_label_orientation = 45
+    #a.grid.grid_line_color=None
+    #ps2.toolbar.autohide = True
+    ps2.outline_line_color=None
+
+    ps2.grid.grid_line_dash = 'dotted'
+    ps2.grid.grid_line_dash_offset = 5
+    ps2.grid.grid_line_width = 2
+    ps2.grid.grid_line_alpha = 0.6
+
+
+    layout = row(a,ps2, margin=5)
+    return layout
+
+def homeless():
+    df = pd.read_csv('BokehApp/Data/Homeless_Numbers1.csv', delimiter=',', index_col=0)
+    #df = df.iloc[::,:-2]
+    cl = df.columns[[0,-1,1,2,]]
+    df = df[cl]
+    df['color'] = viridis(len(df.index.values))[::-1]
+
+    source = ColumnDataSource(df)
+
+    p = figure(plot_width=900, plot_height=450, title='Homelessness in Ireland Adults', tools='pan, wheel_zoom, box_zoom, reset',
+              x_range=list(df.index.values))
+    p.line(x='Date', y='Adults', line_width=2.5, line_color='#440154', source=source, legend_label='Nationwide')
+    p.circle(x='Date', y='Adults', size=5, color='#DAE218', source=source, legend_label='Nationwide')
+    p.line(x='Date', y='DublinAdults', line_width=2.5, line_color='#FDE724', source=source, legend_label='Dublin')
+    p.circle(x='Date', y='DublinAdults', size=5, color='#365A8C', source=source, legend_label='Dublin')#365A8C
+
+
+    tick_labels_p = {'2000':'2K','3000':'3K','4000':'4K','4000':'4K','8000':'8K','6000':'6K','5000':'5K'}
+    p.yaxis.major_label_overrides = tick_labels_p
+
+    hoverp = HoverTool()
+    hoverp.tooltips=[('Date', '@Date'), ('Nationwide', '@Total'), ('Dublin','@DublinAdults')]
+    p.add_tools(hoverp)
+
+    p.legend.border_line_alpha=0
+    p.legend.location = 'top_left'
+    p.legend.background_fill_alpha = None
+    p.legend.label_text_font_size = "11px"
+    p.legend.click_policy="hide"
+    p.title.text_font_size = '15px'
+    p.xaxis.major_label_text_font_style = 'bold'
+
+    p.outline_line_color=None
+    p.axis.major_label_text_font_style = 'bold'
+    p.xaxis.major_label_orientation = 45
+    p.grid.grid_line_dash = 'dotted'
+    p.grid.grid_line_dash_offset = 5
+    p.grid.grid_line_width = 2
+    p.grid.grid_line_alpha = 0.6
+    p.toolbar.autohide = True
+
+
+
+    p1 = figure(plot_width=900, plot_height=450, title='Homelessness in Ireland', tools='pan, wheel_zoom, box_zoom, reset',
+              x_range=list(df.index.values))
+    p1.line(x='Date', y='Total', line_width=2.5, line_color='#9DD93A', source=source, legend_label='Overall')
+    p1.circle(x='Date', y='Total', size=5, color='#365A8C', source=source, legend_label='Overall')
+    p1.line(x='Date', y='Adults', line_width=2.5, line_color='#440154', source=source, legend_label='Adults')
+    p1.circle(x='Date', y='Adults', size=5, color='#DAE218', source=source, legend_label='Adults')
+    p1.line(x='Date', y='Children', line_width=2.5, line_color='#FDE724', source=source, legend_label='Children')
+    p1.circle(x='Date', y='Children', size=5, color='#365A8C', source=source, legend_label='Children')#365A8C
+
+
+
+    tick_labels_p1 = {'1000':'1K','2000':'2K','3000':'3K','4000':'4K','4000':'4K','8000':'8K','6000':'6K','5000':'5K','10000':'10K'}
+    p1.yaxis.major_label_overrides = tick_labels_p1
+
+    hoverp1 = HoverTool()
+    hoverp1.tooltips=[('Date', '@Date'), ('Adults', '@Adults'), ('Children','@Children'), ('Overall','@Total')]
+    p1.add_tools(hoverp1)
+
+    p1.legend.border_line_alpha=0
+    p1.legend.location = 'top_left'
+    p1.legend.background_fill_alpha = None
+    p1.legend.label_text_font_size = "11px"
+    p1.legend.click_policy="hide"
+    p1.title.text_font_size = '15px'
+    p1.xaxis.major_label_text_font_style = 'bold'
+
+    p1.outline_line_color=None
+    p1.axis.major_label_text_font_style = 'bold'
+    p1.xaxis.major_label_orientation = 45
+    p1.grid.grid_line_dash = 'dotted'
+    p1.grid.grid_line_dash_offset = 5
+    p1.grid.grid_line_width = 2
+    p1.grid.grid_line_alpha = 0.6
+    p1.toolbar.autohide = True
+
+    t1 = Panel(child=p1, title='Overall')
+    t2 = Panel(child=p, title='Adults')
+
+    tabs = Tabs(tabs=[t1, t2])
+    return tabs
+
+def austria():
+    dfv = pd.read_csv('BokehApp/Data/SocialHousingViennaDublin.csv', delimiter=',', index_col=0)
+    dfv1 = dfv.iloc[::,3:5]
+    dfv1.columns =['HouseStock','SocialHousing']
+
+    xl = list(dfv1.index.values)
+    lDict = {'House Stock':xl,'Social Housing':xl}
+    source = ColumnDataSource(dfv1)
+    p = figure(x_range=FactorRange(*xl), plot_height=350, plot_width=550, title='House Stock 2011 in %', x_axis_label=None, y_axis_label=None, tools = 'pan, wheel_zoom, box_zoom, reset')
+
+
+    p.vbar(x=dodge('Geo', -0.25, range=p.x_range), top='HouseStock', width=0.2, source=source, color='#208F8C', legend_label='House Stock')
+    p.vbar(x=dodge('Geo', 0.0, range=p.x_range), top='SocialHousing', width=0.2, source=source, color='#FDE724', legend_label='Social Housing')
+
+    hover = HoverTool()
+    hover.tooltips=[('Location', ' @Geo'),('House Stock','@HouseStock %'),('Social Housing','@SocialHousing %')]
+    p.add_tools(hover)
+
+
+    p.legend.location= 'top_right'#(370,180)
+    p.legend.background_fill_alpha=None
+    p.legend.border_line_alpha=0
+    p.legend.label_text_font_size = "11px"
+    #p.y_range.end = dfv.values.max()*1.1+1
+    p.legend.click_policy="hide"
+    p.title.text_font_size = '15px'
+    p.axis.major_label_text_font_style = 'bold'
+    p.grid.grid_line_alpha = 0.6
+    p.grid.grid_line_dash = 'dotted'
+    p.grid.grid_line_dash_offset = 5
+    p.grid.grid_line_width = 2
+        #p.grid.grid_line_color=None
+    p.toolbar.autohide = True
+    p.outline_line_color=None
+
+    return p
+
+def sol():
+    dfsol = pd.read_csv('BokehApp/Data/dfmap1.csv', delimiter=',', index_col=0)
+    dfsol['color'] = viridis(len(dfsol.index.values))[::-1]
+    sourcesol = ColumnDataSource(dfsol)
+
+    ps = figure(x_range=list(dfsol.index.values), plot_height=350, plot_width=650, title='Possibly number of social houses needed', x_axis_label=None, y_axis_label=None, tools = 'pan, wheel_zoom, box_zoom, reset')
+    ps.vbar(x='County', top='Solution', width=.6, color='color', source=sourcesol)
+
+    hovers = HoverTool()
+    hovers.tooltips=[('County', ' @County'),('Possibly number of houses','@Solution')]
+    ps.add_tools(hovers)
+
+    tick_labels = {'10000':'10K','20000':'20K','30000':'30K','40000':'40K'}
+    ps.yaxis.major_label_overrides = tick_labels
+
+    ps.xaxis.major_label_orientation = 45
+    ps.title.text_font_size = '15px'
+    ps.axis.major_label_text_font_style = 'bold'
+    ps.grid.grid_line_alpha = 0.6
+    ps.grid.grid_line_dash = 'dotted'
+    ps.grid.grid_line_dash_offset = 5
+    ps.grid.grid_line_width = 2
+        #p.grid.grid_line_color=None
+    ps.toolbar.autohide = True
+    ps.outline_line_color=None
+
+    return ps
