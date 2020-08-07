@@ -66,17 +66,16 @@ Analyses and visualisation of the Irish Housing Market</h2>
 amongst other bodies. The aim is to understand the reasons for the housing crisis and the implications
 of the housing crisis in Ireland. The projects aim is to find a possible solution from the insights gathered.
 </p>
-
-
-<table width=100%; height=95%;>
-<tr><td width=45%; valign=top;>
-    <h5 style='margin: 7px; font-size: 20px; font-weight: bold; color: #365f91; font-style: italic;'> Introduction </h5>
+<h5 style='margin: 7px; font-size: 20px; font-weight: bold; color: #365f91; font-style: italic;'> Introduction </h5>
  <p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px;'>
     The housing market in Ireland has been facing very distinct curves in the past two decades along with a big recession that reached its peak in 2008 to a descending curve since, by 2013 the housing market started to reverse to a positive growth,
     although this positive variance has not been strong enough to solve the crisis as the analyses has shown, yet this is not a real portrait of the issue, as a majority of the tenants are not officially registered in The Private Tenancies Board(PRTB). From the analyses of the Census of 2016 the CSO has concluded that there are 2.48 people per private property in Dublin City,
     although news as “Fifteen people sharing one room in house with 70 tenants” in Dublin City from the Independent.ie in 2017 are actually not as alarming.
     As it is a market the analyses and visualization will be divided between supply and demand using Python 3 with Jupyter Notebook, pandas, numpy, Bokeh, Matplotlib, Seaborm, Flask among others to find insights to support a solution to the issue
 </p>
+
+<table width=100%; height=95%;>
+<tr><td width=45%; valign=top;>
 
 <h5 style='margin: 10px; font-size: 20px; font-weight: bold; color: #365f91; font-style: italic;'> Analyses </h5>
 <h5 style='margin: 8px; margin-top: 12; font-size: 20px; font-weight: bold; color: #C0504D; font-style: italic;'>Supply </h5>
@@ -92,51 +91,47 @@ The house stock in Ireland had a consistent growth until 2011 when it shifts to 
 </center> <br>
 
 <h5 style='margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'>Vacant Properties </h5>
-<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-bottom: -1px;'>
-The number of vacant properties in Ireland grew 85.7% from 2002 to 2006 to a negative growth of 15.2% from 2011 to 2016.</p>
-
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: 7px; margin-bottom: -15px;'>
+    The number of vacant properties in Ireland grew 85.7% from 2002 to 2006 to a negative growth of 15.2% from 2011 to 2016.
+    In 2016 12.25% of the house stock was vacant, from those vacant properties 47.85% were rural, the long term properties and the deceased properties reached over 5,000 vacant properties each, 
+    and from an urban perspective it shifts to a majority of properties for sale or rent, 22.84%. Proportionally Dublin had a considerable amount of vacant properties for rental compared to the rest of the country, 
+    when you consider that Dublin had 26.5% of the properties in Ireland in 2016, despite of this amount Dublin had nearly half of the properties for sale in market in 2016. These numbers shift to a negative growth 
+    as the housing market had significant growth of existing properties registered in the new transactions.</p>
+    
 <center>
 <div class='bokeh'>
     {{ div1|safe}}
 </div>
 </center>
 
-<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: 7px;'>
-In 2016 12.25% of the house stock was vacant, from those vacant properties 47.85% were rural, the long term properties and the deceased properties reached over 5,000 vacant properties each, 
-and from an urban perspective it shifts to a majority of properties for sale or rent, 22.84%. Proportionally Dublin had a considerable amount of vacant properties for rental compared to the rest of the country, 
-when you consider that Dublin had 26.5% of the properties in Ireland in 2016, despite of this amount Dublin had nearly half of the properties for sale in market in 2016. These numbers shift to a negative growth 
-as the housing market had significant growth of existing properties registered in the new transactions.</p>
 <h5 style='margin: 8px; margin-top: 12; font-size: 20px; font-weight: bold; color: #C0504D; font-style: italic;'>Properties Transactions </h5>
-<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-bottom:0px'>
-The overall number of transactions of properties in Ireland had a variance of 190% from 2010 to 2018.</p>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-bottom:10px;'>
+The overall number of transactions of properties in Ireland had a variance of 190% from 2010 to 2018. The existing house transactions had a variance of 216.9%, as there were still a considerable number of vacant properties available in the market, while the transactions 
+of new properties variance was not as prominent with 54.6%. Dublin did follow a different path with a variance of 284.7% for new properties transactions and 162.9% for
+ existing properties, mostly reflexes of a saturated housing market.</p>
 <center>
 <div class='bokeh'>
     {{ div2|safe}}
 </div>
 </center>
-<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px;'>
-The existing house transactions had a variance of 216.9%, as there were still a considerable number of vacant properties available in the market, while the transactions 
-of new properties variance was not as prominent with 54.6%. Dublin did follow a different path with a variance of 284.7% for new properties transactions and 162.9% for
- existing properties, mostly reflexes of a saturated housing market.</p>
 
 
  <td width=45%; valign=top;>
 
 
 <h5 style='margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'>New properties registered</h5>
-<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px;'>
-The Irish housing market has been troubling since the recession to reach a sustainable growth, as the chart below verifies.</p>
 
 <center>
 <div class='bokeh'>
     {{ div3|safe}}
 </div>
 </center>
+
 <p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: 9px;'>
-In 2011 Dublin had only 140 new properties registered reaching its lowest point since from the data available, while Ireland reached its lowest point in 2012 with only 
+The Irish housing market has been troubling since the recession to reach a sustainable growth, as the chart below verifies. In 2011 Dublin had only 140 new properties registered reaching its lowest point since from the data available, while Ireland reached its lowest point in 2012 with only 
 627 new properties registered. There was no significant variance until 2016 when the government along with other bodies launched numerous projects with possible “solutions”.</p>
 
-<h5 style='margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'>New non-occupier buyers</h5>
+<h5 style='margin-left: 7px; margin-right: 7px; margin-bottom:10px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'>New non-occupier buyers</h5>
 <center>
     <div style='margin: 0px; font-size: 12px; font-weight: bold; color: black; font-style: italic;'>
         <div class='bokeh'>
@@ -144,26 +139,23 @@ In 2011 Dublin had only 140 new properties registered reaching its lowest point 
         </div>
     </div>
 </center>
-<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: 1px; margin-bottom: 0px;'>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: 10px; margin-bottom: 10px;'>
 Another relevant insight this dataset provides is the high correlation between new and existing properties transactions.
 There are various articles published that stressed the growth of cash-only sales in Ireland, although there is not enough data available to verify this tendency, 
 despite that the CSO also provided data on the number of buyers that are non-occupier, non-householder or former owner occupier(2nd mortgage) throughout the years,
  i.e., those are utilizing the housing market as an investment and influencing the rental and sales prices to increase. Unite Nations has sent a letter to the Irish government describing the situation as <spam style='font-style: italic'>“moderately unaffordable”</spam>.<br>
 The number of non-occupier buyers in fact propelled the Irish Housing Market, with a high deviation from 2013 with 8478 transactions to 12799 in 2014(50.7%).
+In the chart above it is noticeable how the total of non-occupiers has been a considerable share in the overall transactions, with emphasis between 2010 to 2013 where 
+those buyers would take advantage of a fragile market; from 2014 onwards a strong consistency. These buyers are more focused in the existing properties, which will mostly 
+be redesigned to accommodate more people, allowing these investments to be capitalized in a shorter time. The total of transactions registered and the total of non-occupier 
+transactions registered had a strong correlation between them, as the correlation chart on the left verifies, which supports the fact that those investments are inflating the housing market.
 </p>
 <center>
 <div class='bokeh'>
     {{ div5|safe }}
 </div>
 </center>
-<center><p><img style='width: 30%; height: 30%; float: left; align-content: bottom; margin-top: 7px;' src={{url_for('static', filename='images/CorrelationTotals1.png')}}></center>
-<br><br>
-<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: 1px;'>
-In the chart above it is noticeable how the total of non-occupiers has been a considerable share in the overall transactions, with emphasis between 2010 to 2013 where 
-those buyers would take advantage of a fragile market; from 2014 onwards a strong consistency. These buyers are more focused in the existing properties, which will mostly 
-be redesigned to accommodate more people, allowing these investments to be capitalized in a shorter time. The total of transactions registered and the total of non-occupier 
-transactions registered had a strong correlation between them, as the correlation chart on the left verifies, which supports the fact that those investments are inflating the housing market.
-</p>
+
 
 </table>
 
@@ -196,12 +188,12 @@ followed by Cork with 11.4% of the country's population although with a demograp
     Working age population are those from 15 years old to 64 years old, Ireland had 3,104.300(65.5%) of its population in this age range, thus 2,008,482(64.7%) were employed in 2016, according to the CSO.
 </p>
 <center>
-    <h5 style='font-size:13px; text-align: center; font-weight: bold; color: black; margin-right: 200px;'>Irish Population Breakdown by Age Group and Gender</h5>
+    <h5 style='font-size:15px; text-align: center; font-weight: bold; font-family: helvetica; color: black; margin-right: 200px;'>Irish Population Breakdown by Age Group and Gender</h5>
     <div style='margin: 0px; font-size: 12px; font-weight: bold; color: black; width: 70%; font-style: italic;'>      
             <div class='bokeh'>
                 {{ div7|safe }}
             </div>
-        <h5 style='font-size:10px; text-align: center; font-weight: bold; color: black; margin-right: 10px; margin-top: -1px;'>Age Group<br><em>Population(thousands)</em></h5>
+        <h5 style='font-size:10px; font-family: helvetica; text-align: center; font-weight: bold; color: black; margin-right: 10px; margin-top: -1px;'>Age Group<br><em>Population(thousands)</em></h5>
 
     </div>
 </center>
@@ -218,7 +210,7 @@ followed by Cork with 11.4% of the country's population although with a demograp
 <td width=45%; valign='top';>
 <br>
 <h5 style='margin-top: 15x; margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'>Natural Increase</h5>
-<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: -4px; margin-bottom: -7px;'>It is the offset between live births and deaths during the year. From 2010 the number of live births decreased in a consistent curve as crisis's side effect, which seems coherent considering that one of the prerequisites to start or extend a family is financial stability. Note that the natural increase line in the graphic has a descending curve since 2010, despite the population
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: 5px; margin-bottom: 12px;'>It is the offset between live births and deaths during the year. From 2010 the number of live births decreased in a consistent curve as crisis's side effect, which seems coherent considering that one of the prerequisites to start or extend a family is financial stability. Note that the natural increase line in the graphic has a descending curve since 2010, despite the population
     growth in Ireland has an ascending curve, the fact that the number of deaths increased from 2011 and that from 2008 to 2018 the number of live births decreased in 16.2%, made the range gets narrow as the two variables get closer and the outcome is usually smaller, a negative correlation.</p>   
 <center>
     <div class='bokeh'>
@@ -227,7 +219,7 @@ followed by Cork with 11.4% of the country's population although with a demograp
 </center>
 <br>
 <h5 style='margin-top: 15x; margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'>Net Migration</h5>
-<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: -4px; margin-bottom: -5px;'>Since the peak of the recession the number of immigrants coming to Ireland suffered a big decline that reached its lowest in 2010 to then follow a consistent growth, which has been in an ascending curve since, even with the housing crisis. From the emigrants perspective the recession brought an opposite impact as the number of emigrants increased reaching its peak in 2012 to then start to follow a descending curve since. An interesting insight from this dataset is the fact that between the
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: -4px; margin-bottom: 10px;'>Since the peak of the recession the number of immigrants coming to Ireland suffered a big decline that reached its lowest in 2010 to then follow a consistent growth, which has been in an ascending curve since, even with the housing crisis. From the emigrants perspective the recession brought an opposite impact as the number of emigrants increased reaching its peak in 2012 to then start to follow a descending curve since. An interesting insight from this dataset is the fact that between the
 years of 2014 and 2015 there was a shifty between the two variables where people would rather to settle in Ireland and more people were coming to Ireland, despite the housing crisis.</p>
 
 <center>
@@ -340,11 +332,11 @@ that there is a strong relationship between the rental prices and the number of 
 <h5 style='margin-top: 15x; margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'>Social Housing</h5>
 <p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: -4px; margin-bottom: 8px;'>
 This article has been focused in the private housing market until now. As the correlation matrix chart has confirmed the government has its share of responsibility regards the housing crisis. A picture of the Social Housing scheme would give it a better understanding how this sector has been developing in the past years.<br>
-<span style='color: #555555'><strong>HAP:</strong></span> ”The Housing Assistance Payment is a form of social housing support for people who have along-term housing need”. The HAP will supplement the rent to those whom are qualified for Social Housing and it is based on their income and ability to pay, though this supplement will be paid directly to private landlords. <br>
-<span style='color: #555555'><strong>RAS:</strong></span> “Rental Accommodation Scheme, it is a social housing support introduced to cater for the accommodation needs of persons who are in receipt of long-term rent supplement”. RAS was replaced by the HAP since July of 2016.<br>
-<span style='color: #555555'><strong>Leasing:</strong></span> “Properties will be leased from the private sector and used to accommodate households from local authority waiting lists”.<br>
-<span style='color: #555555'><strong>Acquisition:</strong></span> “It is the acquisition of units from the private market for the purposes of social housing is one of a variety of mechanisms in place to deliver social housing support”.<br>
-<span style='color: #555555'><strong>Build:</strong></span> It is the number of social housing build. a paper itself, although this paper will try to summarize the gravity of it in few charts, along with the measures token thus far toward the issue.
+<span style='color: #DC143C'><strong>HAP:</strong></span> ”The Housing Assistance Payment is a form of social housing support for people who have along-term housing need”. The HAP will supplement the rent to those whom are qualified for Social Housing and it is based on their income and ability to pay, though this supplement will be paid directly to private landlords. <br>
+<span style='color: #DC143C'><strong>RAS:</strong></span> “Rental Accommodation Scheme, it is a social housing support introduced to cater for the accommodation needs of persons who are in receipt of long-term rent supplement”. RAS was replaced by the HAP since July of 2016.<br>
+<span style='color: #DC143C'><strong>Leasing:</strong></span> “Properties will be leased from the private sector and used to accommodate households from local authority waiting lists”.<br>
+<span style='color: #DC143C'><strong>Acquisition:</strong></span> “It is the acquisition of units from the private market for the purposes of social housing is one of a variety of mechanisms in place to deliver social housing support”.<br>
+<span style='color: #DC143C'><strong>Build:</strong></span> It is the number of social housing build. a paper itself, although this paper will try to summarize the gravity of it in few charts, along with the measures token thus far toward the issue.
 The Department of Housing, Planning and Local Government provides several datasets/reports on the homelessness in Ireland, including monthly datasets on the overall number of homelessness nationwide. From middle of 2010 until 2014 the social housing
     development was almost inactive, to the extent that only 120 social houses were built in 2014, which is the lowest peak since 2005, though from 2015 to 2018 there was a deviation growth of 66.33.
 </p>
@@ -360,7 +352,7 @@ The Department of Housing, Planning and Local Government provides several datase
         {{ div17|safe }}
     </div>
 </center>
-<h5 style='margin-top: 15x; margin-left: 7px; margin-right: 7px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'>Homelessness</h5>
+<h5 style='margin-top: 15x; margin-left: 7px; margin-right: 7px; margin-top: 10px; font-size: 17px; font-weight: bold; color: #C0504D; font-style: italic;'>Homelessness</h5>
 
 <p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: -4px; margin-bottom: 8px;'>
 The main social reflex of the house crisis is the homelessness; this topic certainly could be extend to a paper itself, although this paper will try to summarize the gravity of it in few charts, along with the measures token thus far toward the issue. The Department of Housing, Planning and Local Government provides several datasets/reports on the homelessness in Ireland, including monthly datasets on the overall number of homelessness nationwide. From July of 2014 to October 2019 the number of
@@ -404,18 +396,18 @@ The average rent prices in 2018 for Vienna was €1,097, while Dublin average re
 <h5 style='margin: 10px; font-size: 20px; font-weight: bold; color: #365f91; font-style: italic;'> Solution </h5>
 
 <p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: 10px; margin-bottom: 8px;'>
-    During the confection of this article a Bill that intends to initiate a rental freeze immediately has passed in first instance, although it is very unlikely the Bill will pass in second instance and becomes a law, due its unconstitutional nature and an unease about the impact the Bill may causes to future investments in the rental sector. Also, the Central Bank of Ireland based on its analysis suggested that 34000 properties should be built per year in the next 10 years, what apparently seems a plausible solution, i.e. more supply to balance the demand, right? Not necessarily! The last Daft Quarterly Report(3rd) has shown that there were 10% more properties available for rent than the same period in 2018.<br>
+    During the confection of this article a Bill that intends to initiate a rental freeze immediately has passed in first instance, although it is very unlikely the Bill will pass in second instance and becomes a law, due its unconstitutional nature and an unease about the impact the Bill may causes to future investments in the rental sector. Also, the Central Bank of Ireland based on its analysis suggested that 34000 properties should be built per year in the next 10 years, what apparently seems a plausible solution, i.e. more supply to balance the demand, right? Not necessarily! The last Daft Quarterly Report(3rd) has shown that there were 10% more properties available for rent than the same period in 2018.
     Based on the insights provided by the analysis in this article, own experiences and an extensive research have demonstrated that a possible solution lays in the Social Housing Scheme, in a certain degree the Central Bank of Ireland is not wrong in suggest that 340000 properties should be built in the next 10 years, yet located all the investments in the private sector will not change the scenario, ideally a third of the House Stock should be consisted of Social Housing, what would provide affordable housing for
     the population and balance the private sector. The follow equation demonstrates how many properties should be built in the next 10 years in order to the Irish Housing Market reaches a sustainable level, according to this article’s analysis.<br>
-    <center><span style='color: red; font-style: italic; font-family: Verdana;'><strong>NumSH = (house stock * avg house stock past years) *</strong><italic></span><br>
-    <span style='color: red; font-style: italic; font-family: Verdana;'><strong>(33% - %of current social housing)</strong><italic></span><br>
-    <span style='color: red; font-style: italic; font-family: Verdana;'><strong>NumSH = (2,003,645 * 0.1176) * (33% - 12.5%)</strong><italic></span><br>
-    <span style='color: red; font-style: italic; font-family: Verdana;'><strong>NumSH = (235,629)*(0.205)</strong><italic></span><br>
-    <span style='color: red; font-style: italic; font-family: Verdana;'><strong>NumSH = 459,051</strong><italic></span></center>
+    <center><span style='color: #DC143C; font-style: italic; font-family: Verdana;'><strong>NumSH = (house stock * avg house stock past years) *</strong><italic></span><br>
+    <span style='color: #DC143C; font-style: italic; font-family: Verdana;'><strong>(33% - %of current social housing)</strong><italic></span><br>
+    <span style='color: #DC143C; font-style: italic; font-family: Verdana;'><strong>NumSH = (2,003,645 * 0.1176) * (33% - 12.5%)</strong><italic></span><br>
+    <span style='color: #DC143C; font-style: italic; font-family: Verdana;'><strong>NumSH = (235,629)*(0.205)</strong><italic></span><br>
+    <span style='color: #DC143C; font-style: italic; font-family: Verdana;'><strong>NumSH = 459,051</strong><italic></span></center>
     </p>
     
-<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: 10px; margin-bottom: 8px;'>
-    <span style='color: red; font-style: italic;'><strong>459,051 </strong></span>are number of social housing needed in the next 10 years nationwide to possibly solve the issue. Dublin alone will need 120614 properties.<br>
+<p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-top: 5px; margin-bottom: 8px;'>
+    <span style='color: #DC143C; font-style: italic;'><strong>459,051 </strong></span>are number of social housing needed in the next 10 years nationwide to possibly solve the issue. Dublin alone will need 120614 properties.
     There are couple of variables that should be taken under account before draw any conclusions, or comparisons between different governments, such as inflation, wages, taxes rates, corruption level, etcetera; Comparisons apart, the Irish government is clearly on the wrong path and mostly unprepared to face these circumstances. To salient the point in November of 2019 the Dublin council approved a lease worth €35 million for 87 properties in Dundrum for a 25 years term, to then return these properties! Each property will cost approximately €403000, these properties could have been bought for a significant less resources, or these resources could be reverted to build new social housing instead, according to Linesight a professional construction consultancy company estimated that a 100 sq/m would cost from €126000 to €161000 in the third quarter of 2018, which would possibility a construction of 217 properties in the worst case scenario in 2020. Are the government members uncapable of simple arithmetic operations? Are they acting unethically? These questions will fall mostly in a speculative scope, 
     nonetheless from a factual perspective we have a Bill that was created to mitigated the population's rage, yet to die prematurely; palliative measures turning into solutions; resources been dissipated in poor choices; transferring debts from private sector to the public sector; years of negligence toward the social housing sector; these facts alone would let the population wary of a foreseeing future.<br>A better design and an ethical implementation toward the social housing sector, along with a change in the clique that is running the Irish Government would perhaps help to change this masked reality given by the Irish authorities.
 </p>
@@ -431,9 +423,51 @@ The average rent prices in 2018 for Vienna was €1,097, while Dublin average re
 </table>
 <div style='text-align: center; color: black; width: 100%'>______________________________________________________________</div>
 
+<h5 style='margin: 10px; font-size: 20px; font-weight: bold; color: #365f91; font-style: italic;'> References </h5>
+
+<div class="row" style="text-align: justify; margin-left: 7px; margin-right:7px; margin-top: 10px; margin-bottom: 8px;">
+    <div class="column" style="text-align: justify; margin-left: 7px; margin-right:7px; margin-top: 10px; margin-bottom: 8px;">
+        <a href="https://www.cso.ie/en/index.html" target="_blank">www.cso.ie</a><br>
+        <a href="https://www.housing.gov.ie/" target="_blank">www.housing.gov.ie</a><br>
+        <a href="https://www.bpfi.ie/" target="_blank">www.bpfi.ie</a><br>
+        <a href="https://www.data.gov.ie/" target="_blank">www.data.gov.ie</a><br>
+        <a href="https://www.inflation.eu/" target="_blank">www.inflation.eu</a><br>
+        <a href="http://www.statistik.at/web_en/statistics/index.html" target="_blank">www.statistik.at</a><br>
+    </div>
+
+    <div class="column" style="text-align: justify; margin-left: 7px; margin-right:7px; margin-top: 10px; margin-bottom: 8px;">
+        <a href="http://www.dublincity.ie/" target="_blank">www.dublincity.ie</a><br>
+        <a href="https://www.revenue.ie/en/property/help-to-buy-incentive/index.aspx" target="_blank">www.revenue.ie</a><br>
+        <a href="https://www.rebuildingireland.ie/" target="_blank">www.rebuildingireland.ie</a><br>
+        <a href="https://www.rtb.ie/" target="_blank">www.rtb.ie</a><br>
+        <a href="https://www.focusireland.ie/" target="_blank">www.focusireland.ie</a><br>
+        <a href="https://www.dubsimon.ie/" target="_blank">www.dubsimon.ie</a><br>
+    </div>
+
+    <div class="column" style="text-align: justify; margin-left: 7px; margin-right:7px; margin-top: 10px; margin-bottom: 8px;">
+        <a href="http://www.oecd.org" target="_blank">www.oecd.org</a><br>
+        <a href="https://www.irishtimes.com/" target="_blank">www.irishtimes.com</a><br>
+        <a href="https://www.thejournal.ie/" target="_blank">www.thejournal.ie</a><br>
+        <a href="https://www.independent.ie/" target="_blank">www.independent.ie</a><br>
+        <a href="https://www.un.org/en/" target="_blank">www.un.org</a><br>
+        <a href="https://en.wikipedia.org/wiki/Main_Page" target="_blank">www.en.wikipedia.org</a><br>
+    </div>
+    
+    <div class="column" style="text-align: justify; margin-left: 7px; margin-right:7px; margin-top: 10px; margin-bottom: 8px;">
+        <a href="https://www.statista.com/statistics/503274/average-rental-cost-apartment-europe/" target="_blank">www.statista.com</a><br>
+        <a href="http://docs.bokeh.org/en/2.1.1/index.html" target="_blank">www.bokeh.org</a><br>
+        <a href="https://seaborn.pydata.org/" target="_blank">www.seaborn.pydata.org</a><br>
+        <a href="https://matplotlib.org/" target="_blank">www.matplotlib.org</a><br>
+        <a href=" https://numpy.org/" target="_blank"><www class="numpy org">www.numpy.org</www></a><br>
+        <a href="https://pandas.pydata.org/" target="_blank">www.pandas.pydata.org</a><br>
+    </div>
+
+    <div class="column" style="text-align: justify; margin-left: 7px; margin-right:7px; margin-top: 10px; margin-bottom: 8px;">
+        <a href="https://towardsdatascience.com/" target="_blank">www.towardsdatascience.com</a><br>
+        <a href="https://stackoverflow.com/" target="_blank">www.stackoverflow.com</a><br>
+    </div>
+  </div> 
+  <div style='text-align: center; color: black; width: 100%'>______________________________________________________________</div>
+
 </body>
-
-
-  
-
 {% endblock %}

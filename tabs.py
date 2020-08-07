@@ -20,7 +20,7 @@ from bokeh.embed import file_html
 def maps():
     
     
-    p16 = figure(x_axis_location = None, y_axis_location = None, plot_width=550)
+    p16 = figure(x_axis_location = None, y_axis_location = None, plot_width=550, title='Irish Population')
     p16.image_url(url=['/static/images/pp16sub.png'], x=0, y=0, w=3, h=3, anchor="bottom_left")
     p16.title.align='center'    
     p16.grid.grid_line_color=None
@@ -28,7 +28,7 @@ def maps():
     p16.toolbar.autohide = True
     p16.title.text_font_style = "bold"
         
-    p11 = figure(x_axis_location = None, y_axis_location = None, plot_width=550)
+    p11 = figure(x_axis_location = None, y_axis_location = None, plot_width=550, title='Irish Population')
     p11.image_url(url=['/static/images/pp11sub.png'], x=0, y=0, w=3, h=3, anchor="bottom_left")
     p11.title.align='center'    
     p11.grid.grid_line_color=None
@@ -36,7 +36,7 @@ def maps():
     p11.toolbar.autohide = True
     p11.title.text_font_style = "bold"
 
-    p06 = figure(x_axis_location = None, y_axis_location = None, plot_width=550)
+    p06 = figure(x_axis_location = None, y_axis_location = None, plot_width=550, title='Irish Population')
     p06.image_url(url=['/static/images/pp06sub.png'], x=0, y=0, w=3, h=3, anchor="bottom_left")
     p06.title.align='center'    
     p06.grid.grid_line_color=None
@@ -44,7 +44,7 @@ def maps():
     p06.toolbar.autohide = True
     p06.title.text_font_style = "bold"
 
-    p02 = figure(x_axis_location = None, y_axis_location = None, plot_width=550)
+    p02 = figure(x_axis_location = None, y_axis_location = None, plot_width=550, title='Irish Population')
     p02.image_url(url=['/static/images/pp02sub.png'], x=0, y=0, w=3, h=3, anchor="bottom_left")
     p02.title.align='center'    
     p02.grid.grid_line_color=None
@@ -337,14 +337,14 @@ def popByGroup():
 def popOverall():
     df1 = pd.read_csv('BokehApp/Data/ageGroupYear.csv', delimiter=',')
     df1['color'] = viridis(len(df1.index))
-    df1['2009.'] = df1['2009'].values
+    df1['2009_'] = df1['2009'].values
 
     source1 = ColumnDataSource(data=dict(df1))
 
 
-    p1 = figure(x_range=list(df1['Age Groups'].values), plot_height=250, plot_width=450,title='Irish Population Breakdown by Age Group',
+    p1 = figure(x_range=list(df1['AgeGroups'].values), plot_height=270, plot_width=450,title='Irish Population Breakdown by Age Group',
                 tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right')
-    p1.vbar(x='Age Groups', top='2009.', width=0.5, source=source1, color='color')
+    p1.vbar(x='AgeGroups', top='2009_', width=0.5, source=source1, color='color')
 
     #plot style
     p1.xaxis.major_label_orientation = 45
@@ -359,7 +359,7 @@ def popOverall():
     p1.grid.grid_line_width = 2
 
     hoverp1 = HoverTool()
-    hoverp1.tooltips=[('Population', '@2009')]
+    hoverp1.tooltips=[('Group', '@AgeGroups'),('Population', '@2009_')]
     p1.add_tools(hoverp1)
 
 
@@ -378,7 +378,7 @@ def popOverall():
     source = ColumnDataSource(df)
 
 
-    p = figure(plot_height=220, plot_width=370,title='Irish Population Growth by Year',
+    p = figure(plot_height=270, plot_width=370,title='Irish Population Growth by Year',
                y_range=Range1d(*yrange),tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='above')
 
     p.vbar(x='Year', top='Population', source=source, width=0.5, color='color')
@@ -409,7 +409,7 @@ def popOverall():
     p.yaxis.major_label_overrides = tick_labels_p
 
 
-    select = Select(title="Year:", align='center', value='2009.', width=60, height=25, options=['2009','2010', '2011', '2012','2013','2014','2015','2016','2017','2018'])
+    select = Select(title="Year:", align='center', value='2009_', width=60, height=25, options=['2009','2010', '2011', '2012','2013','2014','2015','2016','2017','2018'])
     p1.title.text = 'Irish Population by Age Group ' +  str(select.value)
 
     callback = CustomJS(args={'source':source1, 'title':p1.title},code="""
@@ -419,7 +419,7 @@ def popOverall():
             title.text = 'Irish Population by Age Group ' + cb_obj.value
 
             // allocate column
-            data['2009.'] = data[cb_obj.value];
+            data['2009_'] = data[cb_obj.value];
 
 
 
@@ -737,7 +737,8 @@ def transactionstype():
     sourceh = ColumnDataSource(data=dict(x=dfh.index, y=dfh['Ireland new properties'], y1=dfh['Dublin new properties'],
                                         y2=dfh['Ireland existing properties'], y3=dfh['Dublin existing properties']))
 
-    ph = figure(x_axis_type='log', plot_height=350, plot_width=600, title='Transaction average price in €', tools = 'pan, wheel_zoom, box_zoom, reset')
+    xph = '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018'
+    ph = figure(x_axis_type='log', plot_height=350, plot_width=600, title='Transaction average price in €', tools = 'pan, wheel_zoom, box_zoom, reset') # x_range=xph
     ph.line(x='x', y='y', line_width=2.5, line_color='#440154', source=sourceh, legend_label='Ireland new properties')
     ph.circle(x='x', y='y', size=5, color='#70CE56', source=sourceh, legend_label='Ireland new properties')
     ph.line(x='x', y='y1', line_width=2.5, line_color='#FDE724', source=sourceh, legend_label='Dublin new properties')
@@ -802,6 +803,7 @@ def gridMortgage():
     pap.yaxis.formatter.use_scientific = False
     pap.outline_line_color=None
     pap.axis.major_label_text_font_style = 'bold'
+    pap.yaxis.major_label_text_font_size = '10px'
     pap.grid.grid_line_dash = 'dotted'
     pap.grid.grid_line_dash_offset = 5
     pap.grid.grid_line_width = 2
@@ -826,6 +828,7 @@ def gridMortgage():
 
     pa.title.text_font_size = '15px'
     pa.xaxis.major_label_text_font_style = 'bold'
+    pa.yaxis.major_label_text_font_size = '10px'
     pa.yaxis.formatter.use_scientific = False
     pa.outline_line_color=None
     pa.axis.major_label_text_font_style = 'bold'
@@ -856,6 +859,7 @@ def gridMortgage():
 
     pf.title.text_font_size = '15px'
     pf.legend.location = 'top_center'
+    pf.yaxis.major_label_text_font_size = '10px'
     pf.legend.border_line_alpha=0
     pf.legend.background_fill_alpha = None
     pf.legend.label_text_font_size = "11px"
@@ -873,7 +877,7 @@ def gridMortgage():
     dfd = pd.read_csv('BokehApp/Data/MortgageDeposit.csv', delimiter=',', index_col=0)
     sourced = ColumnDataSource(data=dict(x=dfd.index, y=dfd['Dublin'], y1=dfd['Dublin Commuter'], y2=dfd['National']))
 
-    pd1 = figure(x_axis_type='log', plot_height=250, plot_width=400, title='Average deposit in €', tools = 'pan, wheel_zoom, box_zoom, reset')
+    pd1 = figure(plot_height=250, plot_width=400, title='Average deposit in €', tools = 'pan, wheel_zoom, box_zoom, reset')
     pd1.line(x='x', y='y', line_width=2.5, line_color='#9DD93A', source=sourced, legend_label='Dublin')
     pd1.circle(x='x', y='y', size=5, color='#365A8C', source=sourced, legend_label='Dublin')
     pd1.line(x='x', y='y1', line_width=2.5, line_color='#FDE724', source=sourced, legend_label='Dublin Commuter')
@@ -891,6 +895,7 @@ def gridMortgage():
 
     pd1.title.text_font_size = '15px'
     pd1.legend.location = 'top_left'
+    pd1.yaxis.major_label_text_font_size = '10px'
     pd1.legend.border_line_alpha=0
     pd1.legend.background_fill_alpha = None
     pd1.legend.label_text_font_size = "11px"
@@ -904,6 +909,8 @@ def gridMortgage():
     pd1.grid.grid_line_width = 2
     pd1.grid.grid_line_alpha = 0.6
     pd1.toolbar.autohide = True
+    #pd1.xaxis.minor_tick_line_cap = '5px'
+    pd1.xaxis.major_tick_line_color = None 
     
     grid = gridplot([[pap, pa], [pf, pd1]], merge_tools=True, toolbar_location='below')#scale_both sizing_mode='fixed', plot_height=300, plot_width=500,
     

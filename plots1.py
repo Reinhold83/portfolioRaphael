@@ -6,6 +6,7 @@ from bokeh.plotting import figure, show, curdoc
 from bokeh.transform import dodge
 from math import pi
 from bokeh.transform import cumsum
+from bokeh.layouts import column, row, gridplot
 #from bokeh.core.properties import value
 from bokeh.models import ColumnDataSource, HoverTool, PrintfTickFormatter, NumeralTickFormatter, FactorRange, LabelSet
 from bokeh.transform import factor_cmap
@@ -45,7 +46,7 @@ def vacantPlot():
     p.y_range.end = dfv.values.max()*1.1+1
     p.legend.click_policy="hide"
     p.title.text_font_size = '15px'
-    p.xaxis.major_label_text_font_style = 'bold'
+    p.axis.major_label_text_font_style = 'bold'
     p.grid.grid_line_alpha = 0.6
     p.grid.grid_line_dash = 'dotted'
     p.grid.grid_line_dash_offset = 5
@@ -80,7 +81,7 @@ def houseStockPlot():
     a2.legend.background_fill_alpha=None
     a2.legend.border_line_alpha=0
     a2.legend.label_text_font_size = "11px"
-    a2.xaxis.major_label_text_font_style = 'bold'
+    a2.axis.major_label_text_font_style = 'bold'
     a2.grid.grid_line_color=None
     a2.toolbar.autohide = True
     a2.outline_line_color=None
@@ -121,7 +122,7 @@ def Transactions():
     pti.legend.click_policy="hide"
     pti.title.text_font_size = '15px'
     #pti.axis.major_label_text_font_style = 'bold'
-    pti.xaxis.major_label_text_font_style = 'bold'
+    pti.axis.major_label_text_font_style = 'bold'
     pti.toolbar.autohide = True
     #pti.outline_line_color=None
     return pti
@@ -150,8 +151,7 @@ def NewRegistered():
     pnr.legend.label_text_font_size = "11px"
     pnr.legend.click_policy="hide"
     pnr.title.text_font_size = '15px'
-    #pti.axis.major_label_text_font_style = 'bold'
-    pnr.xaxis.major_label_text_font_style = 'bold'
+    pnr.axis.major_label_text_font_style = 'bold'
     pnr.toolbar.autohide = True
     pnr.outline_line_color=None
     pnr.grid.grid_line_alpha = 0.6
@@ -184,7 +184,7 @@ def nonOccupiers():
     pn.y_range.end = dfnt.values.max()*1.1+1
     pn.legend.click_policy="hide"
     pn.title.text_font_size = '15px'
-    pn.xaxis.major_label_text_font_style = 'bold'
+    pn.axis.major_label_text_font_style = 'bold'
     pn.grid.grid_line_color=None
     pn.toolbar.autohide = True
     #return pn
@@ -223,7 +223,7 @@ def nonOccupiers():
             #pn.x_range.start = rowX*1.1+1
     pn3.legend.click_policy="hide"
     pn3.title.text_font_size = '15px'
-    pn3.xaxis.major_label_text_font_style = 'bold'
+    pn3.axis.major_label_text_font_style = 'bold'
     #pn3.xgrid.grid_line_color=None
     pn3.grid.grid_line_alpha = 0.6
     pn3.grid.grid_line_dash = 'dotted'
@@ -266,7 +266,7 @@ def nonOccupiers():
             #pn.x_range.start = rowX*1.1+1
     pne.legend.click_policy="hide"
     pne.title.text_font_size = '15px'
-    pne.xaxis.major_label_text_font_style = 'bold'
+    pne.axis.major_label_text_font_style = 'bold'
     #pne.xgrid.grid_line_color=None
     pne.grid.grid_line_alpha = 0.6
     pne.grid.grid_line_dash = 'dotted'
@@ -306,7 +306,7 @@ def nonOccupiers():
         #pn.x_range.start = rowX*1.1+1
     pn.legend.click_policy="hide"
     pn.title.text_font_size = '15px'
-    pn.xaxis.major_label_text_font_style = 'bold'
+    pn.axis.major_label_text_font_style = 'bold'
     #pn.grid.grid_line_color=None
     pn.grid.grid_line_alpha = 0.6
     pn.grid.grid_line_dash = 'dotted'
@@ -341,7 +341,7 @@ def pie_chart():
                                        a=dfn1['angle'],
                                        l=dfn1['lpie']))
 
-    pie = figure(plot_height=350, plot_width=550, title='Total of Non-Occupiers buyers by year in %',
+    pie = figure(plot_height=350, plot_width=450, title='Total of Non-Occupiers buyers by year in %',
                tools = 'pan, wheel_zoom, box_zoom, reset',  x_range=(-0.5, 0.9))
     pie.wedge(x=0, y=1, radius=0.4, start_angle=cumsum('a', include_zero=True), end_angle=cumsum('a'),
              line_color='white', fill_color='c', legend_field='x', source=srcpie) #inner_radius=0.5
@@ -371,5 +371,16 @@ def pie_chart():
     pie.toolbar.autohide = True
     pie.outline_line_color=None
     pie.add_layout(labels)
-    return pie
+
+    pimg = figure(x_axis_location = None, y_axis_location = None, plot_width=330, plot_height=350)
+    pimg.image_url(url=['/static/images/CorrelationTotals1.png'], x=0, y=-5, w=1.8, h=2, anchor="bottom_left")
+    pimg.title.align='center'    
+    pimg.grid.grid_line_color=None
+    pimg.outline_line_color=None
+    pimg.toolbar.autohide = True
+    pimg.title.text_font_style = "bold"
+
+    layout = row(pie,pimg)
+
+    return layout
 
