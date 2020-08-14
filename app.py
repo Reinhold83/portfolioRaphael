@@ -3,6 +3,7 @@ from bokeh.embed import components
 from plots1 import houseStockPlot, vacantPlot, Transactions, NewRegistered, nonOccupiers, pie_chart
 from tabs import maps, ageGroup, naturalincrease, netMigration, mapDev, popOverall, heatmap, dublinArea, sol, transactionstype, gridMortgage, corrMatrix, social, homeless, austria
 from flask_bootstrap import Bootstrap
+from form import ContactForm
 
 app = Flask(__name__)
 #app = Flask(__name__, static_folder='static', static_url_path='/static')
@@ -25,9 +26,17 @@ def home():
 def about():
     return render_template('about.html')
 
-@app.route('/contact')
+
+  
+
+@app.route('/contact', methods=['GET', 'POST'])
 def contact():
-    return render_template('contact.html')
+    form = ContactForm()
+    if request.method == 'POST':
+        return render_template('Message sent successfully.','index.html')
+ 
+    elif request.method == 'GET':
+        return render_template('contact.html', form=form)
 
 
 
