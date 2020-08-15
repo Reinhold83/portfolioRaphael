@@ -4,8 +4,21 @@ from plots1 import houseStockPlot, vacantPlot, Transactions, NewRegistered, nonO
 from tabs import maps, ageGroup, naturalincrease, netMigration, mapDev, popOverall, heatmap, dublinArea, sol, transactionstype, gridMortgage, corrMatrix, social, homeless, austria
 from flask_bootstrap import Bootstrap
 from form import ContactForm
+from flask_mail import Message, Mail
+ 
+mail = Mail()
 
 app = Flask(__name__)
+
+
+app.config["MAIL_SERVER"] = "smtp.gmail.com"
+app.config["MAIL_PORT"] = 465
+app.config["MAIL_USE_SSL"] = True
+app.config["MAIL_USERNAME"] = 'ds.rran@gmail.com'
+app.config["MAIL_PASSWORD"] = 'Star_wars20'
+ 
+mail.init_app(app)
+
 #app = Flask(__name__, static_folder='static', static_url_path='/static')
 app.config['SECRET_KEY'] = 'oratoroeuaroupadoreideroma123'
 #app.static_folder = 'static'
@@ -32,9 +45,20 @@ def about():
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
     form = ContactForm()
+    
     if request.method == 'POST':
-        return render_template('Message sent successfully.','index.html')
- 
+        if form.validate() == False:
+            return render_template('contact.html', form=form)
+        else:
+            msg = Message(form.subject.data, sender=form.email.data, recipients=['ds.rran@gmail.com'])
+            msg.body = """
+            From: %s <%s>
+            %s
+            """ % (form.name.data, form.email.data, form.message.data)
+            mail.send(msg)
+
+            return ('Message sent successfully.' , render_template('index.html'))
+    
     elif request.method == 'GET':
         return render_template('contact.html', form=form)
 

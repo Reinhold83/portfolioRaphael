@@ -87,7 +87,7 @@ form label {
   }
    
   form input#name,
-  form input#Email,
+  form input#email,
   form input#subject {
 	width: 400px;
 	background-color: #fafafa;
