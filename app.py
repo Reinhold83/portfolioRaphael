@@ -15,12 +15,12 @@ app.config["MAIL_SERVER"] = "smtp.gmail.com"
 app.config["MAIL_PORT"] = 465
 app.config["MAIL_USE_SSL"] = True
 app.config["MAIL_USERNAME"] = 'ds.rran@gmail.com'
-app.config["MAIL_PASSWORD"] = 'Star_wars20'
+app.config["MAIL_PASSWORD"] = ''
  
 mail.init_app(app)
 
 #app = Flask(__name__, static_folder='static', static_url_path='/static')
-app.config['SECRET_KEY'] = 'oratoroeuaroupadoreideroma123'
+app.config['SECRET_KEY'] = ''
 #app.static_folder = 'static'
 Bootstrap(app)
 #@app.route('/')
@@ -57,7 +57,7 @@ def contact():
             """ % (form.name.data, form.email.data, form.message.data)
             mail.send(msg)
 
-            return ('Message sent successfully.' , render_template('index.html'))
+            return ('Message sent successfully.'
     
     elif request.method == 'GET':
         return render_template('contact.html', form=form)
