@@ -172,7 +172,7 @@ def swedishpop():
     hoverpS.tooltips=[('Year','@Year'),('Population', '@Population{int}')]
     pS.add_tools(hoverpS)
 
-    tick_labels_pS = {'9000000':'9M','9200000':'9.2M','9400000':'9.4M','9600000':'9.6M','9800000':'9.8M','10000000':'100M', '10200000':'10.2M'}
+    tick_labels_pS = {'9000000':'9M','9200000':'9.2M','9400000':'9.4M','9600000':'9.6M','9800000':'9.8M','10000000':'10M', '10200000':'10.2M'}
     pS.yaxis.major_label_overrides = tick_labels_pS
 
     p = gridplot([[pm, pf]], toolbar_location='left', merge_tools=True)#, toolbar_options = {'autohide':True})
