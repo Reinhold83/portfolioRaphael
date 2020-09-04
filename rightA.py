@@ -172,7 +172,7 @@ def swedishpop():
     hoverpS.tooltips=[('Year','@Year'),('Population', '@Population{int}')]
     pS.add_tools(hoverpS)
 
-    tick_labels_pS = {'9000000':'90M','9200000':'92M','9400000':'94M','9600000':'96M','9800000':'98M','10000000':'100M', '10200000':'102M'}
+    tick_labels_pS = {'9000000':'9M','9200000':'9.2M','9400000':'9.4M','9600000':'9.6M','9800000':'9.8M','10000000':'100M', '10200000':'10.2M'}
     pS.yaxis.major_label_overrides = tick_labels_pS
 
     p = gridplot([[pm, pf]], toolbar_location='left', merge_tools=True)#, toolbar_options = {'autohide':True})
@@ -307,7 +307,7 @@ def irishpop():
     pIO.add_tools(hoverpIO)
 
 
-    tick_labels_pIO = {'4500':'450M','4550':'455M','4600':'460M','4650':'465M','4700':'470M','4750':'475M', '4800':'480M','4850':'485M'}
+    tick_labels_pIO = {'4500':'4.5M','4550':'4.55M','4600':'4.6M','4650':'4.65M','4700':'4.7M','4750':'4.75M', '4800':'4.8M','4850':'4.85M'}
     pIO.yaxis.major_label_overrides = tick_labels_pIO
 
 
