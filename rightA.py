@@ -337,7 +337,7 @@ def irishpop():
     hoverpIG.tooltips=[('Age Group','@x'),('Population', '@_2015_')]
     pIG.add_tools(hoverpIG)
 
-    tick_labels_pIG = {'50':'50K','100':'100K','150':'150K','200':'200K','250':'250K','300':'300K','350':'350K'}
+    tick_labels_pIG = {'50':'50K','100':'100K','150':'150K','200':'200K','250':'250K','300':'300K','350':'350K','400':'400K'}
     pIG.yaxis.major_label_overrides = tick_labels_pIG
 
     selectIrl = Select(title="Select year:", align='start', value='_2015_', width=80, height=25, options=['_2015','_2016','_2017','_2018','_2019'])
