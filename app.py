@@ -5,6 +5,7 @@ from tabs import maps, ageGroup, naturalincrease, netMigration, mapDev, popOvera
 from flask_bootstrap import Bootstrap
 from form import ContactForm
 from flask_mail import Message, Mail
+from rightA import swedishpop, swedishpop1, irishpop
  
 mail = Mail()
 
@@ -97,3 +98,11 @@ def bokeh():
     script10=script10, div10=div10, script11=script11, div11=div11, script12=script12, div12=div12, script13=script13, div13=div13, script14=script14, div14=div14,
     script15=script15, div15=div15, script16=script16, div16=div16, script17=script17, div17=div17, script18=script18, div18=div18, script19=script19, div19=div19,
     script20=script20, div20=div20)
+
+@app.route('/rightApproach')
+def rightApproach():
+    script, div = components(swedishpop())
+    script1, div1 = components(swedishpop1())
+    script2, div2 = components(irishpop())
+
+    return render_template('rightApproach.html', script=script, div=div, script1=script1, div1=div1, script2=script2, div2=div2)
