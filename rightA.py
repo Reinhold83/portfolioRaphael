@@ -116,7 +116,7 @@ def swedishpop():
     tick_labels_pO = {'100000':'100K','200000':'200K','300000':'300K','400000':'400K','500000':'500K','600000':'600K','700000':'700K'}
     pO.yaxis.major_label_overrides = tick_labels_pO
 
-    select = Select(title="Select year:", align='start', value='_2015_', width=70, height=25, options=['_2015','_2016','_2017','_2018','_2019'])
+    select = Select(title="Select year:", align='start', value='_2015_', width=80, height=25, options=['_2015','_2016','_2017','_2018','_2019'])
 
     callback = CustomJS(args={'source':sourceSm,  'source1':sourceSf, 'source2':sourceOverall, 'title':pm.title, 'title1':pO.title},code="""
             console.log(' changed selected option', cb_obj.value);
