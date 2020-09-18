@@ -5,7 +5,7 @@ from tabs import maps, ageGroup, naturalincrease, netMigration, mapDev, popOvera
 from flask_bootstrap import Bootstrap
 from form import ContactForm
 from flask_mail import Message, Mail
-from rightA import swedishpop, swedishpop1, irishpop
+from rightA import swedishpop, swedishpop1, irishpop, wwpop, pandemics, pandemics1
  
 mail = Mail()
 
@@ -104,5 +104,9 @@ def rightApproach():
     script, div = components(swedishpop())
     script1, div1 = components(swedishpop1())
     script2, div2 = components(irishpop())
+    script3, div3 = components(wwpop())
+    script4, div4 = components(pandemics())
+    script5, div5 = components(pandemics1())
 
-    return render_template('rightApproach.html', script=script, div=div, script1=script1, div1=div1, script2=script2, div2=div2)
+    return render_template('rightApproach.html', script=script, div=div, script1=script1, div1=div1, script2=script2, div2=div2, script3=script3, div3=div3,
+                            script4=script4, div4=div4, script5=script5, div5=div5)
