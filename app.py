@@ -5,7 +5,7 @@ from tabs import maps, ageGroup, naturalincrease, netMigration, mapDev, popOvera
 from flask_bootstrap import Bootstrap
 from form import ContactForm
 from flask_mail import Message, Mail
-from rightA import swedishpop, swedishpop1, irishpop, wwpop, pandemics, pandemics1
+from rightA import swedishpop, swedishpop1, irishpop, wwpop, pandemics, pandemics1, R0, pandAgeGroups, pandAgeGroups1
  
 mail = Mail()
 
@@ -16,12 +16,12 @@ app.config["MAIL_SERVER"] = "smtp.gmail.com"
 app.config["MAIL_PORT"] = 465
 app.config["MAIL_USE_SSL"] = True
 app.config["MAIL_USERNAME"] = 'ds.rran@gmail.com'
-app.config["MAIL_PASSWORD"] = ''
+app.config["MAIL_PASSWORD"] = 'Star_wars20'
  
 mail.init_app(app)
 
 #app = Flask(__name__, static_folder='static', static_url_path='/static')
-app.config['SECRET_KEY'] = ''
+app.config['SECRET_KEY'] = 'oratoroeuaroupadoreideroma123'
 #app.static_folder = 'static'
 Bootstrap(app)
 #@app.route('/')
@@ -107,6 +107,9 @@ def rightApproach():
     script3, div3 = components(wwpop())
     script4, div4 = components(pandemics())
     script5, div5 = components(pandemics1())
+    script6, div6 = components(R0())
+    script7, div7 = components(pandAgeGroups())
+    script8, div8 = components(pandAgeGroups1())
 
     return render_template('rightApproach.html', script=script, div=div, script1=script1, div1=div1, script2=script2, div2=div2, script3=script3, div3=div3,
-                            script4=script4, div4=div4, script5=script5, div5=div5)
+                            script4=script4, div4=div4, script5=script5, div5=div5, script6=script6, div6=div6, script7=script7, div7=div7, script8=script8, div8=div8)

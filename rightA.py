@@ -385,7 +385,7 @@ def irishpop():
 
 
     #plot style
-    pIO.x_range.end = 2018.5
+    pIO.x_range.end = 2019.5
     pIO.y_range.start = 4500
     pIO.y_range.end = dfIO['Population'].max()*1.003
     pIO.outline_line_color=None
@@ -471,6 +471,7 @@ def pandemics():
     pRF.outline_line_color=None
     pRF.toolbar.autohide = True
     pRF.title.text_font_style = "bold"
+    pRF.toolbar.active_drag = None
 
     pSF = figure(x_axis_location = None, y_axis_location = None, plot_width=380, plot_height=290)
     pSF.image_url(url=['static/imagesRA/02_spFlu.png'], x=0, y=0, w=2, h=1, anchor="bottom_left")
@@ -479,6 +480,7 @@ def pandemics():
     pSF.outline_line_color=None
     pSF.toolbar.autohide = True
     pSF.title.text_font_style = "bold"
+    pSF.toolbar.active_drag = None
 
     pRA = figure(x_axis_location = None, y_axis_location = None, plot_width=410, plot_height=300)
     pRA.image_url(url=['static/imagesRA/03_AsianFlu_2.png'], x=0, y=0, w=2, h=1, anchor="bottom_left")
@@ -487,6 +489,7 @@ def pandemics():
     pRA.outline_line_color=None
     pRA.toolbar.autohide = True
     pRA.title.text_font_style = "bold"
+    pRA.toolbar.active_drag = None
 
     pHK = figure(x_axis_location = None, y_axis_location = None, plot_width=400, plot_height=300)
     pHK.image_url(url=['static/imagesRA/04_HKFlu_1.png'], x=0, y=0, w=2, h=1, anchor="bottom_left")
@@ -495,6 +498,7 @@ def pandemics():
     pHK.outline_line_color=None
     pHK.toolbar.autohide = True
     pHK.title.text_font_style = "bold"
+    pHK.toolbar.active_drag = None
 
     pSW = figure(x_axis_location = None, y_axis_location = None, plot_width=410, plot_height=300)
     pSW.image_url(url=['static/imagesRA/05_swineFlu.png'], x=0, y=0, w=2, h=1, anchor="bottom_left")
@@ -503,6 +507,7 @@ def pandemics():
     pSW.outline_line_color=None
     pSW.toolbar.autohide = True
     pSW.title.text_font_style = "bold"
+    pSW.toolbar.active_drag = None
 
     pCV = figure(x_axis_location = None, y_axis_location = None, plot_width=400, plot_height=300)
     pCV.image_url(url=['static/imagesRA/07_covid19__.png'], x=0, y=0, w=2, h=1, anchor="bottom_left")
@@ -511,13 +516,15 @@ def pandemics():
     pCV.outline_line_color=None
     pCV.toolbar.autohide = True
     pCV.title.text_font_style = "bold"
+    pCV.toolbar.active_drag = None
 
-    grid = gridplot([[pRF, pSF, pRA], [pHK, pSW, pCV], []], merge_tools=True, sizing_mode='fixed',toolbar_location='right')
+    grid = gridplot([[pRF, pSF, pRA], [pHK, pSW, pCV]], merge_tools=True, sizing_mode='fixed',toolbar_location='right', toolbar_options=None)
+    
     #layout = row([pRF, pSF], margin=(10,40), spacing=10, align='center')
     return grid
 
 def pandemics1():
-    pF = figure(x_axis_location = None, y_axis_location = None, plot_width=430, plot_height=310)
+    pF = figure(x_axis_location = None, y_axis_location = None, plot_width=445, plot_height=310, tools='wheel_zoom, box_zoom, reset')
     pF.image_url(url=['static/imagesRA/06_Flu_.png'], x=0, y=0, w=2, h=1, anchor="bottom_left")
     pF.title.align='center'    
     pF.grid.grid_line_color=None
@@ -526,3 +533,211 @@ def pandemics1():
     pF.title.text_font_style = "bold"
 
     return pF
+
+def R0():
+    dft = pd.read_csv('BokehApp/DataRA/transmissibilityPandemics.csv', delimiter=',', index_col=0)
+
+    pandemics = list(dft.columns.values)
+    trans = str(['Minimum','Maximum'])
+    df3 = dft.iloc[:-1].reset_index()
+    lower = [1.4, 1.47, 1.53, 1.56, 1.3, 1.4, 1.19]
+    high = [2.8, 2.27, 1.7, 1.85, 1.7, 3.9, 1.37]
+    avg = [2.1 , 1.87, 1.62, 1.71, 1.5 , 2.65, 1.28]
+    d3 = {'pandemics':pandemics, 'low': lower, 'high': high, 'avg':avg}
+
+
+    pt = figure(x_range=pandemics, plot_height=320, plot_width=650, title='Transmissibility',
+                tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right') # ['#b32134', '#e1888f']
+    pt.vbar_stack(['low','high'], x='pandemics', width=.35, fill_color=['#e1888f', '#b32134'], line_color='black', source=d3, legend_label=['low','high']) #source=sourcet ['data','top'] [ factor_cmap(c, palette=['#b32134', '#e1888f'], factors=pandemics) for c in dft1['pandemics'].unique()]
+    pt.line(x='pandemics', y='avg', line_width=2.5, line_dash='dashdot', line_color='orange', source=d3, legend_label='average')
+    pt.circle(x='pandemics', y='avg', size=6, color='#DAE218', source=d3, legend_label='average')
+    hoverpt = HoverTool()
+
+    hoverpt.tooltips=[('Pandemic', '@pandemics'),('Lower', '@low'), ('Higher','@high'), ('Average','@avg')]
+    pt.add_tools(hoverpt)
+
+    #plot style
+
+    pt.legend.background_fill_alpha = None
+    pt.legend.border_line_color = None
+    #pt.legend.reverse()
+    pt.yaxis.major_label_standoff = -2
+    pt.yaxis.major_label_text_font_size = '8pt'
+    pt.xaxis.major_label_text_font_size = '8pt'
+    pt.grid.grid_line_dash = 'dotted'
+    pt.grid.grid_line_dash_offset = 5
+    pt.grid.grid_line_width = 2
+    pt.grid.grid_line_alpha = 0.6
+
+    pt.outline_line_color=None
+    pt.yaxis.major_label_text_align = 'center'
+    pt.axis.major_label_text_font_style = 'bold'
+    pt.min_border = 0
+    pt.x_range.range_padding = 0
+    pt.toolbar.autohide = True
+    pt.yaxis.major_label_standoff = 0
+    pt.y_range.start=0
+
+    return pt
+
+        
+def pandAgeGroups():    
+    dfag = pd.read_csv('BokehApp/DataRA/USPandemicsAgeGroup.csv', delimiter=',', index_col=0)
+    x1 = list(dfag.index)
+    df_ag = dfag[['Swine Hospitalization pct', 'Flu Hospitalization pct', 'Covid Hospitalization pct', 'Swine Flu Deaths pct',
+            'Flu Deaths pct','Covid Deaths pct']]
+    
+    sourceag = ColumnDataSource(data=dict(x=x1, y=df_ag['Swine Hospitalization pct'], y1=df_ag['Flu Hospitalization pct'], y2=df_ag['Covid Hospitalization pct'],
+                     y3=df_ag['Swine Flu Deaths pct'], y4=df_ag['Flu Deaths pct'], y5=df_ag['Covid Deaths pct']))
+
+    pag = figure(x_range=FactorRange(*x1), plot_height=320, plot_width=450, tools='pan, wheel_zoom, box_zoom, reset', title='Pandemic hospitalization by age group')
+    pag.vbar(x=dodge('x', -0.25, range=pag.x_range), top='y', width=0.2, color= '#e1888f', source=sourceag, legend_label='Swine Flu')
+    pag.vbar(x=dodge('x', 0, range=pag.x_range), top='y1', width=0.2, color='#b32134', source=sourceag, legend_label='Seasonal Flu')
+    pag.vbar(x=dodge('x', 0.25, range=pag.x_range), top='y2', width=0.2, color='#5E1914',source=sourceag, legend_label='Covid-19')
+
+    pag.grid.grid_line_alpha = 0.8
+    pag.grid.grid_line_dash = 'dotted'
+    pag.grid.grid_line_dash_offset = 5
+    pag.grid.grid_line_width = 2
+    pag.toolbar.autohide = True
+    pag.outline_line_color=None
+    pag.legend.location= 'top_left'#(370,180)
+    pag.legend.background_fill_alpha=None
+    pag.axis.major_label_text_font_style = 'bold'
+    tick_labels_ag = {'10':'10%','20':'20%','30':'30%','40':'40%','50':'50%','60':'60%','70':'70%','80':'80%'}
+    #pag.legend.title = 'Hospitalization'
+    pag.yaxis.major_label_overrides = tick_labels_ag
+    pag.legend.click_policy="hide"
+    pag.title.text_font_size = '15px'
+    pag.legend.border_line_color = None
+    hoverag = HoverTool()
+    hoverag.tooltips=[('Age Group ', '@x'),('Swine Flu','@y%'),('Seasonal Flu','@y1%'),('Covid-19','@y2%')]
+    pag.add_tools(hoverag)
+    pag.y_range.start = 0
+    pag.y_range.end = 80
+    pag.legend.visible = False
+    #pag.x_range.range_padding = 0.01
+
+    pp = figure(x_range=FactorRange(*x1), plot_height=320, plot_width=450, tools='pan, wheel_zoom, box_zoom, reset', title='Pandemic deaths by age group')
+    pp.vbar(x=dodge('x', -0.25, range=pag.x_range), top='y3', width=0.2, color= '#e1888f', source=sourceag, legend_label='Swine Flu')
+    pp.vbar(x=dodge('x', 0, range=pag.x_range), top='y4', width=0.2, color='#b32134', source=sourceag, legend_label='Seasonal Flu')
+    pp.vbar(x=dodge('x', 0.25, range=pag.x_range), top='y5', width=0.2, color='#5E1914',source=sourceag, legend_label='Covid-19')
+    pp.grid.grid_line_alpha = 0.8
+    pp.grid.grid_line_dash = 'dotted'
+    pp.grid.grid_line_dash_offset = 5
+    pp.grid.grid_line_width = 2
+    pp.toolbar.autohide = True
+    pp.outline_line_color=None
+    pp.legend.location= 'top_left'#(370,180)
+    pp.legend.background_fill_alpha=None
+    pp.axis.major_label_text_font_style = 'bold'
+    tick_labels_pp = {'10':'10%','20':'20%','30':'30%','40':'40%','50':'50%','60':'60%','70':'70%','80':'80%'}
+    #pag.legend.title = 'Hospitalization'
+    pp.yaxis.major_label_overrides = tick_labels_pp
+    #pp.legend.click_policy="hide"
+    pp.title.text_font_size = '15px'
+    pp.legend.border_line_color = None
+    hoverpp = HoverTool()
+    hoverpp.tooltips=[('Age Group ', '@x'),('Swine Flu','@y3%'),('Seasonal Flu','@y4%'),('Covid-19','@y5%')]
+    pp.add_tools(hoverpp)
+    pp.y_range.start = 0
+    pp.y_range.end = 80
+    pp.yaxis.visible = False
+    #pp.legend.visible = False
+    #pp.yaxis.axis_label = 'Age Groups'
+    ppg = gridplot([[pag, pp]], toolbar_location='right', merge_tools=True)#, toolbar_options = {'autohide':True})
+
+    return ppg
+
+    def pandAgeGroups1():
+    
+        dfag = pd.read_csv('BokehApp/DataRA/USPandemicsAgeGroup.csv', delimiter=',', index_col=0)
+        x1 = list(dfag.index)
+        df_ag = dfag[['Swine Hospitalization pct', 'Flu Hospitalization pct', 'Covid Hospitalization pct', 'Swine Flu Deaths pct', 'Flu Deaths pct','Covid Deaths pct']]
+        
+        sourceag = ColumnDataSource(data=dict(x=x1, y=df_ag['Swine Hospitalization pct'], y1=df_ag['Flu Hospitalization pct'], y2=df_ag['Covid Hospitalization pct'],
+                        y3=df_ag['Swine Flu Deaths pct'], y4=df_ag['Flu Deaths pct'], y5=df_ag['Covid Deaths pct']))
+        
+        pwf = figure(x_range=FactorRange(*x1), plot_height=220, plot_width=300, tools='pan, wheel_zoom, box_zoom, reset', title='Swine Flu by age group')
+        pwf.vbar(x=dodge('x', -0.25, range=pag.x_range), top='y', width=0.2, color= '#e1888f', source=sourceag, legend_label='Hospitalization')
+        pwf.vbar(x=dodge('x', 0, range=pag.x_range), top='y3', width=0.2, color='#5E1914', source=sourceag, legend_label='Deaths')
+
+        pwf.grid.grid_line_alpha = 0.8
+        pwf.grid.grid_line_dash = 'dotted'
+        pwf.grid.grid_line_dash_offset = 5
+        pwf.grid.grid_line_width = 2
+        #pwf.toolbar.autohide = True
+        pwf.legend.visible = False
+        pwf.outline_line_color=None
+        pwf.legend.location= 'top_left'#(370,180)
+        pwf.legend.background_fill_alpha=None
+        pwf.axis.major_label_text_font_style = 'bold'
+        tick_labels_pwf = {'10':'10%','20':'20%','30':'30%','40':'40%','50':'50%','60':'60%','70':'70%','80':'80%'}
+        #pag.legend.title = 'Hospitalization'
+        pwf.yaxis.major_label_overrides = tick_labels_pwf
+        pwf.legend.click_policy="hide"
+        pwf.title.text_font_size = '12px'
+        pwf.legend.border_line_color = None
+        hoverpwf = HoverTool()
+        hoverpwf.tooltips=[('Age Group ', '@x'),('Hospitalization','@y%'),('Deaths','@y3%')]
+        pwf.add_tools(hoverpwf)
+        pwf.y_range.start = 0
+        pwf.y_range.end = 80
+
+
+        psf = figure(x_range=FactorRange(*x1), plot_height=220, plot_width=300, tools='pan, wheel_zoom, box_zoom, reset', title='Seasonal Flu by age group')
+        psf.vbar(x=dodge('x', -0.25, range=pag.x_range), top='y1', width=0.2, color= '#e1888f', source=sourceag, legend_label='Hospitalization*')
+        psf.vbar(x=dodge('x', 0, range=pag.x_range), top='y4', width=0.2, color='#5E1914', source=sourceag, legend_label='Deaths**')
+
+        psf.grid.grid_line_alpha = 0.8
+        psf.grid.grid_line_dash = 'dotted'
+        psf.grid.grid_line_dash_offset = 5
+        psf.grid.grid_line_width = 2
+        #psf.toolbar.autohide = True
+        psf.outline_line_color=None
+        psf.legend.location= 'top_left'#(370,180)
+        psf.legend.background_fill_alpha=None
+        psf.axis.major_label_text_font_style = 'bold'
+        tick_labels_psf = {'10':'10%','20':'20%','30':'30%','40':'40%','50':'50%','60':'60%','70':'70%','80':'80%'}
+        psf.yaxis.major_label_overrides = tick_labels_psf
+        #psf.legend.click_policy="hide"
+        psf.title.text_font_size = '12px'
+        psf.legend.border_line_color = None
+        hoverpsf = HoverTool()
+        hoverpsf.tooltips=[('Age Group ', '@x'),('Hospitalization','@y1%'),('Deaths','@y4%')]
+        psf.add_tools(hoverpsf)
+        psf.y_range.start = 0
+        psf.y_range.end = 80
+        psf.yaxis.visible = False
+
+
+        pcd = figure(x_range=FactorRange(*x1), plot_height=220, plot_width=300, tools='pan, wheel_zoom, box_zoom, reset', title='Covid-19 by age group')
+        pcd.vbar(x=dodge('x', -0.25, range=pag.x_range), top='y2', width=0.2, color= '#e1888f', source=sourceag, legend_label='Hospitalization*')
+        pcd.vbar(x=dodge('x', 0, range=pag.x_range), top='y5', width=0.2, color='#5E1914', source=sourceag, legend_label='Deaths**')
+
+        pcd.grid.grid_line_alpha = 0.8
+        pcd.grid.grid_line_dash = 'dotted'
+        pcd.grid.grid_line_dash_offset = 5
+        pcd.grid.grid_line_width = 2
+        #pcd.toolbar.autohide = True
+        pcd.outline_line_color=None
+        pcd.legend.location= 'top_center'#(370,180)
+        pcd.legend.background_fill_alpha=None
+        pcd.axis.major_label_text_font_style = 'bold'
+        tick_labels_pcd = {'10':'10%','20':'20%','30':'30%','40':'40%','50':'50%','60':'60%','70':'70%','80':'80%'}
+        pcd.yaxis.major_label_overrides = tick_labels_pcd
+        #pcd.legend.click_policy="hide"
+        pcd.title.text_font_size = '12px'
+        pcd.legend.border_line_color = None
+        hoverpcd = HoverTool()
+        hoverpcd.tooltips=[('Age Group ', '@x'),('Hospitalization','@y2%'),('Deaths','@y5%')]
+        pcd.add_tools(hoverpcd)
+        pcd.y_range.start = 0
+        pcd.y_range.end = 80
+        pcd.yaxis.visible = False
+        pcd.legend.visible = False
+
+        psfc = gridplot([[pwf, psf, pcd]], toolbar_location='right', merge_tools=True)#,toolbar_options = {'autohide':True})
+        #lsfc = row([pwf, psf, pcd],  spacing=-15, align='center') #margin=(10,40),
+
+        return psfc
