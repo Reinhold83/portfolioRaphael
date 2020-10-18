@@ -1,6 +1,6 @@
-age group,SF Hospitalization,Covid Hospitalization,Flu Hospitalizations Estimate,Group Pop 2008,SF RIR(relative illness ratio),SF Hospitalization pct,Flu Hospitalization pct,Covid Hospitalization pct,Deaths(Flu US 2019),Deaths(Flu US 2019) pct,Covid Deaths US,Covid Deaths US pct,Swine Flu Deaths US,Swine Flu Deaths US pct
+age group,Swine Flu Hospitalization,Covid Hospitalization,Flu Hospitalization,Group Pop 2008,SF RIR(relative illness ratio),Swine Hospitalization pct,Flu Hospitalization pct,Covid Hospitalization pct,Flu Deaths,Flu Deaths pct,Covid Deaths,Covid Deaths pct,Swine Flu Deaths,Swine Flu Deaths pct
 0-4,953,356,25328,20766100,2.77,18.88,5.2,0.61,266,0.8,35,0.02,7,1.41
-5-24,1718,555,21012,83843395,1.23,34.03,4.3,0.96,211,0.6,394,0.20,268,54.03
-25-49,1184,17505,66869,105742792,0.67,23.45,13.6,30.14,2450,7.2,10495,5.38,124,25.00
+5-24,1718,555,21012,83843395,1.23,34.03,4.3,0.96,211,0.6,394,0.2,268,54.03
+25-49,1184,17505,66869,105742792,0.67,23.45,13.6,30.14,2450,7.2,10495,5.38,124,25
 50-64,968,16471,97967,55184635,1.06,19.18,20,28.36,5676,16.6,31114,20.33,71,14.31
 65(+),225,23201,279384,38691335,0.35,4.46,57,39.94,25555,74.8,153032,78.45,26,5.24

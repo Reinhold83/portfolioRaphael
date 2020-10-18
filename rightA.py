@@ -8,7 +8,7 @@ from math import pi
 from bokeh.transform import cumsum
 from bokeh.layouts import column, row, gridplot
 #from bokeh.core.properties import value
-from bokeh.models import ColumnDataSource, Label, BoxAnnotation, PrintfTickFormatter, NumeralTickFormatter, FactorRange, Paragraph, LinearColorMapper, Tabs, Panel, HoverTool, Div, Select, CustomJS, Range1d, ColorBar, BasicTicker
+from bokeh.models import ColumnDataSource, Label, DatetimeTickFormatter, BoxAnnotation,BasicTicker, PrintfTickFormatter, NumeralTickFormatter, FactorRange, Paragraph, LinearColorMapper, Tabs, Panel, HoverTool, Div, Select, CustomJS, Range1d, ColorBar, BasicTicker
 from bokeh.transform import factor_cmap
 from bokeh.models.widgets import Panel, Tabs
 from bokeh.palettes import viridis
@@ -546,10 +546,10 @@ def R0():
     d3 = {'pandemics':pandemics, 'low': lower, 'high': high, 'avg':avg}
 
 
-    pt = figure(x_range=pandemics, plot_height=320, plot_width=650, title='Transmissibility',
+    pt = figure(x_range=pandemics, plot_height=320, plot_width=525, title='Transmissibility',
                 tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right') # ['#b32134', '#e1888f']
-    pt.vbar_stack(['low','high'], x='pandemics', width=.35, fill_color=['#e1888f', '#b32134'], line_color='black', source=d3, legend_label=['low','high']) #source=sourcet ['data','top'] [ factor_cmap(c, palette=['#b32134', '#e1888f'], factors=pandemics) for c in dft1['pandemics'].unique()]
-    pt.line(x='pandemics', y='avg', line_width=2.5, line_dash='dashdot', line_color='orange', source=d3, legend_label='average')
+    pt.vbar_stack(['low','high'], x='pandemics', width=.35, fill_color=['#e1888f', '#5E1914'], line_color='black', source=d3, legend_label=['low','high']) #source=sourcet ['data','top'] [ factor_cmap(c, palette=['#b32134', '#e1888f'], factors=pandemics) for c in dft1['pandemics'].unique()]
+    pt.line(x='pandemics', y='avg', line_width=2, line_dash='dashdot', line_color='orange', source=d3, legend_label='average')
     pt.circle(x='pandemics', y='avg', size=6, color='#DAE218', source=d3, legend_label='average')
     hoverpt = HoverTool()
 
@@ -564,6 +564,7 @@ def R0():
     pt.yaxis.major_label_standoff = -2
     pt.yaxis.major_label_text_font_size = '8pt'
     pt.xaxis.major_label_text_font_size = '8pt'
+    pt.title.text_font_size = '15px'
     pt.grid.grid_line_dash = 'dotted'
     pt.grid.grid_line_dash_offset = 5
     pt.grid.grid_line_width = 2
@@ -611,7 +612,7 @@ def pandAgeGroups():
     pag.title.text_font_size = '15px'
     pag.legend.border_line_color = None
     hoverag = HoverTool()
-    hoverag.tooltips=[('Age Group ', '@x'),('Swine Flu','@y%'),('Seasonal Flu','@y1%'),('Covid-19','@y2%')]
+    hoverag.tooltips=[('Age Group Hospitalization', '@x'),('Swine Flu','@y{0.00}%'),('Seasonal Flu','@y1{0.00}%'),('Covid-19','@y2{0.00}%')]
     pag.add_tools(hoverag)
     pag.y_range.start = 0
     pag.y_range.end = 80
@@ -632,112 +633,459 @@ def pandAgeGroups():
     pp.legend.background_fill_alpha=None
     pp.axis.major_label_text_font_style = 'bold'
     tick_labels_pp = {'10':'10%','20':'20%','30':'30%','40':'40%','50':'50%','60':'60%','70':'70%','80':'80%'}
-    #pag.legend.title = 'Hospitalization'
+    pp.legend.title = 'USA'
     pp.yaxis.major_label_overrides = tick_labels_pp
     #pp.legend.click_policy="hide"
     pp.title.text_font_size = '15px'
     pp.legend.border_line_color = None
     hoverpp = HoverTool()
-    hoverpp.tooltips=[('Age Group ', '@x'),('Swine Flu','@y3%'),('Seasonal Flu','@y4%'),('Covid-19','@y5%')]
+    hoverpp.tooltips=[('Age Group Deaths', '@x'),('Swine Flu','@y3{0.00}%'),('Seasonal Flu','@y4{0.00}%'),('Covid-19','@y5{0.00}%')]
     pp.add_tools(hoverpp)
     pp.y_range.start = 0
     pp.y_range.end = 80
     pp.yaxis.visible = False
     #pp.legend.visible = False
     #pp.yaxis.axis_label = 'Age Groups'
-    ppg = gridplot([[pag, pp]], toolbar_location='right', merge_tools=True)#, toolbar_options = {'autohide':True})
+    ppg = gridplot([[pag, pp]], toolbar_location='right', merge_tools=True, sizing_mode='fixed' )#, toolbar_options = {'autohide':True})
 
     return ppg
 
-    def pandAgeGroups1():
+def pandAgeGroups1():
     
-        dfag = pd.read_csv('BokehApp/DataRA/USPandemicsAgeGroup.csv', delimiter=',', index_col=0)
-        x1 = list(dfag.index)
-        df_ag = dfag[['Swine Hospitalization pct', 'Flu Hospitalization pct', 'Covid Hospitalization pct', 'Swine Flu Deaths pct', 'Flu Deaths pct','Covid Deaths pct']]
+    dfag = pd.read_csv('BokehApp/DataRA/USPandemicsAgeGroup.csv', delimiter=',', index_col=0)
+    x1 = list(dfag.index)
+    df_ag = dfag[['Swine Hospitalization pct', 'Flu Hospitalization pct', 'Covid Hospitalization pct', 'Swine Flu Deaths pct','Flu Deaths pct','Covid Deaths pct']]
+    
+    sourceag = ColumnDataSource(data=dict(x=x1, y=df_ag['Swine Hospitalization pct'], y1=df_ag['Flu Hospitalization pct'], y2=df_ag['Covid Hospitalization pct'],
+                     y3=df_ag['Swine Flu Deaths pct'], y4=df_ag['Flu Deaths pct'], y5=df_ag['Covid Deaths pct']))
+    
+    pwf = figure(x_range=FactorRange(*x1), plot_height=220, plot_width=300, tools='pan, wheel_zoom, box_zoom, reset', title='Swine Flu by age group')
+    pwf.vbar(x=dodge('x', -0.25, range=pwf.x_range), top='y', width=0.2, color= '#e1888f', source=sourceag, legend_label='Hospitalization')
+    pwf.vbar(x=dodge('x', 0, range=pwf.x_range), top='y3', width=0.2, color='#5E1914', source=sourceag, legend_label='Deaths')
+
+    pwf.grid.grid_line_alpha = 0.8
+    pwf.grid.grid_line_dash = 'dotted'
+    pwf.grid.grid_line_dash_offset = 5
+    pwf.grid.grid_line_width = 2
+    #pwf.toolbar.autohide = True
+    pwf.legend.visible = False
+    pwf.outline_line_color=None
+    pwf.legend.location= 'top_left'#(370,180)
+    pwf.legend.background_fill_alpha=None
+    pwf.axis.major_label_text_font_style = 'bold'
+    tick_labels_pwf = {'10':'10%','20':'20%','30':'30%','40':'40%','50':'50%','60':'60%','70':'70%','80':'80%'}
+    #pag.legend.title = 'Hospitalization'
+    pwf.yaxis.major_label_overrides = tick_labels_pwf
+    pwf.legend.click_policy="hide"
+    pwf.title.text_font_size = '12px'
+    pwf.legend.border_line_color = None
+    hoverpwf = HoverTool()
+    hoverpwf.tooltips=[('Swine Flu Age Group', '@x'),('Hospitalization','@y{0.00}%'),('Deaths','@y3{0.00}%')]
+    pwf.add_tools(hoverpwf)
+    pwf.y_range.start = 0
+    pwf.y_range.end = 80
+
+
+    psf = figure(x_range=FactorRange(*x1), plot_height=220, plot_width=300, tools='pan, wheel_zoom, box_zoom, reset', title='Seasonal Flu by age group')
+    psf.vbar(x=dodge('x', -0.25, range=psf.x_range), top='y1', width=0.2, color= '#e1888f', source=sourceag, legend_label='Hospitalization*')
+    psf.vbar(x=dodge('x', 0, range=psf.x_range), top='y4', width=0.2, color='#5E1914', source=sourceag, legend_label='Deaths**')
+
+    psf.grid.grid_line_alpha = 0.8
+    psf.grid.grid_line_dash = 'dotted'
+    psf.grid.grid_line_dash_offset = 5
+    psf.grid.grid_line_width = 2
+    #psf.toolbar.autohide = True
+    psf.outline_line_color=None
+    psf.legend.location= 'top_left'#(370,180)
+    psf.legend.background_fill_alpha=None
+    psf.axis.major_label_text_font_style = 'bold'
+    tick_labels_psf = {'10':'10%','20':'20%','30':'30%','40':'40%','50':'50%','60':'60%','70':'70%','80':'80%'}
+    psf.yaxis.major_label_overrides = tick_labels_psf
+    #psf.legend.click_policy="hide"
+    psf.title.text_font_size = '12px'
+    psf.legend.border_line_color = None
+    psf.legend.title = 'USA'
+    hoverpsf = HoverTool()
+    hoverpsf.tooltips=[(' Seasonal Flu Age Group ', '@x'),('Hospitalization','@y1{0.00}%'),('Deaths','@y4{0.00}%')]
+    psf.add_tools(hoverpsf)
+    psf.y_range.start = 0
+    psf.y_range.end = 80
+    psf.yaxis.visible = False
+
+
+    pcd = figure(x_range=FactorRange(*x1), plot_height=220, plot_width=300, tools='pan, wheel_zoom, box_zoom, reset', title='Covid-19 by age group')
+    pcd.vbar(x=dodge('x', -0.25, range=pcd.x_range), top='y2', width=0.2, color= '#e1888f', source=sourceag, legend_label='Hospitalization*')
+    pcd.vbar(x=dodge('x', 0, range=pcd.x_range), top='y5', width=0.2, color='#5E1914', source=sourceag, legend_label='Deaths**')
+
+    pcd.grid.grid_line_alpha = 0.8
+    pcd.grid.grid_line_dash = 'dotted'
+    pcd.grid.grid_line_dash_offset = 5
+    pcd.grid.grid_line_width = 2
+    #pcd.toolbar.autohide = True
+    pcd.outline_line_color=None
+    pcd.legend.location= 'top_center'#(370,180)
+    pcd.legend.background_fill_alpha=None
+    pcd.axis.major_label_text_font_style = 'bold'
+    tick_labels_pcd = {'10':'10%','20':'20%','30':'30%','40':'40%','50':'50%','60':'60%','70':'70%','80':'80%'}
+    pcd.yaxis.major_label_overrides = tick_labels_pcd
+    #pcd.legend.click_policy="hide"
+    pcd.title.text_font_size = '12px'
+    pcd.legend.border_line_color = None
+    hoverpcd = HoverTool()
+    hoverpcd.tooltips=[('Covid-19 Age Group ', '@x'),('Hospitalization','@y2{0.00}%'),('Deaths','@y5{0.00}%')]
+    pcd.add_tools(hoverpcd)
+    pcd.y_range.start = 0
+    pcd.y_range.end = 80
+    pcd.yaxis.visible = False
+    pcd.legend.visible = False
+
+    psfc = gridplot([[pwf, psf, pcd]], toolbar_location='right', merge_tools=True, sizing_mode='fixed')
+
+    return psfc
+
+def corrplot():
+    dfc = pd.read_csv('BokehApp/DataRA/pandMatrix.csv', delimiter=',', index_col=0)
+    dfcc = pd.DataFrame(dfc.corr().stack(), columns=['corr']).reset_index()
+    dfcc.columns = ['x', 'y', 'corr']
+    dfcc['corr'] = dfcc['corr'].astype(float)
+
+    xcc = list(dfcc['x'].unique())
+    ycc = xcc[::-1]
+    colorc = ['#942d1d', '#bb302d','#ed403c','#f98a74','#fad2d0','#bce1e9','#56c4c5','#00acac','#018989','#006e6f']
+    colorc = colorc[::-1]
+    mapperc = LinearColorMapper(palette=colorc, low=-1, high=1)
+
+    cmc = figure(title='Correlation Matrix', x_range=xcc, y_range=ycc, x_axis_location='below', plot_width=500, plot_height=400,
+                tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='above')
+    cmc.title.text_font_size = '20px'
+    cmc.rect(x='x', y='y', width=1, height=1, source=dfcc, dilate=True,
+            fill_color={'field':'corr', 'transform':mapperc}, line_color='yellow', line_dash='dotted', line_width=.25)
+
+    hoverc = HoverTool()
+    hoverc.tooltips=[('var1','@x'),('var2','@y'), ('Correlation','@corr{0.000}')]
+    cmc.add_tools(hoverc)
+
+    cmc.xaxis.major_label_orientation = 45
+    color_barc = ColorBar(color_mapper=mapperc, major_label_text_font_size='10px', major_label_text_font_style='bold',
+                        ticker=BasicTicker(desired_num_ticks=len(colorc)), height=230,
+                        label_standoff=6, border_line_color=None, location='center')
+
+    cmc.grid.grid_line_color = None
+    cmc.axis.axis_line_color = None
+    cmc.axis.major_tick_line_color = None
+    cmc.axis.major_label_text_font_size = '10px'
+    cmc.axis.major_label_text_font_size = '12px'
+    cmc.axis.major_label_text_font_style = 'bold'
+    cmc.axis.major_label_standoff = 0
+    cmc.toolbar.autohide = True
+    cmc.yaxis.axis_label_text_font_style = 'bold'
+
+    cmc.add_layout(color_barc, 'right')
+
+
+    dfc = pd.read_csv('BokehApp/DataRA/pandMatrix2.csv', delimiter=',', index_col=0)
+    xcl = list(dfc.index.values)
+    sourcecl = ColumnDataSource(data=dict(x = xcl , y = dfc['Swine Flu D%'], y1 = dfc['Covid-19 D%'], y2 = dfc['Flu D%'], y3 = dfc['Spanish Flu D%']))
+
+    pcc = figure( x_range=xcl, plot_height=400, plot_width=550, title='Deaths by Age Group', tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right')
+
+    pcc.line(x='x', y='y3', line_width=2, line_dash='dashdot', line_color='#7C0A02', source=sourcecl, legend_label='Spanish Flu***')
+    pcc.circle(x='x', y='y3', size=3, color='lime', source=sourcecl, legend_label='Spanish Flu***')
+    pcc.line(x='x', y='y', line_width=2, line_dash='dotted', line_color='#FF2400', source=sourcecl, legend_label='Swine Flu')
+    pcc.circle(x='x', y='y', size=5, color='orange', source=sourcecl, legend_label='Swine Flu')
+    pcc.line(x='x', y='y1', line_width=2, line_dash='dotdash', line_color='#b32134', source=sourcecl, legend_label='Covid-19')
+    pcc.circle(x='x', y='y1', size=5, color='cyan', source=sourcecl, legend_label='Covid-19')
+    pcc.line(x='x', y='y2', line_width=2, line_dash='solid', line_color='#e1888f', source=sourcecl, legend_label='Seasonal Flu')
+    pcc.circle(x='x', y='y2', size=5, color='darkgreen', line_join='bevel', source=sourcecl, legend_label='Seasonal Flu')
+
+
+    pcc.grid.grid_line_alpha = 0.8
+    pcc.grid.grid_line_dash = 'dotted'
+    pcc.grid.grid_line_dash_offset = 5
+    pcc.grid.grid_line_width = 2
+    pcc.toolbar.autohide = True
+    pcc.outline_line_color=None
+    pcc.legend.location= 'top_center'#(370,180)
+    pcc.legend.background_fill_alpha=None
+    pcc.axis.major_label_text_font_style = 'bold'
+    pcc.legend.click_policy="hide"
+    pcc.legend.title='↓ Disable/Enable'
+    #pcc.legend.title.text_font_style='bold'
+    pcc.y_range.end = 80
+    pcc.title.text_font_size = '15px'
+
+    pcc.legend.border_line_color = None
+    pcc.yaxis.major_label_standoff = -2
+    pcc.yaxis.major_label_text_font_size = '8pt'
+    pcc.xaxis.major_label_text_font_size = '8pt'
+    pcc.min_border = 0
+    pcc.x_range.range_padding = -0.15
+    pcc.toolbar.autohide = True
+    pcc.yaxis.major_label_standoff = 0
+    pcc.y_range.start=0
+
+    tick_labelscc = {'10':'10%','20':'20%','30':'30%','40':'40%','50':'50%','60':'60%','70':'70%','80':'80%'}
+    #pag.legend.title = 'Hospitalization'
+    pcc.yaxis.major_label_overrides = tick_labelscc
+    hovercc = HoverTool()
+    hovercc.tooltips=[('Age Group ', '@x'),('Spanish Flu','@y3{0.00}%'),('Swine Flu','@y{0.00}%'), ('Covid-19','@y1{0.00}%'), ('Seasonal Flu','@y2{0.00}%')]
+    pcc.add_tools(hovercc)
+    
+    pcm = gridplot([[pcc, cmc]], toolbar_location='right', merge_tools=True, sizing_mode='fixed')
+
+    return pcm            
+
+def irishDeaths():
+    dfw = pd.read_csv('BokehApp/DataRA/covid19_upto3008.csv', delimiter=',', index_col=0)
+    dfh = dfw[dfw['countriesAndTerritories'] == 'Ireland']
+    dfh = dfh[['deaths']]
+    dfh = dfh[dfh['deaths'] >0]
+    dfh = dfh.reset_index()
+    dfh['dateRep1'] = pd.to_datetime(dfh['dateRep'], format=('%d/%m/%Y'))
+
+    dfh = dfh[15:110]
+
+    sourcept = ColumnDataSource(data=dict(x=list(dfh['dateRep'].values), y=dfh['deaths'], x1=dfh['dateRep1']))
+    #x_range=list(dfh['dateRep1'][::-1].values),
+    pt = figure( plot_height=600, plot_width=800, title='Covid-19 deaths in Ireland',
+                tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right',
+            y_axis_label='Number of Deaths', x_axis_label='113 days period', x_axis_type = 'datetime')
+    #pt.vbar(x='x1', top='y', source=sourcept, width=0.2, color='#e1888f')
+    pt.line(x='x1', y='y', source=sourcept, color='#b32134', line_width=2)
+    pt.circle(x='x1', y='y', size=6, color='#e1888f', source=sourcept, radius_dimension='max', radius_units='screen')
+
+
+    pt.axis.major_label_text_color = '#800000'
+    pt.yaxis.axis_label_text_font_style = 'bold'
+    pt.xaxis.axis_label_text_font_style = 'italic'
+
+
+
+    box_left = pd.to_datetime('27-04-2020')
+    box_right = pd.to_datetime('18-05-2020')
+
+    ir = BoxAnnotation(right=box_right, left=box_left, fill_alpha=0.15, fill_color='#CF142B')#00247D
+
+    irc = Label(x=310, y=490, x_units='screen', y_units='screen',
+                        text='Full Lockdown', render_mode='css', text_font_size='12.5pt', text_color='#800000',
+                        text_align='center', angle=0, text_alpha=1, text_font_style='bold')
+
+    ird = Label(x=310, y=470, x_units='screen', y_units='screen',
+                        text='27/April - 18/May', render_mode='css', text_font_size='9.5pt', text_color='#800000',
+                        text_align='center', angle=0, text_alpha=1)
+
+    irm = Label(x=650, y=500, x_units='screen', y_units='screen',
+                        text='Median', render_mode='css', text_font_size='9.5pt', text_color='#800000',
+                        text_align='center', angle=0, text_alpha=1, text_font_style='bold')
+
+    irmv = Label(x=670, y=450, x_units='screen', y_units='screen',
+                        text='6.42', render_mode='css', text_font_size='35pt', text_color='#800000',
+                        text_align='center', angle=0, text_alpha=1, text_font_style='bold')
+
+    irmd = Label(x=690, y=440, x_units='screen', y_units='screen',
+                        text='✝ per/day', render_mode='css', text_font_size='9.5pt', text_color='#800000',
+                        text_align='center', angle=0, text_alpha=1, text_font_style='bold')
+
+    irmr = Label(x=670, y=400, x_units='screen', y_units='screen',
+                        text='Mortality rate', render_mode='css', text_font_size='9.5pt', text_color='#800000',
+                        text_align='center', angle=0, text_alpha=1, text_font_style='bold')
+
+    irmr1 = Label(x=670, y=360, x_units='screen', y_units='screen',
+                        text='0.31%', render_mode='css', text_font_size='25pt', text_color='#800000',
+                        text_align='center', angle=0, text_alpha=1, text_font_style='bold')
+
+    pt.add_layout(ir)
+    pt.add_layout(irc)
+    pt.add_layout(ird)
+    pt.add_layout(irm)
+    pt.add_layout(irmv)
+    pt.add_layout(irmd)
+    pt.add_layout(irmr)
+    pt.add_layout(irmr1)
+
+
+    pt.xaxis.ticker.desired_num_ticks = 3
+    pt.xaxis.formatter=DatetimeTickFormatter(months= ['%B/%G']) #days=['%d/%m'], months=['%d/%m'])
+
+
+    hoverpt = HoverTool()
+    hoverpt.tooltips=[('Date', '@x'),('Deaths','@y')]
+    pt.add_tools(hoverpt)
+
+
+    #pt.xaxis.major_label_orientation = 45
+    pt.axis.major_label_text_font_style = 'bold'
+    pt.axis.major_label_text_font_size = '12px'
+
+    pt.grid.grid_line_alpha = 0.8
+    pt.grid.grid_line_dash = 'dotted'
+    pt.grid.grid_line_dash_offset = 5
+    pt.grid.grid_line_width = 2
+    pt.toolbar.autohide = True
+    pt.title.text_font_size = '20px'
+    #pt.legend.visible = False
+    pt.outline_line_color=None
+    #pt.xaxis.visible = False
+    pt.y_range.start = 0
+    pt.y_range.end = 79
+    pt.x_range.range_padding =  0.02
+
+    return pt
+
+def swedishdeaths():
+    dfw = pd.read_csv('BokehApp/DataRA/covid19_upto3008.csv', delimiter=',', index_col=0)
+    dfs = dfw[dfw['countriesAndTerritories'] == 'Sweden']
+    dfs = dfs[['deaths']]
+    dfs = dfs[dfs['deaths'] >0]
+    dfs = dfs.reset_index()
+    dfs['dateRep1'] = pd.to_datetime(dfs['dateRep'], format=('%d/%m/%Y'))
+
+    sourceps = ColumnDataSource(data=dict(x=list(dfs['dateRep'].values), y=dfs['deaths'], x1=dfs['dateRep1']))
+
+    ps = figure( plot_height=600, plot_width=800, title='Covid-19 deaths in Sweden',
+                tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right',
+            y_axis_label='Number of Deaths', x_axis_label='162 days period', x_axis_type = 'datetime')
+
+
+    ps.line(x='x1', y='y', source=sourceps, color='#b32134', line_width=2)
+    ps.circle(x='x1', y='y', size=6, color='#e1888f', source=sourceps)
+
+    #ps.line(x='x1', y='y', source=sourcept, color='#7E191B', line_width=2)
+    #ps.circle(x='x1', y='y', size=6, color='#e1888f', source=sourcept, radius_dimension='max', radius_units='screen')
+
+    ps.xaxis.ticker.desired_num_ticks = 5
+    ps.xaxis.formatter=DatetimeTickFormatter(months= ['%B/%G']) #days=['%d/%m'], months=['%d/%m'])
+
+
+    ps.axis.major_label_text_color = '#800000'
+    ps.yaxis.axis_label_text_font_style = 'bold'
+    ps.xaxis.axis_label_text_font_style = 'italic'
+
+
+    box_lefts = pd.to_datetime('16-03-2020')
+    box_rights = pd.to_datetime('15-06-2020')
+
+    #irbs = BoxAnnotation(right=box_rights, left=box_lefts, fill_alpha=0.15, fill_color='#CF142B')#00247D
+
+
+    irs = Label(x=650, y=520, x_units='screen', y_units='screen',
+                        text='Median', render_mode='css', text_font_size='9.5pt', text_color='#800000',
+                        text_align='center', angle=0, text_alpha=1, text_font_style='bold')
+
+    irsv = Label(x=660, y=470, x_units='screen', y_units='screen',
+                        text='7.5', render_mode='css', text_font_size='35pt', text_color='#800000',
+                        text_align='center', angle=0, text_alpha=1, text_font_style='bold')
+    irsd = Label(x=670, y=460, x_units='screen', y_units='screen',
+                        text='✝ per/day', render_mode='css', text_font_size='9.5pt', text_color='#800000',
+                        text_align='center', angle=0, text_alpha=1, text_font_style='bold')
+
+    irsr = Label(x=660, y=420, x_units='screen', y_units='screen',
+                        text='Mortality rate', render_mode='css', text_font_size='9.5pt', text_color='#800000',
+                        text_align='center', angle=0, text_alpha=1, text_font_style='bold')
+
+    irsr1 = Label(x=660, y=380, x_units='screen', y_units='screen',
+                        text='0.58%', render_mode='css', text_font_size='25pt', text_color='#800000',
+                        text_align='center', angle=0, text_alpha=1, text_font_style='bold')
+
+    #ps.add_layout(irbs)
+    ps.add_layout(irs)
+    ps.add_layout(irs)
+    ps.add_layout(irsv)
+    ps.add_layout(irsd)
+    ps.add_layout(irsr)
+    ps.add_layout(irsr1)
+
+    hoverps = HoverTool()
+    hoverps.tooltips=[('Date', '@x'),('Deaths','@y')]
+    ps.add_tools(hoverps)
+
+
+    #pt.xaxis.major_label_orientation = 45
+    ps.axis.major_label_text_font_style = 'bold'
+    ps.axis.major_label_text_font_size = '12px'
+
+    ps.grid.grid_line_alpha = 0.8
+    ps.grid.grid_line_dash = 'dotted'
+    ps.grid.grid_line_dash_offset = 5
+    ps.grid.grid_line_width = 2
+    ps.toolbar.autohide = True
+    ps.title.text_font_size = '20px'
+    ps.outline_line_color=None
+    ps.y_range.start = 0
+    ps.y_range.end = 117
+    ps.x_range.range_padding =  0.02
+
+    return ps
+
+def irishswedishDeaths():
+    dfw = pd.read_csv('BokehApp/DataRA/covid19_upto3008.csv', delimiter=',', index_col=0)
+    dfs = dfw[dfw['countriesAndTerritories'] == 'Sweden']
+    dfs = dfs[['deaths']]
+    dfs = dfs[dfs['deaths'] >0]
+    dfs = dfs.reset_index()
+    dfs['dateRep1'] = pd.to_datetime(dfs['dateRep'], format=('%d/%m/%Y'))
+
+    sourceps = ColumnDataSource(data=dict(x=list(dfs['dateRep'].values), y=dfs['deaths'], x1=dfs['dateRep1']))
+
+    dfh = dfw[dfw['countriesAndTerritories'] == 'Ireland']
+    dfh = dfh[['deaths']]
+    dfh = dfh[dfh['deaths'] >0]
+    dfh = dfh.reset_index()
+    dfh['dateRep1'] = pd.to_datetime(dfh['dateRep'], format=('%d/%m/%Y'))
+
+    dfh = dfh[15:110]
+
+    sourcept = ColumnDataSource(data=dict(x=list(dfh['dateRep'].values), y=dfh['deaths'], x1=dfh['dateRep1']))
+
+    ps = figure( plot_height=600, plot_width=800, title='Covid-19 deaths',
+                tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right',
+                y_axis_label='Number of Deaths', x_axis_type = 'datetime')
+
+
+    ps.line(x='x1', y='y', source=sourceps, color='#FFCD00', line_width=2, legend_label='Sweden')
+    ps.circle(x='x1', y='y', size=6, color='#004B87', source=sourceps, legend_label='Sweden')
+
+    ps.line(x='x1', y='y', source=sourcept, color='#FF883E', line_width=2, legend_label='Ireland')
+    ps.circle(x='x1', y='y', size=6, color='#169B62', source=sourcept, legend_label='Ireland')
+
+    ps.xaxis.ticker.desired_num_ticks = 5
+    ps.xaxis.formatter=DatetimeTickFormatter(months= ['%B/%G']) #days=['%d/%m'], months=['%d/%m'])
+
+
+    ps.axis.major_label_text_color = '#800000'
+    ps.yaxis.axis_label_text_font_style = 'bold'
+    ps.xaxis.axis_label_text_font_style = 'italic'
+
+
+    box_lefts = pd.to_datetime('16-03-2020')
+    box_rights = pd.to_datetime('15-06-2020')
+
+    hoverps = HoverTool()
+    hoverps.tooltips=[('Date', '@x'),('Deaths','@y')]
+    ps.add_tools(hoverps)
+
+
+    #pt.xaxis.major_label_orientation = 45
+    ps.axis.major_label_text_font_style = 'bold'
+    ps.axis.major_label_text_font_size = '12px'
+
+    ps.grid.grid_line_alpha = 0.8
+    ps.grid.grid_line_dash = 'dotted'
+    ps.grid.grid_line_dash_offset = 5
+    ps.grid.grid_line_width = 2
+    ps.toolbar.autohide = True
+    ps.title.text_font_size = '20px'
+    ps.outline_line_color=None
+    ps.y_range.start = 0
+    ps.y_range.end = 117
+    ps.x_range.range_padding =  0.02
+    ps.legend.background_fill_alpha=None
+    ps.legend.click_policy="hide"
+    ps.title.text_font_size = '12px'
+    ps.legend.border_line_color = None
+    ps.title.text_font_size = '20px'
+    ps.legend.title='↓ Disable/Enable'
+
+
+    return ps
         
-        sourceag = ColumnDataSource(data=dict(x=x1, y=df_ag['Swine Hospitalization pct'], y1=df_ag['Flu Hospitalization pct'], y2=df_ag['Covid Hospitalization pct'],
-                        y3=df_ag['Swine Flu Deaths pct'], y4=df_ag['Flu Deaths pct'], y5=df_ag['Covid Deaths pct']))
-        
-        pwf = figure(x_range=FactorRange(*x1), plot_height=220, plot_width=300, tools='pan, wheel_zoom, box_zoom, reset', title='Swine Flu by age group')
-        pwf.vbar(x=dodge('x', -0.25, range=pag.x_range), top='y', width=0.2, color= '#e1888f', source=sourceag, legend_label='Hospitalization')
-        pwf.vbar(x=dodge('x', 0, range=pag.x_range), top='y3', width=0.2, color='#5E1914', source=sourceag, legend_label='Deaths')
-
-        pwf.grid.grid_line_alpha = 0.8
-        pwf.grid.grid_line_dash = 'dotted'
-        pwf.grid.grid_line_dash_offset = 5
-        pwf.grid.grid_line_width = 2
-        #pwf.toolbar.autohide = True
-        pwf.legend.visible = False
-        pwf.outline_line_color=None
-        pwf.legend.location= 'top_left'#(370,180)
-        pwf.legend.background_fill_alpha=None
-        pwf.axis.major_label_text_font_style = 'bold'
-        tick_labels_pwf = {'10':'10%','20':'20%','30':'30%','40':'40%','50':'50%','60':'60%','70':'70%','80':'80%'}
-        #pag.legend.title = 'Hospitalization'
-        pwf.yaxis.major_label_overrides = tick_labels_pwf
-        pwf.legend.click_policy="hide"
-        pwf.title.text_font_size = '12px'
-        pwf.legend.border_line_color = None
-        hoverpwf = HoverTool()
-        hoverpwf.tooltips=[('Age Group ', '@x'),('Hospitalization','@y%'),('Deaths','@y3%')]
-        pwf.add_tools(hoverpwf)
-        pwf.y_range.start = 0
-        pwf.y_range.end = 80
-
-
-        psf = figure(x_range=FactorRange(*x1), plot_height=220, plot_width=300, tools='pan, wheel_zoom, box_zoom, reset', title='Seasonal Flu by age group')
-        psf.vbar(x=dodge('x', -0.25, range=pag.x_range), top='y1', width=0.2, color= '#e1888f', source=sourceag, legend_label='Hospitalization*')
-        psf.vbar(x=dodge('x', 0, range=pag.x_range), top='y4', width=0.2, color='#5E1914', source=sourceag, legend_label='Deaths**')
-
-        psf.grid.grid_line_alpha = 0.8
-        psf.grid.grid_line_dash = 'dotted'
-        psf.grid.grid_line_dash_offset = 5
-        psf.grid.grid_line_width = 2
-        #psf.toolbar.autohide = True
-        psf.outline_line_color=None
-        psf.legend.location= 'top_left'#(370,180)
-        psf.legend.background_fill_alpha=None
-        psf.axis.major_label_text_font_style = 'bold'
-        tick_labels_psf = {'10':'10%','20':'20%','30':'30%','40':'40%','50':'50%','60':'60%','70':'70%','80':'80%'}
-        psf.yaxis.major_label_overrides = tick_labels_psf
-        #psf.legend.click_policy="hide"
-        psf.title.text_font_size = '12px'
-        psf.legend.border_line_color = None
-        hoverpsf = HoverTool()
-        hoverpsf.tooltips=[('Age Group ', '@x'),('Hospitalization','@y1%'),('Deaths','@y4%')]
-        psf.add_tools(hoverpsf)
-        psf.y_range.start = 0
-        psf.y_range.end = 80
-        psf.yaxis.visible = False
-
-
-        pcd = figure(x_range=FactorRange(*x1), plot_height=220, plot_width=300, tools='pan, wheel_zoom, box_zoom, reset', title='Covid-19 by age group')
-        pcd.vbar(x=dodge('x', -0.25, range=pag.x_range), top='y2', width=0.2, color= '#e1888f', source=sourceag, legend_label='Hospitalization*')
-        pcd.vbar(x=dodge('x', 0, range=pag.x_range), top='y5', width=0.2, color='#5E1914', source=sourceag, legend_label='Deaths**')
-
-        pcd.grid.grid_line_alpha = 0.8
-        pcd.grid.grid_line_dash = 'dotted'
-        pcd.grid.grid_line_dash_offset = 5
-        pcd.grid.grid_line_width = 2
-        #pcd.toolbar.autohide = True
-        pcd.outline_line_color=None
-        pcd.legend.location= 'top_center'#(370,180)
-        pcd.legend.background_fill_alpha=None
-        pcd.axis.major_label_text_font_style = 'bold'
-        tick_labels_pcd = {'10':'10%','20':'20%','30':'30%','40':'40%','50':'50%','60':'60%','70':'70%','80':'80%'}
-        pcd.yaxis.major_label_overrides = tick_labels_pcd
-        #pcd.legend.click_policy="hide"
-        pcd.title.text_font_size = '12px'
-        pcd.legend.border_line_color = None
-        hoverpcd = HoverTool()
-        hoverpcd.tooltips=[('Age Group ', '@x'),('Hospitalization','@y2%'),('Deaths','@y5%')]
-        pcd.add_tools(hoverpcd)
-        pcd.y_range.start = 0
-        pcd.y_range.end = 80
-        pcd.yaxis.visible = False
-        pcd.legend.visible = False
-
-        psfc = gridplot([[pwf, psf, pcd]], toolbar_location='right', merge_tools=True)#,toolbar_options = {'autohide':True})
-        #lsfc = row([pwf, psf, pcd],  spacing=-15, align='center') #margin=(10,40),
-
-        return psfc
