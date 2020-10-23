@@ -1,5 +1,6 @@
 #imports
 import pandas as pd
+import numpy as np
 from bokeh.resources import INLINE
 from bokeh.plotting import figure, show, curdoc
 #from bokeh.util.string import encode_utf8
@@ -847,12 +848,12 @@ def irishDeaths():
 
     sourcept = ColumnDataSource(data=dict(x=list(dfh['dateRep'].values), y=dfh['deaths'], x1=dfh['dateRep1']))
     #x_range=list(dfh['dateRep1'][::-1].values),
-    pt = figure( plot_height=600, plot_width=800, title='Covid-19 deaths in Ireland',
+    pt = figure( plot_height=450, plot_width=530, title='Covid-19 deaths in Ireland',
                 tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right',
             y_axis_label='Number of Deaths', x_axis_label='113 days period', x_axis_type = 'datetime')
     #pt.vbar(x='x1', top='y', source=sourcept, width=0.2, color='#e1888f')
     pt.line(x='x1', y='y', source=sourcept, color='#b32134', line_width=2)
-    pt.circle(x='x1', y='y', size=6, color='#e1888f', source=sourcept, radius_dimension='max', radius_units='screen')
+    pt.circle(x='x1', y='y', size=6, color='#e1888f', source=sourcept)
 
 
     pt.axis.major_label_text_color = '#800000'
@@ -866,32 +867,32 @@ def irishDeaths():
 
     ir = BoxAnnotation(right=box_right, left=box_left, fill_alpha=0.15, fill_color='#CF142B')#00247D
 
-    irc = Label(x=310, y=490, x_units='screen', y_units='screen',
-                        text='Full Lockdown', render_mode='css', text_font_size='12.5pt', text_color='#800000',
+    irc = Label(x=205, y=348, x_units='screen', y_units='screen',
+                        text='Full Lockdown', render_mode='css', text_font_size='8.5pt', text_color='#800000',
                         text_align='center', angle=0, text_alpha=1, text_font_style='bold')
 
-    ird = Label(x=310, y=470, x_units='screen', y_units='screen',
-                        text='27/April - 18/May', render_mode='css', text_font_size='9.5pt', text_color='#800000',
+    ird = Label(x=205, y=337, x_units='screen', y_units='screen',
+                        text='27/April - 18/May', render_mode='css', text_font_size='6.5pt', text_color='#800000',
                         text_align='center', angle=0, text_alpha=1)
 
-    irm = Label(x=650, y=500, x_units='screen', y_units='screen',
-                        text='Median', render_mode='css', text_font_size='9.5pt', text_color='#800000',
+    irm = Label(x=430, y=348, x_units='screen', y_units='screen',
+                        text='Median', render_mode='css', text_font_size='6.5pt', text_color='#800000',
                         text_align='center', angle=0, text_alpha=1, text_font_style='bold')
 
-    irmv = Label(x=670, y=450, x_units='screen', y_units='screen',
-                        text='6.42', render_mode='css', text_font_size='35pt', text_color='#800000',
+    irmv = Label(x=430, y=328, x_units='screen', y_units='screen',
+                        text='6.42', render_mode='css', text_font_size='15pt', text_color='#800000',
                         text_align='center', angle=0, text_alpha=1, text_font_style='bold')
 
-    irmd = Label(x=690, y=440, x_units='screen', y_units='screen',
-                        text='✝ per/day', render_mode='css', text_font_size='9.5pt', text_color='#800000',
+    irmd = Label(x=430, y=315, x_units='screen', y_units='screen',
+                        text='✝ per/day', render_mode='css', text_font_size='6.5pt', text_color='#800000',
                         text_align='center', angle=0, text_alpha=1, text_font_style='bold')
 
-    irmr = Label(x=670, y=400, x_units='screen', y_units='screen',
-                        text='Mortality rate', render_mode='css', text_font_size='9.5pt', text_color='#800000',
+    irmr = Label(x=430, y=280, x_units='screen', y_units='screen',
+                        text='Mortality rate', render_mode='css', text_font_size='6pt', text_color='#800000',
                         text_align='center', angle=0, text_alpha=1, text_font_style='bold')
 
-    irmr1 = Label(x=670, y=360, x_units='screen', y_units='screen',
-                        text='0.31%', render_mode='css', text_font_size='25pt', text_color='#800000',
+    irmr1 = Label(x=430, y=260, x_units='screen', y_units='screen',
+                        text='0.31%', render_mode='css', text_font_size='15pt', text_color='#800000',
                         text_align='center', angle=0, text_alpha=1, text_font_style='bold')
 
     pt.add_layout(ir)
@@ -930,7 +931,66 @@ def irishDeaths():
     pt.y_range.end = 79
     pt.x_range.range_padding =  0.02
 
-    return pt
+
+    #histS, edgesS = np.histogram(dfs['deaths'], density=False, bins=30, range=[1,115])
+
+    hist, edges = np.histogram(dfh['deaths'], density=True, bins=20, range=[1,77])
+
+    dfhi = pd.DataFrame({'deaths': hist, 'left':edges[:-1], 'right':edges[1:]})
+    dfhi['f_deaths'] = ['%d' % count for count in dfhi['deaths']]
+    dfhi['f_interval'] = ['%d to %d' % (left,right) for left, right in zip(dfhi['left'], dfhi['right'])]
+    dfhi['death_'] = dfhi['deaths'] *1000
+    dfhi['death_'] = dfhi['death_'].astype(float)
+
+    sourcehs = ColumnDataSource(dfhi)
+
+    phS = figure( plot_height=300, plot_width=350, title='Deaths histogram', y_axis_label='Frequency', x_axis_label='Deaths',
+                tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right')
+
+
+
+    phS.quad(top='deaths', bottom=0, left='left', right='right', source=sourcehs,
+        fill_color='#b32134', line_color='#e1888f',  hatch_alpha=1.0, hover_fill_alpha=0.7, hover_fill_color='#FF0800' )
+    #phS.quad(top=histS, bottom=0, left=edgesS[:-1], right=edgesS[1:],
+    #     fill_color="#942d1d", line_color="#033649", fill_alpha=.3, hatch_alpha=1.0, hatch_weight=1.0)
+    phS.x_range.start = 0
+    #phS.x_range.end = 117
+    phS.axis.major_label_text_font_style = 'bold'
+    phS.axis.major_label_text_font_size = '12px'
+    phS.axis.major_label_text_color = '#080000'
+
+    tick_labels_phs = {'0.01':'10','0.02':'20','0.03':'30','0.04':'40','0.05':'50','0.06':'60','0.07':'70'}
+    phS.yaxis.major_label_overrides = tick_labels_phs
+
+    hoverphs = HoverTool()
+    hoverphs.tooltips=[('Death range', '@f_interval'),('Frequency','@death_{0.00}')]
+    phS.add_tools(hoverphs)
+
+    phS.grid.grid_line_alpha = 0.8
+    phS.grid.grid_line_dash = 'dotted'
+    phS.grid.grid_line_dash_offset = 5
+    phS.grid.grid_line_width = 2
+    phS.toolbar.autohide = True
+    phS.title.text_font_size = '16px'
+    phS.outline_line_color=None
+
+    phS.x_range.range_padding =  0.02
+    #phS.y_range.range_padding = - 0.01
+    #phS.y_range.end = 0.048
+    phS.y_range.start = 0
+
+    pv = figure(x_axis_location = None, y_axis_location = None, plot_width=370, plot_height=120)
+    pv.image_url(url=['static/imagesRA/violindetahsIrl2.png'], x=0, y=0, w=1, h=1, anchor="bottom_left")
+    pv.title.align='center'    
+    pv.grid.grid_line_color=None
+    pv.outline_line_color=None
+    pv.toolbar.autohide = True
+
+    phSc = column([phS,pv], align='start')#, sizing_mode='scale_width')
+    phSg = gridplot([[pt, phSc]], toolbar_location='right', merge_tools=True, sizing_mode='fixed')
+
+
+    return phSg
 
 def swedishdeaths():
     dfw = pd.read_csv('BokehApp/DataRA/covid19_upto3008.csv', delimiter=',', index_col=0)
@@ -942,7 +1002,7 @@ def swedishdeaths():
 
     sourceps = ColumnDataSource(data=dict(x=list(dfs['dateRep'].values), y=dfs['deaths'], x1=dfs['dateRep1']))
 
-    ps = figure( plot_height=600, plot_width=800, title='Covid-19 deaths in Sweden',
+    ps = figure( plot_height=450, plot_width=530, title='Covid-19 deaths in Sweden',
                 tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right',
             y_axis_label='Number of Deaths', x_axis_label='162 days period', x_axis_type = 'datetime')
 
@@ -968,23 +1028,23 @@ def swedishdeaths():
     #irbs = BoxAnnotation(right=box_rights, left=box_lefts, fill_alpha=0.15, fill_color='#CF142B')#00247D
 
 
-    irs = Label(x=650, y=520, x_units='screen', y_units='screen',
-                        text='Median', render_mode='css', text_font_size='9.5pt', text_color='#800000',
+    irs = Label(x=430, y=348, x_units='screen', y_units='screen',
+                        text='Median', render_mode='css', text_font_size='6.5pt', text_color='#800000',
                         text_align='center', angle=0, text_alpha=1, text_font_style='bold')
 
-    irsv = Label(x=660, y=470, x_units='screen', y_units='screen',
-                        text='7.5', render_mode='css', text_font_size='35pt', text_color='#800000',
+    irsv = Label(x=430, y=328, x_units='screen', y_units='screen',
+                        text='7.5', render_mode='css', text_font_size='15pt', text_color='#800000',
                         text_align='center', angle=0, text_alpha=1, text_font_style='bold')
-    irsd = Label(x=670, y=460, x_units='screen', y_units='screen',
-                        text='✝ per/day', render_mode='css', text_font_size='9.5pt', text_color='#800000',
-                        text_align='center', angle=0, text_alpha=1, text_font_style='bold')
-
-    irsr = Label(x=660, y=420, x_units='screen', y_units='screen',
-                        text='Mortality rate', render_mode='css', text_font_size='9.5pt', text_color='#800000',
+    irsd = Label(x=430, y=315, x_units='screen', y_units='screen',
+                        text='✝ per/day', render_mode='css', text_font_size='6.5pt', text_color='#800000',
                         text_align='center', angle=0, text_alpha=1, text_font_style='bold')
 
-    irsr1 = Label(x=660, y=380, x_units='screen', y_units='screen',
-                        text='0.58%', render_mode='css', text_font_size='25pt', text_color='#800000',
+    irsr = Label(x=430, y=280, x_units='screen', y_units='screen',
+                        text='Mortality rate', render_mode='css', text_font_size='6pt', text_color='#800000',
+                        text_align='center', angle=0, text_alpha=1, text_font_style='bold')
+
+    irsr1 = Label(x=430, y=260, x_units='screen', y_units='screen',
+                        text='0.58%', render_mode='css', text_font_size='15pt', text_color='#800000',
                         text_align='center', angle=0, text_alpha=1, text_font_style='bold')
 
     #ps.add_layout(irbs)
@@ -1015,7 +1075,62 @@ def swedishdeaths():
     ps.y_range.end = 117
     ps.x_range.range_padding =  0.02
 
-    return ps
+
+    histS, edgesS = np.histogram(dfs['deaths'], density=False, bins=30, range=[1,115])
+
+    dfhs = pd.DataFrame({'deaths': histS, 'left':edgesS[:-1], 'right':edgesS[1:]})
+    dfhs['f_deaths'] = ['%d' % count for count in dfhs['deaths']]
+    dfhs['f_interval'] = ['%d to %d' % (left,right) for left, right in zip(dfhs['left'], dfhs['right'])]
+
+
+    sourcehS = ColumnDataSource(dfhs)
+
+    phSs = figure( plot_height=300, plot_width=350, title='Deaths histogram', y_axis_label='Frequency', x_axis_label='Deaths',
+                tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right')
+
+
+
+    phSs.quad(top='deaths', bottom=0, left='left', right='right', source=sourcehS,
+        fill_color='#b32134', line_color='#e1888f',  hatch_alpha=1.0, hover_fill_alpha=0.7, hover_fill_color='#FF0800' )
+    #phS.quad(top=histS, bottom=0, left=edgesS[:-1], right=edgesS[1:],
+    #     fill_color="#942d1d", line_color="#033649", fill_alpha=.3, hatch_alpha=1.0, hatch_weight=1.0)
+    phSs.x_range.start = 0
+    phSs.x_range.end = 117
+    phSs.axis.major_label_text_font_style = 'bold'
+    phSs.axis.major_label_text_font_size = '12px'
+    phSs.axis.major_label_text_color = '#080000'
+
+    tick_labels_phS = {'0.01':'10','0.02':'20','0.03':'30','0.04':'40','0.05':'50','0.06':'60','0.07':'70'}
+    phSs.yaxis.major_label_overrides = tick_labels_phS
+
+    hoverphS = HoverTool()
+    hoverphS.tooltips=[('Death range', '@f_interval'),('Frequency','@deaths{int}')]
+    phSs.add_tools(hoverphS)
+
+    phSs.grid.grid_line_alpha = 0.8
+    phSs.grid.grid_line_dash = 'dotted'
+    phSs.grid.grid_line_dash_offset = 5
+    phSs.grid.grid_line_width = 2
+    phSs.toolbar.autohide = True
+    phSs.title.text_font_size = '16px'
+    phSs.outline_line_color=None
+
+    phSs.x_range.range_padding =  0.02
+    #phS.y_range.range_padding = - 0.01
+    #phS.y_range.end = 0.048
+    phSs.y_range.start = 0
+
+    pvs = figure(x_axis_location = None, y_axis_location = None, plot_width=370, plot_height=120)
+    pvs.image_url(url=['static/imagesRA/violindetahsSw1.png'], x=0, y=0, w=1, h=1, anchor="bottom_left")
+    pvs.title.align='center'    
+    pvs.grid.grid_line_color=None
+    pvs.outline_line_color=None
+    pvs.toolbar.autohide = True
+
+    phSw = column([phSs,pvs], align='start')#, sizing_mode='scale_width')
+    pw = gridplot([[ps, phSw]], toolbar_location='right', merge_tools=True, sizing_mode='fixed')
+
+    return pw
 
 def irishswedishDeaths():
     dfw = pd.read_csv('BokehApp/DataRA/covid19_upto3008.csv', delimiter=',', index_col=0)
@@ -1037,7 +1152,7 @@ def irishswedishDeaths():
 
     sourcept = ColumnDataSource(data=dict(x=list(dfh['dateRep'].values), y=dfh['deaths'], x1=dfh['dateRep1']))
 
-    ps = figure( plot_height=600, plot_width=800, title='Covid-19 deaths',
+    ps = figure( plot_height=450, plot_width=650, title='Covid-19 deaths',
                 tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right',
                 y_axis_label='Number of Deaths', x_axis_type = 'datetime')
 
