@@ -9,7 +9,7 @@ from math import pi
 from bokeh.transform import cumsum
 from bokeh.layouts import column, row, gridplot
 #from bokeh.core.properties import value
-from bokeh.models import ColumnDataSource, Label, DatetimeTickFormatter, BoxAnnotation,BasicTicker, PrintfTickFormatter, NumeralTickFormatter, FactorRange, Paragraph, LinearColorMapper, Tabs, Panel, HoverTool, Div, Select, CustomJS, Range1d, ColorBar, BasicTicker
+from bokeh.models import ColumnDataSource, Label, GeoJSONDataSource, DatetimeTickFormatter, BoxAnnotation,BasicTicker, PrintfTickFormatter, NumeralTickFormatter, FactorRange, Paragraph, LinearColorMapper, Tabs, Panel, HoverTool, Div, Select, CustomJS, Range1d, ColorBar, BasicTicker
 from bokeh.transform import factor_cmap
 from bokeh.models.widgets import Panel, Tabs
 from bokeh.palettes import viridis
@@ -549,7 +549,7 @@ def R0():
 
     pt = figure(x_range=pandemics, plot_height=320, plot_width=525, title='Transmissibility',
                 tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right') # ['#b32134', '#e1888f']
-    pt.vbar_stack(['low','high'], x='pandemics', width=.35, fill_color=['#e1888f', '#5E1914'], line_color='black', source=d3, legend_label=['low','high']) #source=sourcet ['data','top'] [ factor_cmap(c, palette=['#b32134', '#e1888f'], factors=pandemics) for c in dft1['pandemics'].unique()]
+    pt.vbar_stack(['low','high'], x='pandemics', width=.35, fill_color=['#e1888f', '#5E1914'], line_color='#b32134', source=d3, legend_label=['low','high']) #source=sourcet ['data','top'] [ factor_cmap(c, palette=['#b32134', '#e1888f'], factors=pandemics) for c in dft1['pandemics'].unique()]
     pt.line(x='pandemics', y='avg', line_width=2, line_dash='dashdot', line_color='orange', source=d3, legend_label='average')
     pt.circle(x='pandemics', y='avg', size=6, color='#DAE218', source=d3, legend_label='average')
     hoverpt = HoverTool()
@@ -756,7 +756,7 @@ def corrplot():
     colorc = colorc[::-1]
     mapperc = LinearColorMapper(palette=colorc, low=-1, high=1)
 
-    cmc = figure(title='Correlation Matrix', x_range=xcc, y_range=ycc, x_axis_location='below', plot_width=500, plot_height=400,
+    cmc = figure(title='Correlation Matrix', x_range=xcc, y_range=ycc, x_axis_location='below', plot_width=500, plot_height=415,
                 tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='above')
     cmc.title.text_font_size = '20px'
     cmc.rect(x='x', y='y', width=1, height=1, source=dfcc, dilate=True,
@@ -786,18 +786,25 @@ def corrplot():
 
     dfc = pd.read_csv('BokehApp/DataRA/pandMatrix2.csv', delimiter=',', index_col=0)
     xcl = list(dfc.index.values)
-    sourcecl = ColumnDataSource(data=dict(x = xcl , y = dfc['Swine Flu D%'], y1 = dfc['Covid-19 D%'], y2 = dfc['Flu D%'], y3 = dfc['Spanish Flu D%']))
+    sourcecl = ColumnDataSource(data=dict(x = xcl , y = dfc['Swine Flu D%'], y1 = dfc['Covid-19 D%'], y2 = dfc['Flu D%'], y3 = dfc['Spanish Flu D%'],
+                                y4= dfc['Hong Kong D%'], y5= dfc['Asian Flu D%']))
 
-    pcc = figure( x_range=xcl, plot_height=400, plot_width=550, title='Deaths by Age Group', tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right')
+    pcc = figure( x_range=xcl, plot_height=410, plot_width=550, title='Deaths by Age Group', tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right')
 
-    pcc.line(x='x', y='y3', line_width=2, line_dash='dashdot', line_color='#7C0A02', source=sourcecl, legend_label='Spanish Flu***')
-    pcc.circle(x='x', y='y3', size=3, color='lime', source=sourcecl, legend_label='Spanish Flu***')
+    pcc.line(x='x', y='y3', line_width=2, line_dash='dashdot', line_color='#7C0A02', source=sourcecl, legend_label='Spanish Flu*')
+    pcc.circle(x='x', y='y3', size=3, color='lime', source=sourcecl, legend_label='Spanish Flu*')
     pcc.line(x='x', y='y', line_width=2, line_dash='dotted', line_color='#FF2400', source=sourcecl, legend_label='Swine Flu')
     pcc.circle(x='x', y='y', size=5, color='orange', source=sourcecl, legend_label='Swine Flu')
     pcc.line(x='x', y='y1', line_width=2, line_dash='dotdash', line_color='#b32134', source=sourcecl, legend_label='Covid-19')
     pcc.circle(x='x', y='y1', size=5, color='cyan', source=sourcecl, legend_label='Covid-19')
     pcc.line(x='x', y='y2', line_width=2, line_dash='solid', line_color='#e1888f', source=sourcecl, legend_label='Seasonal Flu')
     pcc.circle(x='x', y='y2', size=5, color='darkgreen', line_join='bevel', source=sourcecl, legend_label='Seasonal Flu')
+    pcc.line(x='x', y='y5', line_width=2, line_dash='dotdash', line_color='#e1888f', source=sourcecl, legend_label='Asian Flu**')
+    pcc.circle(x='x', y='y5', size=5, color='#ed403c', line_join='bevel', source=sourcecl, legend_label='Asian Flu**')
+    pcc.line(x='x', y='y4', line_width=2, line_dash='solid', line_color='#006e6f', source=sourcecl, legend_label='Hong Kong Flu***')
+    pcc.circle(x='x', y='y4', size=5, color='#fad2d0', line_join='bevel', source=sourcecl, legend_label='Hong Kong Flu***')
+
+    
 
 
     pcc.grid.grid_line_alpha = 0.8
@@ -812,7 +819,7 @@ def corrplot():
     pcc.legend.click_policy="hide"
     pcc.legend.title='↓ Disable/Enable'
     #pcc.legend.title.text_font_style='bold'
-    pcc.y_range.end = 80
+    pcc.y_range.end = 90
     pcc.title.text_font_size = '15px'
 
     pcc.legend.border_line_color = None
@@ -1204,3 +1211,31 @@ def irishswedishDeaths():
 
     return ps
         
+def geoIrl():
+    with open('BokehApp/DataRA/dfjson.json', 'r', encoding='utf8') as openfile: 
+        # Reading from json file 
+        geo_json = GeoJSONDataSource(geojson=openfile.read())
+
+    p = figure(title = 'Ireland Covid-19 deaths by county', x_axis_location = None, y_axis_location = None, match_aspect=True,
+                tools = 'pan, wheel_zoom, box_zoom, reset, hover, save', tooltips = [('County', '@COUNTY'),('Deaths','@deaths')])
+
+    palette = ['#420D09','#960018','#b32134', '#bb302d','#ed403c','#f98a74','#fad2d0']
+    #coloursP = ['#FA8072', '#ED2939','#D21F3C','#BF0A30','#7C0A02', '#5E1914', '#420D09'] #960018#BD021F#7E191B
+    coloursP = ['#FA8072', '#ED2939','#D21F3C','#BF0A30','#B80F0A', '#7C0A02', '#BD021F'] #960018#7E191B
+
+    #palette = OrRd[8][::-1]
+    color_mapper = LinearColorMapper(palette = coloursP, low = 0, high = 70)
+    color_bar = ColorBar(color_mapper=color_mapper, label_standoff=6, width = 250, height = 20, ticker=BasicTicker(desired_num_ticks=len(coloursP)),
+                        border_line_color=None, location = 'center', orientation = 'horizontal', bar_line_color='#50C878', bar_line_alpha=0.7)#, major_label_overrides = tick_labels)
+
+    p.title.align='center'
+    p.patches('xs', 'ys', fill_alpha = 0.7, line_width = 0.5, source = geo_json,
+                fill_color = {'field' :'deaths', 'transform' : color_mapper})
+    p.add_layout(color_bar, 'below')
+    p.grid.grid_line_color=None
+    p.outline_line_color=None
+    p.toolbar.autohide = True
+
+    p.title.text_font_style = "bold"
+    p.title.text_font_size = '20px'
+    return p
