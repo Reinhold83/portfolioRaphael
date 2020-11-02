@@ -7,7 +7,11 @@ from form import ContactForm
 from flask_mail import Message, Mail
 from rightA import (swedishpop, swedishpop1, irishpop, wwpop, pandemics, pandemics1, R0, pandAgeGroups, pandAgeGroups1, corrplot, irishDeaths, swedishdeaths, irishswedishDeaths,
                     geoIrl)
- 
+from os import environ
+
+GEOS_LIBRARY_PATH = environ.get('GEOS_LIBRARY_PATH')
+GDAL_LIBRARY_PATH = environ.get('GDAL_LIBRARY_PATH')
+
 mail = Mail()
 
 app = Flask(__name__)
