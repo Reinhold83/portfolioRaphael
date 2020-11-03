@@ -1,0 +1,10 @@
+setup:
+  config: {}
+build:
+  packages:
+    - gdal-bin
+  languages:
+    - flask
+run:
+  web: Procfile
+#  web: gunicorn app:app
