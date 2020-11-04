@@ -6,7 +6,7 @@ from flask_bootstrap import Bootstrap
 from form import ContactForm
 from flask_mail import Message, Mail
 from rightA import (swedishpop, swedishpop1, irishpop, wwpop, pandemics, pandemics1, R0, pandAgeGroups, pandAgeGroups1, corrplot, irishDeaths, swedishdeaths, irishswedishDeaths,
-                    geoIrl)
+                    irlDD)
 from os import environ
 #from django.contrib.gis import gdal
 
@@ -120,7 +120,7 @@ def rightApproach():
     script10, div10 = components(irishDeaths())
     script11, div11 = components(swedishdeaths())
     script12, div12 = components(irishswedishDeaths())
-    script13, div13 = components(geoIrl())
+    script13, div13 = components(irlDD())
 
 
     return render_template('rightApproach.html', script=script, div=div, script1=script1, div1=div1, script2=script2, div2=div2, script3=script3, div3=div3,

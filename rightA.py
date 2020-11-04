@@ -1239,3 +1239,113 @@ def geoIrl():
     p.title.text_font_style = "bold"
     p.title.text_font_size = '20px'
     return p
+
+def irlDD():
+
+    dfdd = pd.read_csv('BokehApp/DataRA/irl16DD.csv', delimiter=',', index_col=0)
+
+    df_d = pd.DataFrame(dfdd['DD_2016'].nlargest(len(dfdd.index.values)))
+    df_d = df_d[1:]
+    yrange = list(df_d.index.values)
+    yrange= yrange[::-1]
+    colours_d = ['#ff0000','#ff2424','#ff4747','#ff6b6b','#ff8f8f','#ffb3b3','#ffd6d6']
+
+
+    source_d = ColumnDataSource(data=dict(y=yrange[::-1], x=df_d['DD_2016']))
+    color_mapper_d = LinearColorMapper(palette = colours_d[::-1], low = 20, high = 80)
+
+
+    p1 = figure(y_range=yrange, title='Demographic Density', plot_height=350, plot_width=330, tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right')
+    p1.hbar(y='y', height=.5, right='x',  left=0, source=source_d, line_color="white", fill_color={'field':'x','transform':color_mapper_d})
+
+    hoverp1 = HoverTool()
+    hoverp1.tooltips=[('County', '@y'), ('Demographic Density', '@x')]
+
+        #plot style
+    p1.add_tools(hoverp1)
+    p1.yaxis.major_label_standoff = -2
+    p1.yaxis.major_label_text_font_size = '5pt'
+    p1.xaxis.major_label_text_font_size = '7pt'
+    #p1.grid.grid_line_color=None
+    p1.outline_line_color=None
+    #p1.yaxis.major_label_text_align = 'center'
+    p1.axis.major_label_text_font_style = 'bold'
+    p1.yaxis.major_tick_line_color = None
+    p1.axis.axis_line_color = None
+    p1.min_border = 0
+    p1.x_range.range_padding = -0.1
+    p1.toolbar.autohide = True
+    #p1.yaxis.major_label_standoff = 0
+    p1.xaxis.formatter.use_scientific = False
+
+    p1.grid.grid_line_dash = 'dotted'
+    p1.grid.grid_line_dash_offset = 5
+    p1.grid.grid_line_width = 2
+
+    p2 = figure(x_axis_location = None, y_axis_location = None, plot_width=420)
+    p2.image_url(url=['static/imagesRA/mapIrlDD.png'], x=0, y=0, w=1, h=2, anchor="bottom_left")
+    p2.title.align='center'    
+    p2.grid.grid_line_color=None
+    p2.outline_line_color=None
+    p2.toolbar.autohide = True
+    p2.title.text_font_style = "bold"
+
+    df3 = dfdd[['Urban_16pct','Rural_16pct']]
+
+    ruvsurb = str(['Rural','Urban'])
+    df3 = df3.sort_values('Urban_16pct',ascending=False)
+    xrange = list(df3.index.values)
+    colourspru = ['#ff0000','#ff2424','#ff4747','#ff6b6b','#ff8f8f','#ffb3b3','#ffd6d6']
+    color_mapperpru = LinearColorMapper(palette = colourspru[::-1], low = 20, high = 80)
+
+
+    sourcepru = ColumnDataSource(data=dict(x=list(df3.index.values), y=df3['Urban_16pct'], y1=df3['Rural_16pct']))
+
+    pru = figure(x_range=xrange, plot_height=200, plot_width=330, title='Ireland Urban Area in percentage',
+                tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right') # ['#b32134', '#e1888f']
+    pru.vbar(top='y', x='x', width=.6, fill_color={'field':'y','transform':color_mapperpru}, line_color=None, source=sourcepru) #source=sourcet ['data','top'] [ factor_cmap(c, palette=['#b32134', '#e1888f'], factors=pandemics) for c in dft1['pandemics'].unique()]
+
+    hoverpru = HoverTool()
+
+    hoverpru.tooltips=[('County', '@x'),('Rural', '@y1{0.00}%'), ('Urban','@y{0.00}%')]
+    pru.add_tools(hoverpru)
+
+
+        #plot style
+    tick_labelspru = {'10':'10%','20':'20%','30':'30%','40':'40%','50':'50%','60':'60%','70':'70%','80':'80%','100':'100%'}
+    pru.yaxis.major_label_overrides = tick_labelspru
+
+
+    pru.yaxis.major_label_standoff = -2
+    pru.yaxis.major_label_text_font_size = '6pt'
+    pru.xaxis.major_label_text_font_size = '4.5pt'
+    pru.title.text_font_size = '11px'
+    pru.grid.grid_line_dash = 'dotted'
+    pru.grid.grid_line_dash_offset = 5
+    pru.grid.grid_line_width = 2
+    pru.grid.grid_line_alpha = 0.6
+
+    pru.outline_line_color=None
+    pru.yaxis.major_label_text_align = 'center'
+    pru.axis.major_label_text_font_style = 'bold'
+    pru.min_border = 0
+    pru.x_range.range_padding = 0
+    pru.toolbar.autohide = True
+    pru.yaxis.major_label_standoff = 0
+    pru.y_range.start=0
+    pru.xaxis.major_label_orientation = 45
+
+    pl = figure(x_axis_location = None, y_axis_location = None, plot_width=185, plot_height=570)
+    pl.image_url(url=['static/imagesRA/irlleftLay3.png'], x=0, y=0, w=1, h=3, anchor="bottom_left")
+    pl.title.align='center'    
+    pl.grid.grid_line_color=None
+    pl.outline_line_color=None
+    pl.toolbar.autohide = True
+    pl.title.text_font_style = "bold"
+
+
+    p2b = row([pl, p2], spacing=-38)
+    p2a = column([p1,pru])
+    p3 = row([p2b,p2a], align='center', spacing=-50)#, sizing_mode='fixed')
+    
+    return p3
