@@ -9,7 +9,7 @@ from math import pi
 from bokeh.transform import cumsum
 from bokeh.layouts import column, row, gridplot
 #from bokeh.core.properties import value
-from bokeh.models import ColumnDataSource, Label, GeoJSONDataSource, DatetimeTickFormatter, BoxAnnotation,BasicTicker, PrintfTickFormatter, NumeralTickFormatter, FactorRange, Paragraph, LinearColorMapper, Tabs, Panel, HoverTool, Div, Select, CustomJS, Range1d, ColorBar, BasicTicker
+from bokeh.models import ColumnDataSource, Label, GeoJSONDataSource, LabelSet, DatetimeTickFormatter, BoxAnnotation,BasicTicker, PrintfTickFormatter, NumeralTickFormatter, FactorRange, Paragraph, LinearColorMapper, Tabs, Panel, HoverTool, Div, Select, CustomJS, Range1d, ColorBar, BasicTicker
 from bokeh.transform import factor_cmap
 from bokeh.models.widgets import Panel, Tabs
 from bokeh.palettes import viridis, GnBu, Greens
@@ -141,8 +141,6 @@ def swedishpop():
     pm.legend.border_line_color = None
     pm.xaxis.formatter.use_scientific = False
     pm.xaxis.major_label_text_font_size = '7pt'
-    #pm.x_range.end = 370000*1.003
-    #pm.xaxis.major_label_orientation = 45
     tick_labels_pm = {'50000':'50K','100000':'100K','150000':'150K','200000':'200K','250000':'250K', '300000':'300K', '350000':'350K'}
     pm.xaxis.major_label_overrides = tick_labels_pm
 
@@ -170,10 +168,8 @@ def swedishpop():
     pf.toolbar.autohide = True
     pf.yaxis.major_label_standoff = 0
     pf.xaxis.formatter.use_scientific = False
-    #pf.xaxis.major_label_orientation = 45
     tick_labels_pf = {'50000':'50K','100000':'100K','150000':'150K','200000':'200K','250000':'250K', '300000':'300K', '350000':'350K'}
     pf.xaxis.major_label_overrides = tick_labels_pf
-    #pf.x_range.end = 370000*1.003
     pm.title.text_font_size = '8.5pt'
     pm.title.text = 'Swedish Population by Age/Gender Group 2019'
     pm.title.align = 'left'
@@ -328,8 +324,6 @@ def irishpop():
     pmI.legend.border_line_color = None
     pmI.xaxis.formatter.use_scientific = False
     pmI.xaxis.major_label_text_font_size = '8pt'
-    #pm.x_range.end = 370000*1.003
-    #pm.xaxis.major_label_orientation = 45
     tick_labels_pmI = {'50':'50K','100':'100K','150':'150K','200':'200K'}
     pmI.xaxis.major_label_overrides = tick_labels_pmI
     #title
@@ -362,7 +356,6 @@ def irishpop():
     pfI.toolbar.autohide = True
     pfI.yaxis.major_label_standoff = 0
     pfI.xaxis.formatter.use_scientific = False
-    #pf.xaxis.major_label_orientation = 45
     tick_labels_pfI = {'50':'50K','100':'100K','150':'150K','200':'200K'}
     pfI.xaxis.major_label_overrides = tick_labels_pfI
 
@@ -394,8 +387,7 @@ def irishpop():
     pIO.grid.grid_line_dash = 'dotted'
     pIO.grid.grid_line_dash_offset = 5
     pIO.grid.grid_line_width = 2
-    #pIO.toolbar.autohide=True
-    #p.yaxis.axis_line_color = None
+
 
     hoverpIO = HoverTool()
     hoverpIO.tooltips=[('Year','@Year'),('Population', '@Population{int}')]
@@ -419,11 +411,9 @@ def irishpop():
     #plot style
     pIG.outline_line_color=None
     pIG.axis.major_label_text_font_style = 'bold'
-    #pO.toolbar.autohide = True
     pIG.grid.grid_line_dash = 'dotted'
     pIG.grid.grid_line_dash_offset = 5
     pIG.grid.grid_line_width = 2
-    #pO.toolbar.autohide=True
     pIG.yaxis.formatter.use_scientific = False
     pIG.xaxis.major_label_orientation = 45
     pIG.y_range.start = 0
@@ -561,7 +551,6 @@ def R0():
 
     pt.legend.background_fill_alpha = None
     pt.legend.border_line_color = None
-    #pt.legend.reverse()
     pt.yaxis.major_label_standoff = -2
     pt.yaxis.major_label_text_font_size = '8pt'
     pt.xaxis.major_label_text_font_size = '8pt'
@@ -607,7 +596,6 @@ def pandAgeGroups():
     pag.legend.background_fill_alpha=None
     pag.axis.major_label_text_font_style = 'bold'
     tick_labels_ag = {'10':'10%','20':'20%','30':'30%','40':'40%','50':'50%','60':'60%','70':'70%','80':'80%'}
-    #pag.legend.title = 'Hospitalization'
     pag.yaxis.major_label_overrides = tick_labels_ag
     pag.legend.click_policy="hide"
     pag.title.text_font_size = '15px'
@@ -618,7 +606,6 @@ def pandAgeGroups():
     pag.y_range.start = 0
     pag.y_range.end = 80
     pag.legend.visible = False
-    #pag.x_range.range_padding = 0.01
 
     pp = figure(x_range=FactorRange(*x1), plot_height=320, plot_width=450, tools='pan, wheel_zoom, box_zoom, reset', title='Pandemic deaths by age group')
     pp.vbar(x=dodge('x', -0.25, range=pag.x_range), top='y3', width=0.2, color= '#e1888f', source=sourceag, legend_label='Swine Flu')
@@ -645,8 +632,6 @@ def pandAgeGroups():
     pp.y_range.start = 0
     pp.y_range.end = 80
     pp.yaxis.visible = False
-    #pp.legend.visible = False
-    #pp.yaxis.axis_label = 'Age Groups'
     ppg = gridplot([[pag, pp]], toolbar_location='right', merge_tools=True, sizing_mode='fixed' )#, toolbar_options = {'autohide':True})
 
     return ppg
@@ -668,14 +653,12 @@ def pandAgeGroups1():
     pwf.grid.grid_line_dash = 'dotted'
     pwf.grid.grid_line_dash_offset = 5
     pwf.grid.grid_line_width = 2
-    #pwf.toolbar.autohide = True
     pwf.legend.visible = False
     pwf.outline_line_color=None
     pwf.legend.location= 'top_left'#(370,180)
     pwf.legend.background_fill_alpha=None
     pwf.axis.major_label_text_font_style = 'bold'
     tick_labels_pwf = {'10':'10%','20':'20%','30':'30%','40':'40%','50':'50%','60':'60%','70':'70%','80':'80%'}
-    #pag.legend.title = 'Hospitalization'
     pwf.yaxis.major_label_overrides = tick_labels_pwf
     pwf.legend.click_policy="hide"
     pwf.title.text_font_size = '12px'
@@ -695,14 +678,12 @@ def pandAgeGroups1():
     psf.grid.grid_line_dash = 'dotted'
     psf.grid.grid_line_dash_offset = 5
     psf.grid.grid_line_width = 2
-    #psf.toolbar.autohide = True
     psf.outline_line_color=None
     psf.legend.location= 'top_left'#(370,180)
     psf.legend.background_fill_alpha=None
     psf.axis.major_label_text_font_style = 'bold'
     tick_labels_psf = {'10':'10%','20':'20%','30':'30%','40':'40%','50':'50%','60':'60%','70':'70%','80':'80%'}
     psf.yaxis.major_label_overrides = tick_labels_psf
-    #psf.legend.click_policy="hide"
     psf.title.text_font_size = '12px'
     psf.legend.border_line_color = None
     psf.legend.title = 'USA'
@@ -722,14 +703,12 @@ def pandAgeGroups1():
     pcd.grid.grid_line_dash = 'dotted'
     pcd.grid.grid_line_dash_offset = 5
     pcd.grid.grid_line_width = 2
-    #pcd.toolbar.autohide = True
     pcd.outline_line_color=None
     pcd.legend.location= 'top_center'#(370,180)
     pcd.legend.background_fill_alpha=None
     pcd.axis.major_label_text_font_style = 'bold'
     tick_labels_pcd = {'10':'10%','20':'20%','30':'30%','40':'40%','50':'50%','60':'60%','70':'70%','80':'80%'}
     pcd.yaxis.major_label_overrides = tick_labels_pcd
-    #pcd.legend.click_policy="hide"
     pcd.title.text_font_size = '12px'
     pcd.legend.border_line_color = None
     hoverpcd = HoverTool()
@@ -775,7 +754,7 @@ def corrplot():
     cmc.axis.axis_line_color = None
     cmc.axis.major_tick_line_color = None
     cmc.axis.major_label_text_font_size = '10px'
-    cmc.axis.major_label_text_font_size = '12px'
+    #cmc.axis.major_label_text_font_size = '12px'
     cmc.axis.major_label_text_font_style = 'bold'
     cmc.axis.major_label_standoff = 0
     cmc.toolbar.autohide = True
@@ -789,7 +768,7 @@ def corrplot():
     sourcecl = ColumnDataSource(data=dict(x = xcl , y = dfc['Swine Flu D%'], y1 = dfc['Covid-19 D%'], y2 = dfc['Flu D%'], y3 = dfc['Spanish Flu D%'],
                                 y4= dfc['Hong Kong D%'], y5= dfc['Asian Flu D%']))
 
-    pcc = figure( x_range=xcl, plot_height=410, plot_width=550, title='Deaths by Age Group', tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right')
+    pcc = figure( x_range=xcl, plot_height=390, plot_width=500, title='Deaths by Age Group', tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right')
 
     pcc.line(x='x', y='y3', line_width=2, line_dash='dashdot', line_color='#7C0A02', source=sourcecl, legend_label='Spanish Flu*')
     pcc.circle(x='x', y='y3', size=3, color='lime', source=sourcecl, legend_label='Spanish Flu*')
@@ -818,7 +797,6 @@ def corrplot():
     pcc.axis.major_label_text_font_style = 'bold'
     pcc.legend.click_policy="hide"
     pcc.legend.title='↓ Disable/Enable'
-    #pcc.legend.title.text_font_style='bold'
     pcc.y_range.end = 90
     pcc.title.text_font_size = '15px'
 
@@ -833,7 +811,6 @@ def corrplot():
     pcc.y_range.start=0
 
     tick_labelscc = {'10':'10%','20':'20%','30':'30%','40':'40%','50':'50%','60':'60%','70':'70%','80':'80%'}
-    #pag.legend.title = 'Hospitalization'
     pcc.yaxis.major_label_overrides = tick_labelscc
     hovercc = HoverTool()
     hovercc.tooltips=[('Age Group ', '@x'),('Spanish Flu','@y3{0.00}%'),('Swine Flu','@y{0.00}%'), ('Covid-19','@y1{0.00}%'), ('Seasonal Flu','@y2{0.00}%')]
@@ -854,11 +831,9 @@ def irishDeaths():
     dfh = dfh[15:110]
 
     sourcept = ColumnDataSource(data=dict(x=list(dfh['dateRep'].values), y=dfh['deaths'], x1=dfh['dateRep1']))
-    #x_range=list(dfh['dateRep1'][::-1].values),
     pt = figure( plot_height=450, plot_width=530, title='Covid-19 deaths in Ireland',
                 tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right',
             y_axis_label='Number of Deaths', x_axis_label='113 days period', x_axis_type = 'datetime')
-    #pt.vbar(x='x1', top='y', source=sourcept, width=0.2, color='#e1888f')
     pt.line(x='x1', y='y', source=sourcept, color='#b32134', line_width=2)
     pt.circle(x='x1', y='y', size=6, color='#e1888f', source=sourcept)
 
@@ -921,7 +896,6 @@ def irishDeaths():
     pt.add_tools(hoverpt)
 
 
-    #pt.xaxis.major_label_orientation = 45
     pt.axis.major_label_text_font_style = 'bold'
     pt.axis.major_label_text_font_size = '12px'
 
@@ -931,9 +905,7 @@ def irishDeaths():
     pt.grid.grid_line_width = 2
     pt.toolbar.autohide = True
     pt.title.text_font_size = '20px'
-    #pt.legend.visible = False
     pt.outline_line_color=None
-    #pt.xaxis.visible = False
     pt.y_range.start = 0
     pt.y_range.end = 79
     pt.x_range.range_padding =  0.02
@@ -958,8 +930,7 @@ def irishDeaths():
 
     phS.quad(top='deaths', bottom=0, left='left', right='right', source=sourcehs,
         fill_color='#b32134', line_color='#e1888f',  hatch_alpha=1.0, hover_fill_alpha=0.7, hover_fill_color='#FF0800' )
-    #phS.quad(top=histS, bottom=0, left=edgesS[:-1], right=edgesS[1:],
-    #     fill_color="#942d1d", line_color="#033649", fill_alpha=.3, hatch_alpha=1.0, hatch_weight=1.0)
+
     phS.x_range.start = 0
     #phS.x_range.end = 117
     phS.axis.major_label_text_font_style = 'bold'
@@ -982,8 +953,6 @@ def irishDeaths():
     phS.outline_line_color=None
 
     phS.x_range.range_padding =  0.02
-    #phS.y_range.range_padding = - 0.01
-    #phS.y_range.end = 0.048
     phS.y_range.start = 0
 
     pv = figure(x_axis_location = None, y_axis_location = None, plot_width=370, plot_height=120)
@@ -1016,9 +985,6 @@ def swedishdeaths():
 
     ps.line(x='x1', y='y', source=sourceps, color='#b32134', line_width=2)
     ps.circle(x='x1', y='y', size=6, color='#e1888f', source=sourceps)
-
-    #ps.line(x='x1', y='y', source=sourcept, color='#7E191B', line_width=2)
-    #ps.circle(x='x1', y='y', size=6, color='#e1888f', source=sourcept, radius_dimension='max', radius_units='screen')
 
     ps.xaxis.ticker.desired_num_ticks = 5
     ps.xaxis.formatter=DatetimeTickFormatter(months= ['%B/%G']) #days=['%d/%m'], months=['%d/%m'])
@@ -1054,7 +1020,6 @@ def swedishdeaths():
                         text='0.58%', render_mode='css', text_font_size='15pt', text_color='#800000',
                         text_align='center', angle=0, text_alpha=1, text_font_style='bold')
 
-    #ps.add_layout(irbs)
     ps.add_layout(irs)
     ps.add_layout(irs)
     ps.add_layout(irsv)
@@ -1067,7 +1032,6 @@ def swedishdeaths():
     ps.add_tools(hoverps)
 
 
-    #pt.xaxis.major_label_orientation = 45
     ps.axis.major_label_text_font_style = 'bold'
     ps.axis.major_label_text_font_size = '12px'
 
@@ -1099,8 +1063,7 @@ def swedishdeaths():
 
     phSs.quad(top='deaths', bottom=0, left='left', right='right', source=sourcehS,
         fill_color='#b32134', line_color='#e1888f',  hatch_alpha=1.0, hover_fill_alpha=0.7, hover_fill_color='#FF0800' )
-    #phS.quad(top=histS, bottom=0, left=edgesS[:-1], right=edgesS[1:],
-    #     fill_color="#942d1d", line_color="#033649", fill_alpha=.3, hatch_alpha=1.0, hatch_weight=1.0)
+
     phSs.x_range.start = 0
     phSs.x_range.end = 117
     phSs.axis.major_label_text_font_style = 'bold'
@@ -1123,8 +1086,6 @@ def swedishdeaths():
     phSs.outline_line_color=None
 
     phSs.x_range.range_padding =  0.02
-    #phS.y_range.range_padding = - 0.01
-    #phS.y_range.end = 0.048
     phSs.y_range.start = 0
 
     pvs = figure(x_axis_location = None, y_axis_location = None, plot_width=370, plot_height=120)
@@ -1187,7 +1148,6 @@ def irishswedishDeaths():
     ps.add_tools(hoverps)
 
 
-    #pt.xaxis.major_label_orientation = 45
     ps.axis.major_label_text_font_style = 'bold'
     ps.axis.major_label_text_font_size = '12px'
 
@@ -1266,16 +1226,13 @@ def irlDD():
     p1.yaxis.major_label_standoff = -2
     p1.yaxis.major_label_text_font_size = '5pt'
     p1.xaxis.major_label_text_font_size = '7pt'
-    #p1.grid.grid_line_color=None
     p1.outline_line_color=None
-    #p1.yaxis.major_label_text_align = 'center'
     p1.axis.major_label_text_font_style = 'bold'
     p1.yaxis.major_tick_line_color = None
     p1.axis.axis_line_color = None
     p1.min_border = 0
     p1.x_range.range_padding = -0.1
     p1.toolbar.autohide = True
-    #p1.yaxis.major_label_standoff = 0
     p1.xaxis.formatter.use_scientific = False
 
     p1.grid.grid_line_dash = 'dotted'
@@ -1301,7 +1258,7 @@ def irlDD():
 
     sourcepru = ColumnDataSource(data=dict(x=list(df3.index.values), y=df3['Urbanpop_pct'], y1=df3['Ruralpop_pct']))
 
-    pru = figure(x_range=xrange, plot_height=200, plot_width=330, title='Ireland Urban Area in percentage',
+    pru = figure(x_range=xrange, plot_height=200, plot_width=330, title='Urban Population in percentage',
                 tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right') # ['#b32134', '#e1888f']
     pru.vbar(top='y', x='x', width=.6, fill_color={'field':'y','transform':color_mapperpru}, line_color=None, source=sourcepru) #source=sourcet ['data','top'] [ factor_cmap(c, palette=['#b32134', '#e1888f'], factors=pandemics) for c in dft1['pandemics'].unique()]
 
@@ -1336,7 +1293,7 @@ def irlDD():
     pru.xaxis.major_label_orientation = 45
 
     pl = figure(x_axis_location = None, y_axis_location = None, plot_width=185, plot_height=570)
-    pl.image_url(url=['static/imagesRA/irlleftLay3.png'], x=0, y=0, w=1, h=3, anchor="bottom_left")
+    pl.image_url(url=['static/imagesRA/irlleftLay4.png'], x=0, y=0, w=1, h=3, anchor="bottom_left")
     pl.title.align='center'    
     pl.grid.grid_line_color=None
     pl.outline_line_color=None
@@ -1387,16 +1344,13 @@ def irlDD():
     pr.yaxis.major_label_standoff = -2
     pr.yaxis.major_label_text_font_size = '5pt'
     pr.xaxis.major_label_text_font_size = '7pt'
-    #p1.grid.grid_line_color=None
     pr.outline_line_color=None
-    #p1.yaxis.major_label_text_align = 'center'
     pr.axis.major_label_text_font_style = 'bold'
     pr.yaxis.major_tick_line_color = None
     pr.axis.axis_line_color = None
     pr.min_border = 0
     pr.x_range.range_padding = -0.1
     pr.toolbar.autohide = True
-    #p1.yaxis.major_label_standoff = 0
     pr.xaxis.formatter.use_scientific = False
     pr.x_range.end = 92
 
@@ -1427,7 +1381,6 @@ def irlDD():
     p_a.yaxis.major_label_overrides = tick_labels_a
 
 
-    #{'field':'y','transform':color_mapper_a}
     p_a.yaxis.major_label_standoff = -2
     p_a.yaxis.major_label_text_font_size = '6pt'
     p_a.xaxis.major_label_text_font_size = '6.5pt'
@@ -1445,23 +1398,17 @@ def irlDD():
     p_a.toolbar.autohide = True
     p_a.yaxis.major_label_standoff = 0
     p_a.y_range.start=0
-    #p_a.xaxis.major_label_orientation = 45
-
 
     pum = figure(x_axis_location = None, y_axis_location = None, plot_width=420)
     pum.image_url(url=['static/imagesRA/UrbanMapEdit.png'], x=0, y=0, w=1, h=2, anchor="bottom_left")
-    #prm.title.align='center'    
     pum.grid.grid_line_color=None
     pum.outline_line_color=None
     pum.toolbar.autohide = True
-    #prm.title.text_font_style = "bold"
+
 
     dfr1 = pd.DataFrame(dfr.sort_values('Urbanpop_pct', ascending=False))
 
-    #yrangeu1 = list(dfr1.index.values)
     yrangepu = dfr1.index.tolist()
-    #yrangeu= yrangeu[::-1]
-
     coloursu = GnBu[7][::-1]
 
 
@@ -1481,16 +1428,13 @@ def irlDD():
     pu.yaxis.major_label_standoff = -2
     pu.yaxis.major_label_text_font_size = '5pt'
     pu.xaxis.major_label_text_font_size = '7pt'
-    #p1.grid.grid_line_color=None
     pu.outline_line_color=None
-    #p1.yaxis.major_label_text_align = 'center'
     pu.axis.major_label_text_font_style = 'bold'
     pu.yaxis.major_tick_line_color = None
     pu.axis.axis_line_color = None
     pu.min_border = 0
     pu.x_range.range_padding = -0.1
     pu.toolbar.autohide = True
-    #p1.yaxis.major_label_standoff = 0
     pu.xaxis.formatter.use_scientific = False
     pu.x_range.end = 92
 
@@ -1500,7 +1444,6 @@ def irlDD():
 
 
     xrange_u = list(dfadd.index.values)
-    #xrange_u = xrange_u[::-1]
     colours_u = GnBu[5][::-1]
     color_mapper_u = LinearColorMapper(palette = colours_u[::-1], low = dfadd.values.min(), high = dfadd.values.max())
 
@@ -1518,8 +1461,6 @@ def irlDD():
     tick_labels_u = {'100000':'100K','200000':'200K','300000':'300K','400000':'400K','600000':'600K','800000':'800K','1000000':'1M','1200000':'1.2M'}
     p_u.yaxis.major_label_overrides = tick_labels_u
 
-
-    #{'field':'y','transform':color_mapper_a}
     p_u.yaxis.major_label_standoff = -2
     p_u.yaxis.major_label_text_font_size = '6pt'
     p_u.xaxis.major_label_text_font_size = '6.5pt'
@@ -1537,20 +1478,418 @@ def irlDD():
     p_u.toolbar.autohide = True
     p_u.yaxis.major_label_standoff = 0
     p_u.y_range.start=0
-    #p_a.xaxis.major_label_orientation = 45
 
     prr = column([pr, p_a])
     prr1 = row([prm, prr], spacing=-50)
 
-
     pru1 = column([pu, p_u])
     pru2 = row([pum, pru1], spacing=-50)
-
-
 
     tr = Panel(child=prr1, title='Rural Population 2016')
     tu = Panel(child=pru2, title='Urban Population 2016')
     tdd = Panel(child=p3, title='Demographic Density 2016')
+    tabs = Tabs(tabs=[tdd,tu,tr])
+
+    return tabs
+
+def SwDD():
+
+    dfus = pd.read_csv('BokehApp/DataRA/swCpop.csv', delimiter=',', index_col=0)
+    sw1 = pd.read_csv('BokehApp/DataRA/sw1.csv', delimiter=',', index_col=0)
+    with open('BokehApp/DataRA/dfjsonsSW.json', 'r', encoding='utf8') as openfilesw: 
+            # Reading from json file 
+            geo_jsonswd = GeoJSONDataSource(geojson=openfilesw.read())
+
+    pmsw = figure(title = 'Urban Population in %', x_axis_location = None, y_axis_location = None, plot_height=680, plot_width=380,
+                tools = 'pan, wheel_zoom, box_zoom, reset, hover, save', tooltips = [('County', '@county'),('Urban Population','@Urban_16pct{0.00} %')])
+
+    coloursDD = ['#ff0000','#ff2424','#ff4747','#ff6b6b','#ff8f8f','#ffb3b3','#ffd6d6']
+    coloursw = GnBu[8][::-1]
+    tick_labelsw = {'60':'60%','65':'65%','70':'70%','75':'75%','80':'80%','85':'85%','90':'90%','95':'95%','100':'100%'}
+
+    color_mappersw = LinearColorMapper(palette = coloursw, low = 60, high = 100)
+    color_barsw = ColorBar(color_mapper=color_mappersw, label_standoff=6, width = 300, height = 20, ticker=BasicTicker(desired_num_ticks=len(coloursw)), major_label_text_font_style='bold',
+                         border_line_color=None, location = 'center', orientation = 'horizontal', bar_line_color='#50C878', bar_line_alpha=0.7, major_label_overrides = tick_labelsw)
+    #color_bar.label_text_style = 'bold'
+
+    pmsw.patches('xs', 'ys', fill_alpha = 0.7, line_width = 0.5, source = geo_jsonswd, line_cap=None, line_color='black',
+                fill_color = {'field' :'Urban_16pct', 'transform' : color_mappersw})
+    pmsw.add_layout(color_barsw, 'below')
+    pmsw.grid.grid_line_color=None
+    pmsw.outline_line_color=None
+    pmsw.toolbar.autohide = True
+
+    pmsw.title.text_font_style = "bold"
+    pmsw.title.text_font_size = '20px'
+    pmsw.title.align ='left'
+
+    y16 = Label(x=0, y=550, x_units='screen', y_units='screen',
+                         text='2016', render_mode='css', text_font_size='22.5pt', text_color='black', text_font_style='bold',
+                         text_align='left', angle=0, text_alpha=0.6)
+    pmsw.add_layout(y16)
+
+    dfswu = pd.DataFrame(dfus.sort_values('Urban_16pct', ascending=False))
+
+    yrangeswu = dfswu.index.to_list()
+    #yrangeswu = reverse(yrangeswu)
+
+    sourceswu = ColumnDataSource(data=dict(y=yrangeswu,x=dfswu['Urban_16pct']))
+    color_mapperswu = LinearColorMapper(palette= coloursw, low=60, high=100)
+
+    pswu = figure(y_range=yrangeswu[::-1], title='Urban Population by County in %', plot_height=500, plot_width=330, tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right')
+    pswu.hbar(y='y', height=.7, right='x',  left=0, source=sourceswu, line_color="black", line_width = 0.1, fill_color={'field':'x','transform':color_mapperswu})
+
+
+    hoverpswu = HoverTool()
+    hoverpswu.tooltips=[('county', '@y'), ('Urban Population', '@x{0.00} %')]
+
+    pswu.add_tools(hoverpswu)
+    pswu.yaxis.major_label_standoff = -2
+    pswu.yaxis.major_label_text_font_size = '7.5pt'
+    pswu.xaxis.major_label_text_font_size = '7pt'
+    #p1.grid.grid_line_color=None
+    pswu.outline_line_color=None
+    #p1.yaxis.major_label_text_align = 'center'
+    pswu.axis.major_label_text_font_style = 'bold'
+    pswu.yaxis.major_tick_line_color = None
+    pswu.axis.axis_line_color = None
+    pswu.min_border = 0
+    pswu.x_range.range_padding = -0.1
+    pswu.toolbar.autohide = True
+    #p1.yaxis.major_label_standoff = 0
+    pswu.xaxis.formatter.use_scientific = False
+    pswu.x_range.end = 103
+
+    tick_labelswu = {'20':'20%','40':'40%','60':'60%','80':'80%','100':'100%'}
+    pswu.xaxis.major_label_overrides = tick_labelswu
+
+    pswu.grid.grid_line_dash = 'dotted'
+    pswu.grid.grid_line_dash_offset = 5
+    pswu.grid.grid_line_width = 2
+
+
+    psf = figure(x_axis_location = None, y_axis_location = None, plot_width=185, plot_height=750, tools='')
+    psf.image_url(url=['static/imagesRA/swleaflet3.png'], x=0, y=0, w=1, h=3.5, anchor='bottom_left', level='image')
+    #psf.title.align='center'    
+    psf.grid.grid_line_color=None
+    psf.outline_line_color=None
+    #psf.toolbar = None
+    #psf.toolbar.autohide = True
+    psf.toolbar.logo = None
+    psf.title.text_font_style = "bold"
+    psf.y_range.bounds=(-30,750)
+    #psf.y_range.start=0
+
+    dfsur = pd.read_csv('BokehApp/DataRA/SwPopRuralUrbanAgeGroup.csv', delimiter=',', index_col=0)
+
+    xr = dfsur.index.tolist()
+    sourcesur = ColumnDataSource(data=dict(x=xr, y=dfsur['UrbanMale'], y1=dfsur['UrbanFemale']))
+
+    psur = figure(x_range=FactorRange(*xr), plot_height=180, plot_width=330, title='Urban Population by Age Group and Sex',
+                tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right')
+    psur.vbar(x=dodge('x',-0.25, range=psur.x_range), top='y', width=.2, color='#43a2ca', source=sourcesur, legend_label='Male')
+    psur.vbar(x=dodge('x',0, range=psur.x_range), top='y1', width=.2, color='#ccebc5', source=sourcesur, legend_label='Female')
+    psur.yaxis.formatter.use_scientific = False
+    hoversur = HoverTool()
+
+    hoversur.tooltips=[('Age Group', '@x'), ('Male Population','@y{0}'), ('Female Population', '@y1{0}')]
+    psur.add_tools(hoversur)
+
+    tick_labelsur = {'500000':'0.5M','2000000':'2M','1500000':'1.5M','2500000':'2.5M','600000':'600K','800000':'800K','1000000':'1M','1200000':'1.2M'}
+    psur.yaxis.major_label_overrides = tick_labelsur
+
+    psur.legend.location= 'top_right'#(370,180)
+    psur.legend.background_fill_alpha=None
+    psur.legend.click_policy="hide"
+    psur.legend.border_line_alpha=None
+
+    psur.yaxis.major_label_standoff = -2
+    psur.yaxis.major_label_text_font_size = '6pt'
+    psur.xaxis.major_label_text_font_size = '6.5pt'
+    psur.title.text_font_size = '9px'
+    psur.grid.grid_line_dash = 'dotted'
+    psur.grid.grid_line_dash_offset = 5
+    psur.grid.grid_line_width = 2
+    psur.grid.grid_line_alpha = 0.6
+
+    psur.outline_line_color=None
+    psur.yaxis.major_label_text_align = 'center'
+    psur.axis.major_label_text_font_style = 'bold'
+    psur.min_border = 0
+    psur.x_range.range_padding = 0
+    psur.toolbar.autohide = True
+    psur.yaxis.major_label_standoff = 0
+    psur.y_range.start=0
+
+
+    dfswu = pd.DataFrame(dfus.sort_values('Urban_16pct', ascending=False))
+
+
+    pmsdd = figure(title = 'Sweden Demographic Density', x_axis_location = None, y_axis_location = None, plot_height=680, plot_width=380,
+                tools = 'pan, wheel_zoom, box_zoom, reset, hover, save', tooltips = [('County', '@county'),('Demographic Density','@PopDDkm2_16{0.00} pp/km2')])
+
+    coloursDD = ['#ff0000','#ff2424','#ff4747','#ff6b6b','#ff8f8f','#ffb3b3','#ffd6d6']
+
+    #tick_labelsw = {'60':'60%','65':'65%','70':'70%','75':'75%','80':'80%','85':'85%','90':'90%','95':'95%','100':'100%'}
+
+    color_mappersdd = LinearColorMapper(palette = coloursDD[::-1], low = 0, high = 70)
+    color_barsdd = ColorBar(color_mapper=color_mappersdd, label_standoff=6, width = 275, height = 20, ticker=BasicTicker(desired_num_ticks=len(coloursDD)), major_label_text_font_style='bold',
+                         border_line_color=None, location = 'center', orientation = 'horizontal', bar_line_color='#50C878', bar_line_alpha=0.7)#, major_label_overrides = tick_labelsw)
+    #color_bar.label_text_style = 'bold'
+    #color_barsdd.title_text_align = (0,0)
+    #title='Population p/Km2', title_text_align='left', 
+
+    pmsdd.patches('xs', 'ys', fill_alpha = 0.7, line_width = 0.5, source = geo_jsonswd, line_cap=None, line_color='black',
+                fill_color = {'field' :'PopDDkm2_16', 'transform' : color_mappersdd})
+    pmsdd.add_layout(color_barsdd, 'below')
+    pmsdd.grid.grid_line_color=None
+    pmsdd.outline_line_color=None
+    pmsdd.toolbar.autohide = True
+
+    pmsdd.title.text_font_style = "bold"
+    pmsdd.title.text_font_size = '20px'
+    pmsdd.title.align ='left'
+
+    y16d = Label(x=0, y=550, x_units='screen', y_units='screen',
+                         text='2016', render_mode='css', text_font_size='22.5pt', text_color='black', text_font_style='bold',
+                         text_align='left', angle=0, text_alpha=0.6)
+    pmsdd.add_layout(y16d)
+
+    sdd1 = Label(x=30, y=490, x_units='screen', y_units='screen',
+                         text='Stockholm', render_mode='css', text_font_size='11pt', text_color='black', text_font_style='bold',
+                         text_align='left', angle=0, text_alpha=0.6)
+    pmsdd.add_layout(sdd1)
+
+    sdd = Label(x=15, y=470, x_units='screen', y_units='screen',
+                         text='347.8', render_mode='css', text_font_size='14pt', text_color='black', text_font_style='bold',
+                         text_align='left', angle=0, text_alpha=0.6)
+    pmsdd.add_layout(sdd)
+
+    sdp = Label(x=10, y=454, x_units='screen', y_units='screen',
+                         text='People', render_mode='css', text_font_size='9pt', text_color='black', text_font_style='bold',
+                         text_align='left', angle=0, text_alpha=0.6)
+    pmsdd.add_layout(sdp)
+
+    sdp1 = Label(x=35, y=442, x_units='screen', y_units='screen',
+                         text='per Km', render_mode='css', text_font_size='9pt', text_color='black', text_font_style='bold',
+                         text_align='left', angle=0, text_alpha=0.6)
+    pmsdd.add_layout(sdp1)
+
+    sdp2 = Label(x=76, y=448, x_units='screen', y_units='screen',
+                         text='2', render_mode='css', text_font_size='5pt', text_color='black', text_font_style='bold',
+                         text_align='left', angle=0, text_alpha=0.6)
+    pmsdd.add_layout(sdp2)
+
+    scb = Label(x=125, y=-13, x_units='screen', y_units='screen',
+                         text='Population per km', render_mode='css', text_font_size='8pt', text_color='black', text_font_style='bold',
+                         text_align='left', angle=0, text_alpha=0.6)
+    pmsdd.add_layout(scb)
+
+    scb1 = Label(x=218, y=-9, x_units='screen', y_units='screen',
+                         text='2', render_mode='css', text_font_size='5pt', text_color='black', text_font_style='bold',
+                         text_align='left', angle=0, text_alpha=0.6)
+    pmsdd.add_layout(scb1)
+
+
+
+    dfsdd = pd.DataFrame(dfus.sort_values('PopDDkm2_16', ascending=False))
+    dfsdd = dfsdd[1:]
+    dfsdd
+
+    yrangesdd = dfsdd.index.to_list()
+
+    sourcesdd = ColumnDataSource(data=dict(y=yrangesdd, x=dfsdd['PopDDkm2_16']))
+    color_mappersdd = LinearColorMapper(palette=coloursDD[::-1], low=0, high=70)
+
+    psdd  = figure(y_range=yrangesdd[::-1], title='Demographic Density by County', plot_height=470, plot_width=330, tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right')
+    psdd.hbar(y='y', height=.7, right='x',  left=0, source=sourcesdd, line_color="black", line_width = 0.1, fill_color={'field':'x','transform':color_mappersdd})
+
+    hoverpsdd = HoverTool()
+    hoverpsdd.tooltips=[('county', '@y'), ('Demographic Density', '@x{0.00} People p/km2')]
+
+    psdd.add_tools(hoverpsdd)
+    psdd.yaxis.major_label_standoff = -2
+    psdd.yaxis.major_label_text_font_size = '7.5pt'
+    psdd.xaxis.major_label_text_font_size = '7pt'
+    #p1.grid.grid_line_color=None
+    psdd.outline_line_color=None
+    #p1.yaxis.major_label_text_align = 'center'
+    psdd.axis.major_label_text_font_style = 'bold'
+    psdd.yaxis.major_tick_line_color = None
+    psdd.axis.axis_line_color = None
+    psdd.min_border = 0
+    psdd.x_range.range_padding = -0.1
+    psdd.toolbar.autohide = True
+    #p1.yaxis.major_label_standoff = 0
+    psdd.xaxis.formatter.use_scientific = False
+
+    tick_labelsdd = {'20':'20%','40':'40%','60':'60%','80':'80%','100':'100%','120':'120%','140':'140%'}
+    psdd.xaxis.major_label_overrides = tick_labelsdd
+
+    psdd.grid.grid_line_dash = 'dotted'
+    psdd.grid.grid_line_dash_offset = 5
+    psdd.grid.grid_line_width = 2
+    psdd.x_range.end = 150
+
+    labelsdd = LabelSet(x='x', y='y', text='x', level='glyph', text_font_size='6.5pt', text_font_style='bold',
+            x_offset=10, y_offset=-4, source=sourcesdd, render_mode='canvas')
+    psdd.add_layout(labelsdd)
+
+
+    dfsd = pd.DataFrame(dfus.sort_values('Urban_16pct', ascending=False))
+
+    xrangesd = dfsd.index.to_list()
+    #yrangeswu = reverse(yrangeswu)
+
+    sourcesd = ColumnDataSource(data=dict(x=xrangesd ,y=dfsd['Urban_16pct'], y1=dfsd['Rural_16pct']))
+    color_mappersd = LinearColorMapper(palette= coloursDD[::-1], low=60, high=100)
+
+    psd = figure(x_range=xrangesd, title='Urban Population by County in %', plot_height=200, plot_width=330, tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right')
+    psd.vbar(top='y', width=.55, x='x', source=sourcesd, line_color="black", line_width = 0.1, fill_color={'field':'y','transform':color_mappersd})
+
+
+    hoverpsd = HoverTool()
+    hoverpsd.tooltips=[('county', '@x'), ('Urban Population', '@y{0.00} %'), ('Rural Population', '@y1{0.00} %')]
+
+    psd.add_tools(hoverpsd)
+    psd.yaxis.major_label_standoff = -2
+    psd.yaxis.major_label_text_font_size = '7.5pt'
+    psd.xaxis.major_label_text_font_size = '5pt'
+    psd.outline_line_color=None
+    psd.axis.major_label_text_font_style = 'bold'
+    psd.min_border = 0
+    psd.x_range.range_padding = -0.1
+    psd.toolbar.autohide = True
+
+    tick_labelsd = {'70':'70%','75':'75%','85':'85%','80':'80%','90':'90%'}
+    psd.yaxis.major_label_overrides = tick_labelsd
+
+    psd.grid.grid_line_dash = 'dotted'
+    psd.grid.grid_line_dash_offset = 5
+    psd.grid.grid_line_width = 2
+    psd.y_range.start = 70
+    psd.y_range.end = 92
+    psd.xaxis.major_label_orientation = 45
+
+
+    pmsr = figure(title = 'Rural Population in %', x_axis_location = None, y_axis_location = None, plot_height=680, plot_width=380,
+                tools = 'pan, wheel_zoom, box_zoom, reset, hover, save', tooltips = [('County', '@county'),('Rural Population','@Rural_16pct{0.00} %')])
+
+    coloursr = Greens[7][::-1]
+    tick_labelsr = {'5':'5%','10':'10%','15':'15%','20':'20%','25':'25%','30':'30%','35':'35%','40':'40%'}
+
+    color_mappersr = LinearColorMapper(palette = coloursr, low = 0, high = 35)
+    color_barsr = ColorBar(color_mapper=color_mappersr, label_standoff=6, width = 300, height = 20, ticker=BasicTicker(desired_num_ticks=len(coloursr)), major_label_text_font_style='bold',
+                         border_line_color=None, location = 'center', orientation = 'horizontal', bar_line_color='#50C878', bar_line_alpha=0.7, major_label_overrides = tick_labelsr)
+    #color_bar.label_text_style = 'bold'
+
+    pmsr.patches('xs', 'ys', fill_alpha = 0.7, line_width = 0.5, source = geo_jsonswd, line_cap=None, line_color='black',
+                fill_color = {'field' :'Rural_16pct', 'transform' : color_mappersr})
+    pmsr.add_layout(color_barsr, 'below')
+    pmsr.grid.grid_line_color=None
+    pmsr.outline_line_color=None
+    pmsr.toolbar.autohide = True
+
+    pmsr.title.text_font_style = "bold"
+    pmsr.title.text_font_size = '20px'
+    pmsr.title.align ='left'
+
+    y16r = Label(x=0, y=550, x_units='screen', y_units='screen',
+                         text='2016', render_mode='css', text_font_size='22.5pt', text_color='black', text_font_style='bold',
+                         text_align='left', angle=0, text_alpha=0.6)
+    pmsr.add_layout(y16r)
+
+
+
+    dfsr = pd.DataFrame(dfus.sort_values('Rural_16pct', ascending=False))
+
+    yrsr = dfsr.index.to_list()
+
+    sourcesr = ColumnDataSource(data=dict(y=yrsr, x=dfsr['Rural_16pct']))
+
+    phsr = figure(y_range=yrsr[::-1], title='Rural Population by County in %', plot_height=500, plot_width=330, tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right')
+    phsr.hbar(y='y', height=.7, right='x',  left=0, source=sourcesr, line_color="black", line_width = 0.1, fill_color={'field':'x','transform':color_mappersr})
+
+
+    hoverphsr = HoverTool()
+    hoverphsr.tooltips=[('county', '@y'), ('Rural Population', '@x{0.00} %')]
+
+    phsr.add_tools(hoverphsr)
+    phsr.yaxis.major_label_standoff = -2
+    phsr.yaxis.major_label_text_font_size = '7.5pt'
+    pswu.xaxis.major_label_text_font_size = '5.5pt'
+    #p1.grid.grid_line_color=None
+    phsr.outline_line_color=None
+    #p1.yaxis.major_label_text_align = 'center'
+    phsr.axis.major_label_text_font_style = 'bold'
+    phsr.yaxis.major_tick_line_color = None
+    phsr.axis.axis_line_color = None
+    phsr.min_border = 0
+    phsr.x_range.range_padding = -0.1
+    phsr.toolbar.autohide = True
+    #p1.yaxis.major_label_standoff = 0
+    phsr.xaxis.formatter.use_scientific = False
+    phsr.x_range.end = 40
+
+    tick_labelshsr = {'5':'5%','10':'10%','15':'15%','20':'20%','25':'25%','30':'30%','35':'35%','40':'40%'}
+    phsr.xaxis.major_label_overrides = tick_labelshsr
+
+    phsr.grid.grid_line_dash = 'dotted'
+    phsr.grid.grid_line_dash_offset = 5
+    phsr.grid.grid_line_width = 2
+
+
+    xru = dfsur.index.tolist()
+    sourcesru = ColumnDataSource(data=dict(x=xr, y=dfsur['RuralMale'], y1=dfsur['RuralFemale']))
+
+    psru = figure(x_range=FactorRange(*xru), plot_height=180, plot_width=330, title='Rural Population by Age Group and Sex',
+                tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right')
+    psru.vbar(x=dodge('x',-0.25, range=psru.x_range), top='y', width=.2, color='#31a354', source=sourcesru, legend_label='Male')
+    psru.vbar(x=dodge('x',0, range=psur.x_range), top='y1', width=.2, color='#c7e9c0', source=sourcesru, legend_label='Female')
+    psru.yaxis.formatter.use_scientific = False
+    hoversru = HoverTool()
+
+    hoversru.tooltips=[('Age Group', '@x'), ('Male Population','@y{0}'), ('Female Population', '@y1{0}')]
+    psru.add_tools(hoversur)
+
+    tick_labelsru = {'50000':'50K','100000':'100K','150000':'150K','250000':'250K','200000':'200K','300000':'300K','350000':'350K'}
+    psru.yaxis.major_label_overrides = tick_labelsru
+
+    psru.legend.location= 'top_right'#(370,180)
+    psru.legend.background_fill_alpha=None
+    psru.legend.click_policy="hide"
+    psru.legend.border_line_alpha=None
+
+    psru.yaxis.major_label_standoff = -2
+    psru.yaxis.major_label_text_font_size = '6pt'
+    psru.xaxis.major_label_text_font_size = '6.5pt'
+    psru.title.text_font_size = '9px'
+    psru.grid.grid_line_dash = 'dotted'
+    psru.grid.grid_line_dash_offset = 5
+    psru.grid.grid_line_width = 2
+    psru.grid.grid_line_alpha = 0.6
+
+    psru.outline_line_color=None
+    psru.yaxis.major_label_text_align = 'center'
+    psru.axis.major_label_text_font_style = 'bold'
+    psru.min_border = 0
+    psru.x_range.range_padding = 0
+    psru.toolbar.autohide = True
+    psru.yaxis.major_label_standoff = 0
+    psru.y_range.start=0
+
+    ptt1 = column([pswu, psur])
+    ptt = row([pmsw, ptt1])
+
+    pdd2 = column([psdd, psd])
+    pdd1 = row([psf, pmsdd, pdd2], align='center', spacing=-5)
+
+    c = column([phsr, psru])
+    r = row([pmsr, c])
+
+    tr = Panel(child=r, title='Rural Population 2016')
+    tu = Panel(child=ptt, title='Urban Population 2016')
+    tdd = Panel(child=pdd1, title='Demographic Density 2016')
     tabs = Tabs(tabs=[tdd,tu,tr])
 
     return tabs
