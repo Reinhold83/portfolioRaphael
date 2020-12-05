@@ -7,7 +7,9 @@ from form import ContactForm
 from flask_mail import Message, Mail
 from rightA import (swedishpop, swedishpop1, irishpop, wwpop, pandemics, pandemics1, R0, pandAgeGroups, pandAgeGroups1, corrplot, irishDeaths, swedishdeaths, irishswedishDeaths,
                     irlDD, SwDD)
+from fbPlots import fb_figs, fb_vars, heatmaps, predic
 from os import environ
+
 #from django.contrib.gis import gdal
 
 GEOS_LIBRARY_PATH = environ.get('GEOS_LIBRARY_PATH')
@@ -22,12 +24,12 @@ app.config["MAIL_SERVER"] = "smtp.gmail.com"
 app.config["MAIL_PORT"] = 465
 app.config["MAIL_USE_SSL"] = True
 app.config["MAIL_USERNAME"] = 'ds.rran@gmail.com'
-app.config["MAIL_PASSWORD"] = ''
+app.config["MAIL_PASSWORD"] = 'Star_wars20'
  
 mail.init_app(app)
 
 #app = Flask(__name__, static_folder='static', static_url_path='/static')
-app.config['SECRET_KEY'] = ''
+app.config['SECRET_KEY'] = 'oratoroeuaroupadoreideroma123'
 #app.static_folder = 'static'
 Bootstrap(app)
 #@app.route('/')
@@ -128,3 +130,16 @@ def rightApproach():
                             script4=script4, div4=div4, script5=script5, div5=div5, script6=script6, div6=div6, script7=script7, div7=div7, script8=script8, div8=div8,
                             script9=script9, div9=div9, script10=script10, div10=div10, script11=script11, div11=div11, script12=script12, div12=div12,
                             script13=script13, div13=div13, script14=script14, div14=div14)
+
+
+
+@app.route('/FB')
+def FB():
+    script, div = components(fb_figs())
+    script1, div1 = components(fb_vars())
+    script2, div2 = components(heatmaps())
+    script3, div3 = components(predic())
+
+
+
+    return render_template('FB.html', script=script, div=div, script1=script1, div1=div1, script2=script2, div2=div2, script3=script3, div3=div3)

@@ -1,0 +1,96 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    About
+{% endblock %}
+
+{% block main %}
+<script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-2.1.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-widgets-2.1.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-tables-2.1.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-gl-2.1.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-api-2.1.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-api-2.1.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-2.1.1.min.js"></script>
+    
+    <link href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-2.1.1.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-2.1.1.min.js" type="text/css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/article.css') }}"  type="text/css" >
+    <link href="/static/styles1.css" rel="stylesheet">
+
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-2.1.1.min.js"></script>
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.1.1.min.js"></script>
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.1.1.min.js"></script>
+
+    {{ script|safe }}
+    {{ script1|safe }}
+    {{ script2|safe }}
+    {{ script3|safe }}
+
+
+    <h2 style='margin-left: 10px; margin-right:10px; text-align: center; font-style: italic; font-weight: bold'>Facebook Inc. Stock Market Analyses</h2>
+
+    <p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px;'>
+        The past two decades witness the rise of technology companies, those becoming some of the most valuable companies worldwide,  digitization certainly propelled the rise as the world shifted to an online reality, being it social or commercial. Facebook being one of the tech giants held its initial public offering<span style='font-style: italic;'>(IPO)</span> on 18<sup>th</sup> of May in 2012 with the value per share at $38.00, by 30/09/2020 the value was at $263.27, a positive deviation of 592.82%, it alone would not be a good parameter to invest capital in a company’s stock, with the analyses of Facebook’s stocks from 01/01/2014 to 30/09/2020 will be possible to visualize and identify patterns.
+    There are several factors to take under consideration while analyzing a company’s stock, this report will focus in few factors in order to comprehend its behavior and based on mathematical models attempt to forecast its future values.<br>
+    <span style='font-style: italic; font-weight: bold;'>Close price:</span> The final price traded during regular market hours on any given day, week, or month as it was grouped in the charts below.<br>
+    <span style='font-style: italic; font-weight: bold;'>Moving average:</span> It is a statistical model that uses average in different subsets in order to smooth the curve what gives a better idea how the market is behaving.<br>
+    <span style='font-style: italic; font-weight: bold;'>Expected return:</span> It is the amount of profit or loss an investor can foresee returning.<br>
+    <span style='font-style: italic; font-weight: bold;'>P/E ratio:</span> Price-earnings ratio is the company's share price to its earnings per share. It helps to understand if the marketing price represents the actual earning per share.<br>
+    <span style='font-style: italic; font-weight: bold;'>Trailing PEG ratio:</span> Price/earnings to growth ratio used to verify the growth potential of a company's earnings. This trailing PEG is based on the growth between 2014 to 2019 divided by P/E. A PEG ratio under 1 offers a good investment.<br><br>
+    The data is grouped by week, day and month the first it is visually more representative, undeniably the chart with the close price demonstrates how the price per share has been in a constant growth since 2014 with a slightly dent on the 26/07/2018 when Facebook Inc. stock dropped 19.42% due legal matters related to copyrights in the Unite States of America and also new regulations for the internet placed by the European Union, it bounced back though by 08/01/2020 with both closing price at $215. In this nearly seven years period Facebook Inc. stock expected return had 56.82% of its outcome positive what can give a reasonable expectations for the future based on its positive historical. The P/E ratio demonstrate the equity true value, as it is a product of <span style='font-style: italic;'>(market value per share/earnings per share)</span> Facebook Inc. stock P/E ratio was 40.95 on 30/09/2020, what indicates that it will take around 40 years to get the investment back, i.e., it is a long term investment. Looking from the trailing PEG perspective that is 0.44 which is under 1 indicates that it is a secure investment as the past five years it has shown a positive return.<bt>
+    span style='font-style: italic; font-weight: bold;'>Note:</span> Most charts are interactive.<br>
+    <br></p>
+    
+    <div class='FB'>
+        {{ div|safe }}
+    </div>
+
+    <br><br>
+
+    <h4 style='margin-left: 10px; margin-right:10px; text-align: left; font-size: 20px; font-style: italic; font-weight: bold'>Frequency and Amplitude</h4>
+
+    <p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px;'>
+        Frequency is the number of times a certain scenario can happen, while amplitude measures the extent of an oscillation from an equilibrium position. The charts below are representation of frequencies, amplitudes and patterns of Facebook Inc. in the stock market between January of 2014 to September of 2020.<br>
+        <span style='font-style: italic; font-weight: bold;'>Price per share: </span>  the data was grouped by weeks* what helps to identify the frequency of closing prices during each week since  2014; Facebook Inc. price per share crossed the $150 barrier on 28/04/2017, to stay above it 90.66% time since.<br>
+         <span style='font-style: italic; font-weight: bold;'>Close histogram: </span> the data is grouped by range and intervals, for instance the range between 170 to 190 happened 69 times out of 352 weeks, which comprises 19.6% of the share price were closed between $170 to $190, since early 2019 the price per share is at or above $200 frequently. Complementary there is a violin chart representing the frequencies.<br>
+        <span style='font-style: italic; font-weight: bold;'>FFT: </span> or Fast Fourier transform is a recursive algorithm that factor the data points to identify their frequency and amplitude. The insights shown that there are more strong correlations between highers frequencies and amplitudes than the lowers, which infers that the company is more likely the keep good momentous in the market.<br>
+        <span style='font-style: italic; font-weight: bold;'>Trading volume: </span> It is the amount of shares traded in a given period of time. From 2014 onward the volume traded decreased significantly with an exception in middle of 2018 related to the drop of 19.42% on 26/07/2018, what could be suggesting that as Facebook Inc. stock shares has shown a solid investment, also being a long-term investment as we could factor by its P/E ratio, investors will tend to retain their shares consequently decreasing the offer, or volume.<br>
+        <span style='font-style: italic; font-weight: bold;'>Moving average deviation: </span> It is the linear deviation measured in percentage throughout the years, the chart shows a positive outcome of 66.85%, what means that as the timeline moves onward the curve stayed on the positive side 2/3 of the timeline.<br>
+        <p style='font-style: italic; font-size: 12px;'>*grouped by week, day, month. Use tab to select.</span></p><br>
+
+    <div class='FB'>
+        {{ div1|safe }}
+    </div>
+    <br><br>
+    <h4 style='margin-left: 10px; margin-right:10px; text-align: left; font-size: 20px; font-style: italic; font-weight: bold'>Heatmaps</h4>
+
+    <p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px;'>
+        They aid to identify trends, the tab <span style='font-style: italic;'>Day/Hour Heatmap share</span> for instance shows that Mondays between 3pm to 9pm are the best time to buy shares, or that Fridays between 12pm to 4pm are the best times to sell a share, or that March seems the best month to buy shares tab <span style='font-style: italic; font-size: 14px;'>Year/Month Heatmap share</span>, it also shows insights such as the consistent growth, tab <span style='font-style: italic; font-size: 14px;'>Year/week Heatmap share</span>.
+    </p>
+    
+    
+    <div class='FB'>
+        {{ div2|safe }}
+    </div>
+    <br><br>
+
+    <h4 style='margin-left: 10px; margin-right:10px; text-align: left; font-size: 20px; font-style: italic; font-weight: bold'>Forecasting</h4>
+
+    <p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px; margin-bottom: -5px;'>
+    Data Science has several branches among them machine learning that uses statistical techniques and algorithms to learn from the data provided and predict future outcomes. The model used for the forecast the data was the Polynomial Feature algorithm combined with Ridge algorithm what would be a combinations of squares and coefficients aiming to identify, learning and predict outcomes. The model’s accuracy is 95% that is a good parameter for future predictions.
+    </p>
+    
+    <div class='FB'>
+        {{ div3|safe }}
+    </div><br><br>
+    
+    <h4 style='margin-left: 10px; margin-right:10px; text-align: left; font-size: 20px; font-style: italic; font-weight: bold'>Conclusions</h4>
+
+    <p style='font-size:15px; text-align: justify; margin-left: 7px; margin-right:7px;'>
+        Considering all the insights gathered during the analyses Facebook Inc. stocks are appealing shares for long-term investment, with a health growth curve throughout the years, consistent ratios and a well establish niche in the market what suggests that Facebook Inc. just tend to solidify even more its status of tech giant.
+    </p>
+
+    
+    </body>
+    {% endblock %}
