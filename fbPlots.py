@@ -124,8 +124,7 @@ def fb_figs():
     pdp.grid.grid_line_width = 2
     pdp.xaxis.ticker.desired_num_ticks = 10
     pdp.xaxis.formatter=DatetimeTickFormatter(months= ['%G'])
-    #pdp.yaxis.axis_line_color = None
-    #pdp.yaxis.ticker.desired_num_ticks = 4
+  
     pdp.yaxis.minor_tick_line_color = None
 
 
@@ -153,7 +152,6 @@ def fb_figs():
 
     pdr = figure(title='Expected Return', plot_height=200, plot_width=950, tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right', x_axis_type = 'datetime')#, y_axis_label='PE ratio')
     pdr.line(y='y5', x='x1', source=sourceday, line_color='#3b5998', line_width = 1)
-    #pdr.line(y='y6', x='x1', source=sourceday, line_color='orange', line_width = 1.7, line_alpha=.6, legend_label='E.R. Moving Avg')
 
     pdr.add_tools(hoverday)
     pdr.yaxis.major_label_standoff = -2
@@ -170,8 +168,7 @@ def fb_figs():
     pdr.grid.grid_line_width = 2
     pdr.xaxis.ticker.desired_num_ticks = 11
     pdr.xaxis.formatter=DatetimeTickFormatter(months= ['%G'])
-    #pdp.yaxis.axis_line_color = None
-    #pdp.yaxis.ticker.desired_num_ticks = 4
+  
     pdr.yaxis.minor_tick_line_color = None
     pdr.xaxis.visible = False
 
@@ -184,13 +181,10 @@ def fb_figs():
 
     sourcew = ColumnDataSource(data=dict(x=dfWeekPE['week'] ,x1=dfWeekPE['week1'], y=dfWeekPE['Close'], y1=dfWeekPE['Open'], y2=dfWeekPE['PE'], y3=dfWeekPE['Volume'], y4=dfWeekPE['MovingAvg'], y5=dfWeekPE['Returns'], y6=dfWeekPE['MovingAvgReturn'],
                                         ub=dfWeekPE['UB'], lb=dfWeekPE['LB'], sd=dfWeekPE['STD'], pctma=dfWeekPE['pct_ma'], l=dfWeekPE['line']))
-    #color_mapperday = LinearColorMapper(palette= coloursDD[::-1], low=60, high=100)
 
     pw = figure(title='Weekly Facebook, Inc.', plot_height=500, plot_width=950, tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right', x_axis_type = 'datetime')
     pw.line(y='y', x='x1', source=sourcew, line_width = 1.2, line_color='#3b5998', legend_label='Close')
-    #pw.line(y='ub', x='x1', source=sourcew, line_width=1.8, line_color='black')
-    #pw.line(y='lb', x='x1', source=sourcew, line_width=1.8, line_color='black')
-    #pw.line(y='sd', x='x1', source=sourcew, line_width=1.8, line_color='green')
+
     pw.line(y='y4', x='x1', source=sourcew, line_width=1.8, line_color='orange', legend_label='Moving avg')
 
     pwBand = Band(base='x1', lower='lb', upper='ub', source=sourcew, level='glyph', fill_color='#3b5998',
