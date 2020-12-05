@@ -3,7 +3,7 @@ import numpy as np
 import time, glob, os, math
 import datetime
 
-from scipy.stats import spearmanr
+#from scipy.stats import spearmanr
 from sklearn.preprocessing import MinMaxScaler
 from relativeImp import relativeImp
 from sklearn.preprocessing import scale, PolynomialFeatures
