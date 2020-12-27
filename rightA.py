@@ -111,6 +111,7 @@ def wwpop():
 
 
 def swedishpop():
+
     dfswpop = pd.read_csv('BokehApp/DataRA/SwedishPop_5ys.csv', delimiter=',')
     df_pivot = dfswpop.pivot_table(values=['2007', '2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019'], index='sex', columns='ageGroup')
     yrs = ['2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019']
@@ -122,12 +123,12 @@ def swedishpop():
     sourceSm = ColumnDataSource(data=dict(y=gs, _2019_=df_pivot.loc['male']['2019'],_2015=df_pivot.loc['male']['2015'], _2016=df_pivot.loc['male']['2016'], _2017=df_pivot.loc['male']['2017'], _2018=df_pivot.loc['male']['2018'], _2019=df_pivot.loc['male']['2019']))
     sourceSf = ColumnDataSource(data=dict(y=gs, _2019_=df_pivot.loc['female']['2019'],_2015=df_pivot.loc['female']['2015'], _2016=df_pivot.loc['female']['2016'], _2017=df_pivot.loc['female']['2017'], _2018=df_pivot.loc['female']['2018'], _2019=df_pivot.loc['female']['2019']))
 
-    pm = figure(y_axis_location = None, plot_height=320, plot_width=270, y_range=gs, tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right')
+    pm = figure(y_axis_location = None, plot_height=320, plot_width=260, y_range=gs, tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right')
     pm.hbar(y='y', height=1, right='_2019_',  source=sourceSm, legend_label='male', line_color="white", fill_color='#FFCD00')
 
     #plot style
     hoverpm = HoverTool()
-    hoverpm.tooltips=[('Age Group', '@y'),('Population', '@_2019_')]
+    hoverpm.tooltips=[('Age Group', '@y'),('Population', '@_2019_{0.00 a}')]
     pm.add_tools(hoverpm)
     pm.x_range.flipped = True
     pm.grid.grid_line_color=None
@@ -144,11 +145,11 @@ def swedishpop():
     tick_labels_pm = {'50000':'50K','100000':'100K','150000':'150K','200000':'200K','250000':'250K', '300000':'300K', '350000':'350K'}
     pm.xaxis.major_label_overrides = tick_labels_pm
 
-    pf = figure(plot_height=320, plot_width=295, y_range=gs, tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right')
+    pf = figure(plot_height=320, plot_width=285, y_range=gs, tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right')
     pf.hbar(y='y', height=1, right='_2019_',  source=sourceSf, legend_label='female', line_color="white", fill_color='#004B87')
 
     hoverpf = HoverTool()
-    hoverpf.tooltips=[('Age Group', '@y'), ('Population', '@_2019_')]
+    hoverpf.tooltips=[('Age Group', '@y'), ('Population', '@_2019_{0.00 a}')]
 
     #plot style
     pf.add_tools(hoverpf)
@@ -170,7 +171,7 @@ def swedishpop():
     pf.xaxis.formatter.use_scientific = False
     tick_labels_pf = {'50000':'50K','100000':'100K','150000':'150K','200000':'200K','250000':'250K', '300000':'300K', '350000':'350K'}
     pf.xaxis.major_label_overrides = tick_labels_pf
-    pm.title.text_font_size = '8.5pt'
+    pm.title.text_font_size = '8pt'
     pm.title.text = 'Swedish Population by Age/Gender Group 2019'
     pm.title.align = 'left'
 
@@ -183,7 +184,7 @@ def swedishpop():
 
     sourceOverall = ColumnDataSource(data=dict(x=gs, color=df_ageOverall['color'], _2019_=df_ageOverall['2019'], _2015=df_ageOverall['2015'], _2016=df_ageOverall['2016'], _2017=df_ageOverall['2017'], _2018=df_ageOverall['2018'],_2019=df_ageOverall['2019']))
 
-    pO = figure(x_range=gs, plot_height=320, plot_width=460,title='Swedish Population by Age Group 2019',
+    pO = figure(x_range=gs, plot_height=320, plot_width=410,title='Swedish Population by Age Group 2019',
                tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right')
 
     pO.vbar(x='x', top='_2019_', source=sourceOverall, width=0.55, color='#FFCD00')
@@ -201,13 +202,13 @@ def swedishpop():
 
 
     hoverpO = HoverTool()
-    hoverpO.tooltips=[('Age Group','@x'),('Population', '@_2019_')]
+    hoverpO.tooltips=[('Age Group','@x'),('Population', '@_2019_{0.00 a}')]
     pO.add_tools(hoverpO)
 
     tick_labels_pO = {'100000':'100K','200000':'200K','300000':'300K','400000':'400K','500000':'500K','600000':'600K','700000':'700K'}
     pO.yaxis.major_label_overrides = tick_labels_pO
 
-    select = Select(title="Select year:", align='start', value='_2019_', width=80, height=25, options=['_2015','_2016','_2017','_2018','_2019'])
+    select = Select(title="Select year:", align='start', value='_2019_', width=70, height=25, options=['_2015','_2016','_2017','_2018','_2019'])
 
     callback = CustomJS(args={'source':sourceSm,  'source1':sourceSf, 'source2':sourceOverall, 'title':pm.title, 'title1':pO.title},code="""
             console.log(' changed selected option', cb_obj.value);
@@ -232,7 +233,13 @@ def swedishpop():
 
     select.js_on_change('value', callback)
 
+    p = gridplot([[pm, pf]], toolbar_location='left', merge_tools=True)#, toolbar_options = {'autohide':True})
 
+    layout = row([select, p, pO], margin=(10,40), spacing=10, align='center')
+
+    return layout
+
+def swedishpop1():
     #yearly growth
     dfpopSw = pd.read_csv('BokehApp/DataRA/swedishPopOverall.csv', delimiter=',', index_col=0)
     dfpopSw = dfpopSw.iloc[2:] 
@@ -245,7 +252,7 @@ def swedishpop():
 
     source = ColumnDataSource(dfpopSw)
 
-    pS = figure(plot_height=320, plot_width=400,title='Swedish Population Growth by Year',
+    pS = figure(plot_height=320, plot_width=370,title='Swedish Population Growth by Year',
                y_range=Range1d(*yrange),tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='below')
     pS.vbar(x='Year', top='Population', source=source, width=0.5, color='#004B87')
 
@@ -255,43 +262,31 @@ def swedishpop():
     pS.grid.grid_line_dash = 'dotted'
     pS.grid.grid_line_dash_offset = 5
     pS.grid.grid_line_width = 2
-    #pS.toolbar.autohide=True
+    pS.toolbar.autohide=True
     pS.yaxis.formatter.use_scientific = False
 
 
     hoverpS = HoverTool()
-    hoverpS.tooltips=[('Year','@Year'),('Population', '@Population{int}')]
+    hoverpS.tooltips=[('Year','@Year'),('Population', '@Population{0.00 a}')]
     pS.add_tools(hoverpS)
 
     tick_labels_pS = {'9000000':'9M','9200000':'9.2M','9400000':'9.4M','9600000':'9.6M','9800000':'9.8M','10000000':'10M', '10200000':'10.2M'}
     pS.yaxis.major_label_overrides = tick_labels_pS
 
-    p = gridplot([[pm, pf]], toolbar_location='left', merge_tools=True)#, toolbar_options = {'autohide':True})
 
-    layout = row([select, p, pO, pS], margin=(10,40), spacing=25, align='center')
-    #layout1 = row([pS, pIS], spacing=-10)#, sizing_mode='fixed')
-    
-    return layout
 
-def swedishpop1():
     #piechart
-    pIS = figure(x_axis_location = None, y_axis_location = None, plot_width=530, plot_height=330, tools='')
+    pIS = figure(x_axis_location = None, y_axis_location = None, plot_width=400, plot_height=330, tools='')
     pIS.image_url(url=['static/imagesRA/SwedishChart_edit.png'], x=0, y=0, w=2, h=2, anchor="bottom_left")
     pIS.title.align='center'    
     pIS.grid.grid_line_color=None
     pIS.outline_line_color=None
     pIS.toolbar.logo=None
 
-    pIrl = figure(x_axis_location = None, y_axis_location = None, plot_width=450, plot_height=330, tools='')
-    pIrl.image_url(url=['static/imagesRA/Irish_pie.png'], x=0, y=0, w=2, h=2, anchor="bottom_left")
-    pIrl.title.align='center'    
-    pIrl.grid.grid_line_color=None
-    pIrl.outline_line_color=None
-    pIrl.toolbar.logo=None
-
-    layout = row([pIS, pIrl])
-
-    return layout
+    
+    layout1 = row([pS, pIS], spacing=-5, align='start')
+    
+    return layout1
 
 def irishpop():
 
@@ -455,8 +450,8 @@ def irishpop():
     return layoutIrl
 
 def pandemics():
-    pRF = figure(x_axis_location = None, y_axis_location = None, plot_width=400, plot_height=295)
-    pRF.image_url(url=['static/imagesRA/01_RFlu1.png'], x=0, y=0, w=2, h=1, anchor="bottom_left")
+    pRF = figure(x_axis_location = None, y_axis_location = None, plot_width=800, plot_height=1200)
+    pRF.image_url(url=['static/imagesRA/allPieCharts.png'], x=0, y=0, w=2, h=1, anchor="bottom_left")
     pRF.title.align='center'    
     pRF.grid.grid_line_color=None
     pRF.outline_line_color=None
@@ -464,55 +459,7 @@ def pandemics():
     pRF.title.text_font_style = "bold"
     pRF.toolbar.active_drag = None
 
-    pSF = figure(x_axis_location = None, y_axis_location = None, plot_width=380, plot_height=290)
-    pSF.image_url(url=['static/imagesRA/02_spFlu.png'], x=0, y=0, w=2, h=1, anchor="bottom_left")
-    pSF.title.align='center'    
-    pSF.grid.grid_line_color=None
-    pSF.outline_line_color=None
-    pSF.toolbar.autohide = True
-    pSF.title.text_font_style = "bold"
-    pSF.toolbar.active_drag = None
-
-    pRA = figure(x_axis_location = None, y_axis_location = None, plot_width=410, plot_height=300)
-    pRA.image_url(url=['static/imagesRA/03_AsianFlu_2.png'], x=0, y=0, w=2, h=1, anchor="bottom_left")
-    pRA.title.align='center'    
-    pRA.grid.grid_line_color=None
-    pRA.outline_line_color=None
-    pRA.toolbar.autohide = True
-    pRA.title.text_font_style = "bold"
-    pRA.toolbar.active_drag = None
-
-    pHK = figure(x_axis_location = None, y_axis_location = None, plot_width=400, plot_height=300)
-    pHK.image_url(url=['static/imagesRA/04_HKFlu_1.png'], x=0, y=0, w=2, h=1, anchor="bottom_left")
-    pHK.title.align='center'    
-    pHK.grid.grid_line_color=None
-    pHK.outline_line_color=None
-    pHK.toolbar.autohide = True
-    pHK.title.text_font_style = "bold"
-    pHK.toolbar.active_drag = None
-
-    pSW = figure(x_axis_location = None, y_axis_location = None, plot_width=410, plot_height=300)
-    pSW.image_url(url=['static/imagesRA/05_swineFlu.png'], x=0, y=0, w=2, h=1, anchor="bottom_left")
-    pSW.title.align='center'    
-    pSW.grid.grid_line_color=None
-    pSW.outline_line_color=None
-    pSW.toolbar.autohide = True
-    pSW.title.text_font_style = "bold"
-    pSW.toolbar.active_drag = None
-
-    pCV = figure(x_axis_location = None, y_axis_location = None, plot_width=400, plot_height=300)
-    pCV.image_url(url=['static/imagesRA/07_covid19__.png'], x=0, y=0, w=2, h=1, anchor="bottom_left")
-    pCV.title.align='center'    
-    pCV.grid.grid_line_color=None
-    pCV.outline_line_color=None
-    pCV.toolbar.autohide = True
-    pCV.title.text_font_style = "bold"
-    pCV.toolbar.active_drag = None
-
-    grid = gridplot([[pRF, pSF, pRA], [pHK, pSW, pCV]], merge_tools=True, sizing_mode='fixed',toolbar_location='right', toolbar_options=None)
-    
-    #layout = row([pRF, pSF], margin=(10,40), spacing=10, align='center')
-    return grid
+    return pRF
 
 def pandemics1():
     pF = figure(x_axis_location = None, y_axis_location = None, plot_width=445, plot_height=310, tools='wheel_zoom, box_zoom, reset')
@@ -1374,7 +1321,7 @@ def irlDD():
     p_a.yaxis.formatter.use_scientific = False
     hover_a = HoverTool()
 
-    hover_a.tooltips=[('Age Group', '@x'),('Rural Population', '@y{0}'), ('Urban Population','@y1{0}')]
+    hover_a.tooltips=[('Age Group', '@x'),('Rural Population', '@y{0.0 a}'), ('Urban Population','@y1{0.0 a}')]
     p_a.add_tools(hover_a)
 
     tick_labels_a = {'100000':'100K','200000':'200K','300000':'300K','400000':'400K','500000':'500K'}
@@ -1455,7 +1402,7 @@ def irlDD():
     p_u.yaxis.formatter.use_scientific = False
     hover_u = HoverTool()
 
-    hover_u.tooltips=[('Age Group', '@x'), ('Urban Population','@y1{0}'), ('Rural Population', '@y{0}')]
+    hover_u.tooltips=[('Age Group', '@x'), ('Urban Population','@y1{0.0 a}'), ('Rural Population', '@y{0.0 a}')]
     p_u.add_tools(hover_u)
 
     tick_labels_u = {'100000':'100K','200000':'200K','300000':'300K','400000':'400K','600000':'600K','800000':'800K','1000000':'1M','1200000':'1.2M'}
@@ -1592,7 +1539,7 @@ def SwDD():
     psur.yaxis.formatter.use_scientific = False
     hoversur = HoverTool()
 
-    hoversur.tooltips=[('Age Group', '@x'), ('Male Population','@y{0}'), ('Female Population', '@y1{0}')]
+    hoversur.tooltips=[('Age Group', '@x'), ('Male Population','@y{0.0 a}'), ('Female Population', '@y1{0.0 a}')]
     psur.add_tools(hoversur)
 
     tick_labelsur = {'500000':'0.5M','2000000':'2M','1500000':'1.5M','2500000':'2.5M','600000':'600K','800000':'800K','1000000':'1M','1200000':'1.2M'}
@@ -1849,7 +1796,7 @@ def SwDD():
     psru.yaxis.formatter.use_scientific = False
     hoversru = HoverTool()
 
-    hoversru.tooltips=[('Age Group', '@x'), ('Male Population','@y{0}'), ('Female Population', '@y1{0}')]
+    hoversru.tooltips=[('Age Group', '@x'), ('Male Population','@y{0.0 a}'), ('Female Population', '@y1{0.0 a}')]
     psru.add_tools(hoversur)
 
     tick_labelsru = {'50000':'50K','100000':'100K','150000':'150K','250000':'250K','200000':'200K','300000':'300K','350000':'350K'}
