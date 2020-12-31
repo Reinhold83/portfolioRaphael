@@ -5,11 +5,12 @@ from bokeh.resources import INLINE
 from bokeh.plotting import figure, show, curdoc
 #from bokeh.util.string import encode_utf8
 from bokeh.transform import dodge
+from bokeh.models.widgets import DataTable, DateFormatter, TableColumn
 from math import pi
 from bokeh.transform import cumsum
 from bokeh.layouts import column, row, gridplot
 #from bokeh.core.properties import value
-from bokeh.models import ColumnDataSource, Label, GeoJSONDataSource, LabelSet, DatetimeTickFormatter, BoxAnnotation,BasicTicker, PrintfTickFormatter, NumeralTickFormatter, FactorRange, Paragraph, LinearColorMapper, Tabs, Panel, HoverTool, Div, Select, CustomJS, Range1d, ColorBar, BasicTicker
+from bokeh.models import ColumnDataSource, Label, StringFormatter, GeoJSONDataSource, LabelSet, DatetimeTickFormatter, BoxAnnotation,BasicTicker, PrintfTickFormatter, NumeralTickFormatter, FactorRange, Paragraph, LinearColorMapper, Tabs, Panel, HoverTool, Div, Select, CustomJS, Range1d, ColorBar, BasicTicker
 from bokeh.transform import factor_cmap
 from bokeh.models.widgets import Panel, Tabs
 from bokeh.palettes import viridis, GnBu, Greens
@@ -120,15 +121,15 @@ def swedishpop():
 
     gs = list(dfswpop['ageGroup'].unique())
 
-    sourceSm = ColumnDataSource(data=dict(y=gs, _2019_=df_pivot.loc['male']['2019'],_2015=df_pivot.loc['male']['2015'], _2016=df_pivot.loc['male']['2016'], _2017=df_pivot.loc['male']['2017'], _2018=df_pivot.loc['male']['2018'], _2019=df_pivot.loc['male']['2019']))
-    sourceSf = ColumnDataSource(data=dict(y=gs, _2019_=df_pivot.loc['female']['2019'],_2015=df_pivot.loc['female']['2015'], _2016=df_pivot.loc['female']['2016'], _2017=df_pivot.loc['female']['2017'], _2018=df_pivot.loc['female']['2018'], _2019=df_pivot.loc['female']['2019']))
+    sourceSm = ColumnDataSource(data=dict(y=gs, _2019_=df_pivot.loc['male']['2019'], _2019_f=df_pivot.loc['female']['2019'], _2015=df_pivot.loc['male']['2015'], _2016=df_pivot.loc['male']['2016'], _2017=df_pivot.loc['male']['2017'], _2018=df_pivot.loc['male']['2018'], _2019=df_pivot.loc['male']['2019']))
+    sourceSf = ColumnDataSource(data=dict(y=gs, _2019_=df_pivot.loc['female']['2019'], _2019_m=df_pivot.loc['male']['2019'], _2015=df_pivot.loc['female']['2015'], _2016=df_pivot.loc['female']['2016'], _2017=df_pivot.loc['female']['2017'], _2018=df_pivot.loc['female']['2018'], _2019=df_pivot.loc['female']['2019']))
 
     pm = figure(y_axis_location = None, plot_height=320, plot_width=260, y_range=gs, tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right')
     pm.hbar(y='y', height=1, right='_2019_',  source=sourceSm, legend_label='male', line_color="white", fill_color='#FFCD00')
 
     #plot style
     hoverpm = HoverTool()
-    hoverpm.tooltips=[('Age Group', '@y'),('Population', '@_2019_{0.00 a}')]
+    hoverpm.tooltips=[('Age Group', '@y'),('Male', '@_2019_{0.00 a}'), ('Female', '@_2019_f{0.00 a}')]
     pm.add_tools(hoverpm)
     pm.x_range.flipped = True
     pm.grid.grid_line_color=None
@@ -149,7 +150,7 @@ def swedishpop():
     pf.hbar(y='y', height=1, right='_2019_',  source=sourceSf, legend_label='female', line_color="white", fill_color='#004B87')
 
     hoverpf = HoverTool()
-    hoverpf.tooltips=[('Age Group', '@y'), ('Population', '@_2019_{0.00 a}')]
+    hoverpf.tooltips=[('Age Group', '@y'), ('Female', '@_2019_{0.00 a}'), ('Male', '@_2019_m{0.00 a}')]
 
     #plot style
     pf.add_tools(hoverpf)
@@ -296,8 +297,8 @@ def irishpop():
 
     gs1 = list(dfIrl.index.unique())
 
-    sourceIm = ColumnDataSource(data=dict(y=gs1, _2019_=df_pivotIrl.loc['male']['2019'],_2015=df_pivotIrl.loc['male']['2015'], _2016=df_pivotIrl.loc['male']['2016'], _2017=df_pivotIrl.loc['male']['2017'], _2018=df_pivotIrl.loc['male']['2018'], _2019=df_pivotIrl.loc['male']['2019']))
-    sourceIf = ColumnDataSource(data=dict(y=gs1, _2019_=df_pivotIrl.loc['female']['2019'],_2015=df_pivotIrl.loc['female']['2015'], _2016=df_pivotIrl.loc['female']['2016'], _2017=df_pivotIrl.loc['female']['2017'], _2018=df_pivotIrl.loc['female']['2018'], _2019=df_pivotIrl.loc['female']['2019']))
+    sourceIm = ColumnDataSource(data=dict(y=gs1, _2019_=df_pivotIrl.loc['male']['2019'], _2019_f=df_pivotIrl.loc['female']['2019'],_2015=df_pivotIrl.loc['male']['2015'], _2016=df_pivotIrl.loc['male']['2016'], _2017=df_pivotIrl.loc['male']['2017'], _2018=df_pivotIrl.loc['male']['2018'], _2019=df_pivotIrl.loc['male']['2019']))
+    sourceIf = ColumnDataSource(data=dict(y=gs1, _2019_=df_pivotIrl.loc['female']['2019'], _2019_m=df_pivotIrl.loc['male']['2019'], _2015=df_pivotIrl.loc['female']['2015'], _2016=df_pivotIrl.loc['female']['2016'], _2017=df_pivotIrl.loc['female']['2017'], _2018=df_pivotIrl.loc['female']['2018'], _2019=df_pivotIrl.loc['female']['2019']))
 
     pmI = figure(y_axis_location = None, plot_height=320, plot_width=270, y_range=gs1, tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right')
     pmI.hbar(y='y', height=1, right='_2019_',  source=sourceIm, legend_label='male', line_color="white", fill_color='#169B62')
@@ -305,7 +306,7 @@ def irishpop():
 
     #plot style
     hoverpmI = HoverTool()
-    hoverpmI.tooltips=[('Age Group', '@y'), ('Population', '@_2019_')]
+    hoverpmI.tooltips=[('Age Group', '@y'), ('Male', '@_2019_'), ('Female','@_2019_f')]
     pmI.add_tools(hoverpmI)
     pmI.x_range.flipped = True
     pmI.grid.grid_line_color=None
@@ -331,7 +332,7 @@ def irishpop():
     pfI.hbar(y='y', height=1, right='_2019_',  source=sourceIf, legend_label='female', line_color="white", fill_color='#FF883E')
 
     hoverpfI = HoverTool()
-    hoverpfI.tooltips=[('Age Group', '@y'),('Population', '@_2019_')]
+    hoverpfI.tooltips=[('Age Group', '@y'),('Female', '@_2019_'), ('Male','@_2019_m')]
 
     #plot style
     pfI.add_tools(hoverpfI)
@@ -484,14 +485,14 @@ def R0():
     d3 = {'pandemics':pandemics, 'low': lower, 'high': high, 'avg':avg}
 
 
-    pt = figure(x_range=pandemics, plot_height=320, plot_width=525, title='Transmissibility',
+    pt = figure(x_range=pandemics, plot_height=280, plot_width=500, title='Transmissibility',
                 tools='pan, wheel_zoom, box_zoom, reset', toolbar_location='right') # ['#b32134', '#e1888f']
     pt.vbar_stack(['low','high'], x='pandemics', width=.35, fill_color=['#e1888f', '#5E1914'], line_color='#b32134', source=d3, legend_label=['low','high']) #source=sourcet ['data','top'] [ factor_cmap(c, palette=['#b32134', '#e1888f'], factors=pandemics) for c in dft1['pandemics'].unique()]
     pt.line(x='pandemics', y='avg', line_width=2, line_dash='dashdot', line_color='orange', source=d3, legend_label='average')
     pt.circle(x='pandemics', y='avg', size=6, color='#DAE218', source=d3, legend_label='average')
     hoverpt = HoverTool()
 
-    hoverpt.tooltips=[('Pandemic', '@pandemics'),('Lower', '@low'), ('Higher','@high'), ('Average','@avg')]
+    hoverpt.tooltips=[('Pandemic', '@pandemics'),('Lower', '@low{0.00}'), ('Higher','@high{0.00}'), ('Average','@avg{0.00}')]
     pt.add_tools(hoverpt)
 
     #plot style
@@ -500,7 +501,7 @@ def R0():
     pt.legend.border_line_color = None
     pt.yaxis.major_label_standoff = -2
     pt.yaxis.major_label_text_font_size = '8pt'
-    pt.xaxis.major_label_text_font_size = '8pt'
+    pt.xaxis.major_label_text_font_size = '7.5pt'
     pt.title.text_font_size = '15px'
     pt.grid.grid_line_dash = 'dotted'
     pt.grid.grid_line_dash_offset = 5
@@ -517,6 +518,33 @@ def R0():
     pt.y_range.start=0
 
     return pt
+def r01():
+    pRC = figure(x_axis_location = None, y_axis_location = None, plot_width=820, plot_height=1070)
+    pRC.image_url(url=['static/imagesRA/R0ArtChart2a.png'], x=0, y=0, w=1.5, h=2, anchor="bottom_left")
+    #pRC.title.align='center'    
+    pRC.grid.grid_line_color=None
+    pRC.outline_line_color=None
+    pRC.toolbar.autohide = True
+    pRC.title.text_font_style = "bold"
+    return pRC
+
+def r0Table():
+    dftt = pd.read_csv('BokehApp/DataRA/tableR0.csv', delimiter=',', index_col=0)
+    sourcet = ColumnDataSource(dftt)
+
+
+    columnsV = [
+        TableColumn(field='Transmissibility', title='Transmissibility', formatter=StringFormatter(text_align='center')),
+        TableColumn(field='Russian Flu', title='Russian Flu', formatter=StringFormatter(text_align='center')),
+        TableColumn(field='Spanish Flu', title='Spanish Flu', formatter=StringFormatter(text_align='center')),
+        TableColumn(field='Asian Flu', title='Asian Flu', formatter=StringFormatter(text_align='center')),
+        TableColumn(field='Hong Kong Flu', title='Hong Kong Flu', formatter=StringFormatter(text_align='center')),
+        TableColumn(field='Swine Flu', title='Swine Flu', formatter=StringFormatter(text_align='center')),
+        TableColumn(field='Covid-19', title='Covid-19', formatter=StringFormatter(text_align='center')),
+        TableColumn(field='Seasonal Flu', title='Seanoal Flu', formatter=StringFormatter(text_align='center'))]
+
+    tableV = DataTable(source=sourcet, columns=columnsV, width=685, height=280, align='center')
+    return tableV
 
         
 def pandAgeGroups():    
