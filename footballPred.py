@@ -1064,7 +1064,6 @@ def rectPlot1(df, teamA, teamB):
     h = [.5] * len(x)
 
 
-
     pR.x_range.start=0
     # plotting the graph 
 
