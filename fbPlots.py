@@ -177,7 +177,7 @@ def fb_figs():
     cday = gridplot([[cday]], toolbar_location='right', merge_tools=True, sizing_mode='fixed')
 
 
-    xrw = dfWeekPE['week'].to_list()
+    #xrw = dfWeekPE['week'].to_list()
 
     sourcew = ColumnDataSource(data=dict(x=dfWeekPE['week'] ,x1=dfWeekPE['week1'], y=dfWeekPE['Close'], y1=dfWeekPE['Open'], y2=dfWeekPE['PE'], y3=dfWeekPE['Volume'], y4=dfWeekPE['MovingAvg'], y5=dfWeekPE['Returns'], y6=dfWeekPE['MovingAvgReturn'],
                                         ub=dfWeekPE['UB'], lb=dfWeekPE['LB'], sd=dfWeekPE['STD'], pctma=dfWeekPE['pct_ma'], l=dfWeekPE['line']))
@@ -1429,8 +1429,7 @@ def heatmaps():
     t2 = Panel(child=ptv, title='Day/hour Heatmap share')
     t3 = Panel(child=pth, title='Day/hour Heatmap volume')
 
-    tabs = Tabs(tabs=[t1, t2, t3])
-
+    
     tmy = Panel(child=pmy, title='Year/month Heatmap share')
     tdy = Panel(child=pdy, title='Year/day Heatmap share')
     twy = Panel(child=pwy, title='Year/week Heatmap share')

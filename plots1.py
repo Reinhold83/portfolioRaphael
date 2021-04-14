@@ -24,7 +24,6 @@ def vacantPlot():
     dfv.set_index('Type', inplace=True)
     dfv.columns = ['Dublin&Suburbs', 'Rural', 'Other cities']
     dfv = dfv[['Dublin&Suburbs', 'Other cities', 'Rural']]
-    rowX = dfv.index.values[::]
     xLabel = ['Dublin', 'Other cities', 'Rural']
     lDict = {'For Sale': xLabel, 'Deceased':xLabel, 'Vacant Long Term':xLabel, 'Rental Property':xLabel}
     source = ColumnDataSource(data=dict(x= list(dfv.index.values), y=dfv['Dublin&Suburbs'], y1=dfv['Other cities'], y2=dfv['Rural']))
@@ -62,7 +61,6 @@ def houseStockPlot():
     df = pd.read_csv('BokehApp/Data/houseStock1.csv')
     df = df[['Year', 'Dublin_Vacant', 'Irl_Vacant', 'Dublin_Total','Irl_Total']]
     df.columns = ['Year', 'Dublin vacant', 'Ireland vacant', 'Dublin', 'Ireland']
-    ll = str(list(df.columns[1:]))
     source = ColumnDataSource(data=dict(x=df.Year.values,y=df['Ireland'], y1=df['Dublin'], y2=df['Ireland vacant'], y3=df['Dublin vacant']))
     a2 = figure(plot_width=550, plot_height=350, title='Irish House Stock', tools = 'pan, wheel_zoom, box_zoom, reset') #, tooltips=ToolTips)
     hover = HoverTool()
@@ -92,7 +90,6 @@ def Transactions():
     df.reset_index(inplace=True)
     df = df[['Year','Dublin New', 'Ireland New','Dublin Existing','Ireland Existing']]
     df.set_index('Year', inplace=True)
-    varpti = ['Dublin New', 'Ireland New', 'Dublin Existing','Ireland Existing']
     #the value of the y axis has to be in str format
     yearspti = '2010','2011','2012', '2013', '2014', '2015', '2016', '2017', '2018' #df3.index.values.tolist()
     xrange = df.values.max()*1.01

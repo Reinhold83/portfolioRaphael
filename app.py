@@ -24,12 +24,12 @@ app.config["MAIL_SERVER"] = "smtp.gmail.com"
 app.config["MAIL_PORT"] = 465
 app.config["MAIL_USE_SSL"] = True
 app.config["MAIL_USERNAME"] = 'ds.rran@gmail.com'
-app.config["MAIL_PASSWORD"] = ''
+app.config["MAIL_PASSWORD"] = 'Star_wars20'
  
 mail.init_app(app)
 
 #app = Flask(__name__, static_folder='static', static_url_path='/static')
-app.config['SECRET_KEY'] = ''
+app.config['SECRET_KEY'] = 'oratoroeuaroupadoreideroma123'
 #app.static_folder = 'static'
 Bootstrap(app)
 #@app.route('/')
